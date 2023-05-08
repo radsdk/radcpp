@@ -4,6 +4,8 @@ set(RAD_SOURCE_FILES
     Core/Platform.cpp
     Core/Common.h
     Core/Common.cpp
+    Core/Compare.h
+    Core/Flags.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
