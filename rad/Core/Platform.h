@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Config.h"
+
 // Pre-defined C/C++ Compiler Macros:
 // https://github.com/cpredef/predef
 // Predefined C/C++ macros for cross-platform development:

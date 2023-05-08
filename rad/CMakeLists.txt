@@ -1,4 +1,5 @@
 set(RAD_SOURCE_FILES
+    Core/Config.h
     Core/Platform.h
     Core/Platform.cpp
 )
