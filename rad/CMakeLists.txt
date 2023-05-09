@@ -9,6 +9,8 @@ set(RAD_SOURCE_FILES
     Core/TypeTraits.h
     Core/String.h
     Core/String.cpp
+    Core/Memory.h
+    Core/Memory.cpp
     IO/FileSystem.h
     IO/FileSystem.cpp
     IO/File.h
