@@ -21,6 +21,8 @@ set(RAD_SOURCE_FILES
     IO/Logging.cpp
     IO/JsonDoc.h
     IO/JsonDoc.cpp
+    Math/Math.h
+    Math/Math.cpp
     Perf/Stopwatch.h
 )
 
