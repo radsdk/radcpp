@@ -23,6 +23,7 @@ set(RAD_SOURCE_FILES
     IO/JsonDoc.cpp
     Math/Math.h
     Math/Math.cpp
+    Math/Numeric.h
     Perf/Stopwatch.h
 )
 
