@@ -12,6 +12,7 @@ set(RAD_SOURCE_FILES
     Core/Memory.h
     Core/Memory.cpp
     Core/RefCounted.h
+    Core/Span.h
     IO/FileSystem.h
     IO/FileSystem.cpp
     IO/File.h
