@@ -2,6 +2,7 @@
 
 #include "rad/Core/Common.h"
 #include "rad/Core/String.h"
+#include "rad/Core/RefCounted.h"
 #include "rad/IO/File.h"
 
 #include "rapidjson/rapidjson.h"
@@ -11,7 +12,7 @@ NAMESPACE_RAD_BEGIN
 
 using JsonValue = rapidjson::Value;
 
-class JsonDoc
+class JsonDoc : public RefCounted<JsonDoc>
 {
 public:
     JsonDoc();
