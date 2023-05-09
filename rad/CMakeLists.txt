@@ -7,6 +7,8 @@ set(RAD_SOURCE_FILES
     Core/Compare.h
     Core/Flags.h
     Core/TypeTraits.h
+    Core/String.h
+    Core/String.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
