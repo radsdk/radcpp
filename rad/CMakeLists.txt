@@ -24,6 +24,8 @@ set(RAD_SOURCE_FILES
     Math/Math.h
     Math/Math.cpp
     Math/Numeric.h
+    Math/Random.h
+    Math/Random.cpp
     Perf/Stopwatch.h
 )
 
