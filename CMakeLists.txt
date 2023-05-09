@@ -14,6 +14,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(RADCPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/
+)
 
 add_subdirectory(rad)
