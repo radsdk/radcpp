@@ -13,6 +13,8 @@ set(RAD_SOURCE_FILES
     IO/FileSystem.cpp
     IO/File.h
     IO/File.cpp
+    IO/Logging.h
+    IO/Logging.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
