@@ -7,7 +7,7 @@
 #include <Windows.h>
 #endif
 
-#include <boost/locale/encoding_utf.hpp>
+#include "boost/locale/encoding_utf.hpp"
 
 NAMESPACE_RAD_BEGIN
 
