@@ -7,6 +7,8 @@ project(radcpp
     LANGUAGES C CXX
 )
 
+option(RADCPP_BUILD_LIBS "Build additional libraries" ON)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
@@ -20,6 +22,10 @@ include_directories(
 )
 
 add_subdirectory(3rdparty/stb)
+set_target_properties(stb PROPERTIES FOLDER "3rdparty")
 
 add_subdirectory(rad)
+
+if (RADCPP_BUILD_LIBS)
 add_subdirectory(libs/SystemInfo)
+endif()
