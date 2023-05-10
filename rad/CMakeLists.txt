@@ -28,6 +28,8 @@ set(RAD_SOURCE_FILES
     Math/Random.cpp
     Math/3DMath.h
     Math/3DMath.cpp
+    Math/BigInteger.h
+    Math/BigInteger.cpp
     Perf/Stopwatch.h
 )
 
