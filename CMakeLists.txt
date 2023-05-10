@@ -22,3 +22,4 @@ include_directories(
 add_subdirectory(3rdparty/stb)
 
 add_subdirectory(rad)
+add_subdirectory(libs/SystemInfo)
