@@ -19,4 +19,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/
 )
 
+add_subdirectory(3rdparty/stb)
+
 add_subdirectory(rad)
