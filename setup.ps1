@@ -13,6 +13,7 @@ $vcpkgPackages = @(
     "gtest"
     "opencl"
     "cpu-features"
+    "backward-cpp"
 )
 
 $vcpkgTriplet = $null
