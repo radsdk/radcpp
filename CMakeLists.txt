@@ -8,6 +8,7 @@ project(radcpp
 )
 
 option(RADCPP_BUILD_LIBS "Build additional libraries" ON)
+option(RADCPP_BUILD_TESTS "Build tests" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -28,4 +29,8 @@ add_subdirectory(rad)
 
 if (RADCPP_BUILD_LIBS)
 add_subdirectory(libs/SystemInfo)
+endif()
+
+if (RADCPP_BUILD_TESTS)
+add_subdirectory(tests/sp1)
 endif()
