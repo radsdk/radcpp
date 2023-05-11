@@ -28,6 +28,7 @@ set_target_properties(stb PROPERTIES FOLDER "3rdparty")
 add_subdirectory(rad)
 
 if (RADCPP_BUILD_LIBS)
+add_subdirectory(libs/OpenCompute)
 add_subdirectory(libs/SystemInfo)
 endif()
 

@@ -11,6 +11,8 @@ if ($null -eq $vcpkgRoot -or !(Test-Path $vcpkgRoot -PathType Container)) {
 $vcpkgPackages = @(
     "boost"
     "gtest"
+    "opencl"
+    "cpu-features"
 )
 
 $vcpkgTriplet = $null
