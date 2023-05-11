@@ -1,6 +1,7 @@
 set(SP1_SOURCE_FILES
     main.cpp
     Test.Core.Common.cpp
+    Test.Core.Integer.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SP1_SOURCE_FILES})

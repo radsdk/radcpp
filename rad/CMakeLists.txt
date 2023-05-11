@@ -4,6 +4,8 @@ set(RAD_SOURCE_FILES
     Core/Platform.cpp
     Core/Common.h
     Core/Common.cpp
+    Core/Integer.h
+    Core/Integer.cpp
     Core/Compare.h
     Core/Flags.h
     Core/TypeTraits.h
