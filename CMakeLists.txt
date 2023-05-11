@@ -30,6 +30,7 @@ add_subdirectory(rad)
 if (RADCPP_BUILD_LIBS)
 add_subdirectory(libs/OpenCompute)
 add_subdirectory(libs/SystemInfo)
+add_subdirectory(libs/SimpleDirectMedia)
 endif()
 
 if (RADCPP_BUILD_TESTS)
