@@ -36,6 +36,8 @@ add_subdirectory(libs/SystemInfo)
 set_target_properties(SystemInfo PROPERTIES FOLDER "libs")
 add_subdirectory(libs/SimpleDirectMedia)
 set_target_properties(SimpleDirectMedia PROPERTIES FOLDER "libs")
+add_subdirectory(libs/VulkanEngine)
+set_target_properties(VulkanEngine PROPERTIES FOLDER "libs")
 endif()
 
 if (RADCPP_BUILD_TESTS)

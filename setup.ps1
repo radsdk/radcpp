@@ -14,6 +14,7 @@ $vcpkgPackages = @(
     "opencl"
     "cpu-features"
     "backward-cpp"
+    "meshoptimizer"
 )
 
 $vcpkgTriplet = $null
@@ -47,6 +48,21 @@ function install_vcpkg_packages {
     }
     Pop-Location
     Write-Host "Current working directory: $(Get-Location)"
+}
+
+function build_3rdparty_spvgen {
+    $spvgenSourceDir = Join-Path -Path $PSScriptRoot -ChildPath "3rdparty/spvgen/"
+    $spvgenExternalDir = Join-Path -Path $spvgenSourceDir -ChildPath "external/"
+    $spvgenExternalScript = Join-Path -Path $spvgenExternalDir -ChildPath "fetch_external_sources.py"
+    $spvgenBuildDir = Join-Path -Path $PSScriptRoot -ChildPath "3rdparty/build/spvgen"
+    Set-location $PSScriptRoot
+    Push-Location $spvgenExternalDir
+    Invoke-Expression "python `"$spvgenExternalScript`" --targetdir `"$spvgenExternalDir`""
+    Pop-Location
+    Invoke-Expression "cmake -S `"$spvgenSourceDir`" -B `"$spvgenBuildDir`""
+    if (Test-Path -Path $spvgenBuildDir -PathType Container) {
+        Invoke-Expression "cmake --build `"$spvgenBuildDir`" --target spvgen --config Release"
+    }
 }
 
 function generate_project_files {
@@ -86,6 +102,7 @@ function setup_radcpp {
         return
     }
     install_vcpkg_packages
+    build_3rdparty_spvgen
     generate_project_files
 }
 
