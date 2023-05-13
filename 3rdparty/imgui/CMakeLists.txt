@@ -16,6 +16,11 @@ set(IMGUI_SOURCE_FILES
     imstb_rectpack.h
     imstb_textedit.h
     imstb_truetype.h
+    implot.h
+    implot_internal.h
+    implot.cpp
+    implot_items.cpp
+    implot_demo.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${IMGUI_SOURCE_FILES})
