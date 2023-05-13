@@ -15,6 +15,8 @@ $vcpkgPackages = @(
     "cpu-features"
     "backward-cpp"
     "meshoptimizer"
+    "sdl2[vulkan]"
+    "sdl2-ttf"
 )
 
 $vcpkgTriplet = $null

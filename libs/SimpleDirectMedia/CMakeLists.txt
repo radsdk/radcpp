@@ -5,6 +5,8 @@ set(SimpleDirectMedia_HEADER_FILES
     Core/Surface.h
     Core/Texture.h
     Core/Window.h
+    Font/TrueTypeLibrary.h
+    Font/TrueTypeFont.h
 )
 
 set(SimpleDirectMedia_SOURCE_FILES
@@ -14,6 +16,8 @@ set(SimpleDirectMedia_SOURCE_FILES
     Core/Surface.cpp
     Core/Texture.cpp
     Core/Window.cpp
+    Font/TrueTypeLibrary.cpp
+    Font/TrueTypeFont.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SimpleDirectMedia_SOURCE_FILES})
@@ -35,4 +39,9 @@ target_link_libraries(SimpleDirectMedia
     PUBLIC
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+)
+
+find_package(SDL2_ttf CONFIG REQUIRED)
+target_link_libraries(SimpleDirectMedia
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
 )
