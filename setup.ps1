@@ -17,6 +17,7 @@ $vcpkgPackages = @(
     "meshoptimizer"
     "sdl2[vulkan]"
     "sdl2-ttf"
+    "sdl2-mixer"
 )
 
 $vcpkgTriplet = $null

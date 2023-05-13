@@ -7,6 +7,7 @@ set(SimpleDirectMedia_HEADER_FILES
     Core/Window.h
     Font/TrueTypeLibrary.h
     Font/TrueTypeFont.h
+    Audio/Mixer.h
 )
 
 set(SimpleDirectMedia_SOURCE_FILES
@@ -18,6 +19,7 @@ set(SimpleDirectMedia_SOURCE_FILES
     Core/Window.cpp
     Font/TrueTypeLibrary.cpp
     Font/TrueTypeFont.cpp
+    Audio/Mixer.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SimpleDirectMedia_SOURCE_FILES})
@@ -44,4 +46,9 @@ target_link_libraries(SimpleDirectMedia
 find_package(SDL2_ttf CONFIG REQUIRED)
 target_link_libraries(SimpleDirectMedia
     PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+)
+
+find_package(SDL2_mixer CONFIG REQUIRED)
+target_link_libraries(SimpleDirectMedia
+    PUBLIC $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
 )
