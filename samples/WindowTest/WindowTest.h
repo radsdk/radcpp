@@ -1,8 +1,6 @@
 #pragma once
 
-#include "SimpleDirectMedia/Application.h"
-#include "SimpleDirectMedia/Window.h"
-#include "SimpleDirectMedia/Renderer.h"
+#include "SimpleDirectMedia/Core.h"
 
 class WindowTest : public sdl::Window
 {

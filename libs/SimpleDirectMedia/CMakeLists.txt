@@ -1,19 +1,19 @@
 set(SimpleDirectMedia_HEADER_FILES
-    Application.h
-    EventHandler.h
-    Renderer.h
-    Surface.h
-    Texture.h
-    Window.h
+    Core/Application.h
+    Core/EventHandler.h
+    Core/Renderer.h
+    Core/Surface.h
+    Core/Texture.h
+    Core/Window.h
 )
 
 set(SimpleDirectMedia_SOURCE_FILES
     ${SimpleDirectMedia_HEADER_FILES}
-    Application.cpp
-    Renderer.cpp
-    Surface.cpp
-    Texture.cpp
-    Window.cpp
+    Core/Application.cpp
+    Core/Renderer.cpp
+    Core/Surface.cpp
+    Core/Texture.cpp
+    Core/Window.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SimpleDirectMedia_SOURCE_FILES})
