@@ -14,19 +14,32 @@ WindowTest::~WindowTest()
 bool WindowTest::Init()
 {
     float windowScale = sdl::Application::GetInstance()->GetDisplayDPI(0) / 96.0f;
+    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_ALLOW_HIGHDPI);
     Create("WindowTest",
         SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
         int(800 * windowScale), int(600 * windowScale),
-        SDL_WINDOW_ALLOW_HIGHDPI);
+        windowFlags);
 
     m_renderer = new sdl::Renderer(this);
     m_renderer->Init();
+
+    m_guiContext = new sdl::GuiContext(this, m_renderer);
+
+    // Load custom fonts
+    float fontSize = GetDisplayDPI() / 72.0f * 12.0f;
+#ifdef _WIN32
+    m_guiContext->LoadFont("C:\\Windows\\Fonts\\consola.ttf", fontSize);
+#endif
 
     return true;
 }
 
 bool WindowTest::OnEvent(const SDL_Event& event)
 {
+    if (m_guiContext)
+    {
+        m_guiContext->ProcessEvent(event);
+    }
     return Window::OnEvent(event);
 }
 
@@ -83,6 +96,10 @@ void WindowTest::OnLeave()
 void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
     LogGlobal(Info, "OnKeyDown: %s", SDL_GetKeyName(keyDown.keysym.sym));
+    if (keyDown.keysym.sym == SDLK_F1)
+    {
+        m_showAboutWindow = true;
+    }
 }
 
 void WindowTest::OnKeyUp(const SDL_KeyboardEvent& keyUp)
@@ -112,8 +129,26 @@ void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 
 void WindowTest::OnRender()
 {
-    m_renderer->SetDrawColor(255, 255, 255, 255);
+    m_guiContext->StartFrame();
+    if (m_showAboutWindow)
+    {
+        ImGui::ShowAboutWindow(&m_showAboutWindow);
+    }
+
+    m_guiContext->Render();
+
+    m_renderer->SetScale(
+        m_guiContext->GetIO().DisplayFramebufferScale.x,
+        m_guiContext->GetIO().DisplayFramebufferScale.y
+    );
+    m_renderer->SetDrawColor(
+        Uint8(m_clearColor.x * 255),
+        Uint8(m_clearColor.y * 255),
+        Uint8(m_clearColor.z * 255),
+        Uint8(m_clearColor.w * 255)
+    );
     m_renderer->Clear();
+    m_guiContext->RenderDrawData();
     m_renderer->Present();
 }
 

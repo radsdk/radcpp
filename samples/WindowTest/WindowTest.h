@@ -35,5 +35,9 @@ private:
     const char* GetMouseButtonName(Uint8 button);
 
     rad::Ref<sdl::Renderer> m_renderer;
+    rad::Ref<sdl::GuiContext> m_guiContext;
+
+    bool m_showAboutWindow = true;
+    ImVec4 m_clearColor = ImVec4(0, 0, 0, 0);
 
 }; // class WindowTest

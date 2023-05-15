@@ -6,3 +6,4 @@
 #include "Core/Surface.h"
 #include "Core/Texture.h"
 #include "Core/Window.h"
+#include "Core/GuiContext.h"

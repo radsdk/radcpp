@@ -46,6 +46,8 @@ public:
     int CopyTextureEx(Texture* texture, const SDL_Rect* srcRect, const SDL_Rect* dstRect,
         const double angle, const SDL_Point* center, const SDL_RendererFlip flip);
 
+    int SetScale(float scaleX, float scaleY);
+
 private:
     Window* m_window;
     SDL_Renderer* m_renderer = nullptr;

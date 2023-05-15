@@ -101,4 +101,14 @@ int Renderer::CopyTextureEx(Texture* texture, const SDL_Rect* srcRect, const SDL
     return res;
 }
 
+int Renderer::SetScale(float scaleX, float scaleY)
+{
+    int res = SDL_RenderSetScale(m_renderer, scaleX, scaleY);
+    if (res != 0)
+    {
+        LogGlobal(Error, "SDL_RenderSetScale failed: %s", SDL_GetError());
+    }
+    return res;
+}
+
 } // namespace sdl
