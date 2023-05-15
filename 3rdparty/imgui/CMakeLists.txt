@@ -1,10 +1,4 @@
 set(IMGUI_SOURCE_FILES
-    backends/imgui_impl_sdl2.cpp
-    backends/imgui_impl_sdl2.h
-    backends/imgui_impl_sdlrenderer.cpp
-    backends/imgui_impl_sdlrenderer.h
-    backends/imgui_impl_vulkan.cpp
-    backends/imgui_impl_vulkan.h
     imconfig.h
     imgui.cpp
     imgui.h
@@ -13,6 +7,12 @@ set(IMGUI_SOURCE_FILES
     imgui_internal.h
     imgui_tables.cpp
     imgui_widgets.cpp
+    imgui_impl_sdl2.cpp
+    imgui_impl_sdl2.h
+    imgui_impl_sdlrenderer.cpp
+    imgui_impl_sdlrenderer.h
+    imgui_impl_vulkan.cpp
+    imgui_impl_vulkan.h
     imstb_rectpack.h
     imstb_textedit.h
     imstb_truetype.h
