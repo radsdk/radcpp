@@ -34,6 +34,8 @@ public:
     int Clear();
     void Present();
 
+    int SetLogicalSize(int w, int h);
+
     int SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
     int RenderGeometry(
         SDL_Texture* texture,

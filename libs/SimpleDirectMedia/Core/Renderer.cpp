@@ -56,6 +56,16 @@ void Renderer::Present()
     SDL_RenderPresent(m_renderer);
 }
 
+int Renderer::SetLogicalSize(int w, int h)
+{
+    int res = SDL_RenderSetLogicalSize(m_renderer, w, h);
+    if (res != 0)
+    {
+        LogGlobal(Error, "SDL_RenderSetLogicalSize failed: %s", SDL_GetError());
+    }
+    return res;
+}
+
 int Renderer::SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     int res = SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
