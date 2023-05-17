@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DirectMedia/Core.h"
+#include "rad/Math/Random.h"
 
 class WindowTest : public sdl::Window
 {
@@ -37,7 +38,20 @@ private:
     rad::Ref<sdl::Renderer> m_renderer;
     rad::Ref<sdl::GuiContext> m_guiContext;
 
-    bool m_showAboutWindow = true;
+    bool m_showAboutWindow = false;
     ImVec4 m_clearColor = ImVec4(0, 0, 0, 0);
+
+    struct Circle
+    {
+        ImVec2 center;
+        float radius;
+        ImU32 color;
+    };
+
+    std::vector<Circle> m_circles;
+    bool m_addCircle = false;
+    Circle m_circle;
+    std::default_random_engine m_randomEngine;
+    std::uniform_int_distribution<ImU32> m_randomColor;
 
 }; // class WindowTest

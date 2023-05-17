@@ -98,7 +98,7 @@ void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
     LogGlobal(Info, "OnKeyDown: %s", SDL_GetKeyName(keyDown.keysym.sym));
     if (keyDown.keysym.sym == SDLK_F1)
     {
-        m_showAboutWindow = true;
+        m_showAboutWindow = !m_showAboutWindow;
     }
 }
 
@@ -115,11 +115,32 @@ void WindowTest::OnMouseMove(const SDL_MouseMotionEvent& mouseMotion)
 void WindowTest::OnMouseButtonDown(const SDL_MouseButtonEvent& mouseButton)
 {
     LogGlobal(Info, "OnMouseButtonDown: %s", GetMouseButtonName(mouseButton.button));
+    if (mouseButton.button == SDL_BUTTON_LEFT)
+    {
+        m_circle.center = ImVec2(float(mouseButton.x), float(mouseButton.y));
+        m_circle.color = m_randomColor(m_randomEngine);
+        m_addCircle = true;
+    }
+    if (mouseButton.button == SDL_BUTTON_RIGHT)
+    {
+        if (!m_circles.empty())
+        {
+            m_circles.pop_back();
+        }
+    }
 }
 
 void WindowTest::OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton)
 {
     LogGlobal(Info, "OnMouseButtonUp: %s", GetMouseButtonName(mouseButton.button));
+    if (mouseButton.button == SDL_BUTTON_LEFT)
+    {
+        if (m_addCircle)
+        {
+            m_circles.push_back(m_circle);
+            m_addCircle = false;
+        }
+    }
 }
 
 void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
@@ -130,6 +151,31 @@ void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 void WindowTest::OnRender()
 {
     m_guiContext->StartFrame();
+
+    if (m_showAboutWindow)
+    {
+        m_addCircle = false;
+    }
+
+    ImDrawList* bgDrawList = ImGui::GetBackgroundDrawList();
+    for (const Circle& circle : m_circles)
+    {
+        bgDrawList->AddCircleFilled(circle.center, circle.radius, ImColor(circle.color));
+    }
+    if (m_addCircle)
+    {
+        int x = 0;
+        int y = 0;
+        if (SDL_GetMouseState(&x, &y) == SDL_BUTTON_LEFT)
+        {
+            m_circle.radius = sqrt(
+                (float(x) - m_circle.center.x) * (float(x) - m_circle.center.x) +
+                (float(y) - m_circle.center.y) * (float(y) - m_circle.center.y)
+            );
+        }
+        bgDrawList->AddCircleFilled(m_circle.center, m_circle.radius, ImColor(m_circle.color));
+    }
+
     if (m_showAboutWindow)
     {
         ImGui::ShowAboutWindow(&m_showAboutWindow);
