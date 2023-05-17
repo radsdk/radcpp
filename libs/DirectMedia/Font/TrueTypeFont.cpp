@@ -1,6 +1,6 @@
 #include "TrueTypeFont.h"
 #include "TrueTypeLibrary.h"
-#include "SimpleDirectMedia/Core/Surface.h"
+#include "DirectMedia/Core/Surface.h"
 #include "rad/IO/Logging.h"
 
 namespace sdl

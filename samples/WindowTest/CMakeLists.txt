@@ -10,7 +10,7 @@ add_executable(WindowTest ${WINDOWTEST_SOURCE_FILES})
 
 find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(WindowTest
-    PRIVATE SimpleDirectMedia
+    PRIVATE DirectMedia
     PRIVATE SDL2::SDL2main
 )
 

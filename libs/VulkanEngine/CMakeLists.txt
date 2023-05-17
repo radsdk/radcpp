@@ -68,6 +68,7 @@ target_include_directories(VulkanEngine
 find_package(meshoptimizer CONFIG REQUIRED)
 target_link_libraries(VulkanEngine
     PUBLIC rad
+    PUBLIC DirectMedia
     PUBLIC meshoptimizer::meshoptimizer
 )
 

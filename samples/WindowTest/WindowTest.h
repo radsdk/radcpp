@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SimpleDirectMedia/Core.h"
+#include "DirectMedia/Core.h"
 
 class WindowTest : public sdl::Window
 {
