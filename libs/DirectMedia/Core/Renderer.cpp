@@ -19,6 +19,24 @@ Renderer::~Renderer()
     }
 }
 
+std::vector<SDL_RendererInfo> Renderer::GetRendererInfos()
+{
+    std::vector<SDL_RendererInfo> infos;
+    int infoCount = SDL_GetNumRenderDrivers();
+    if (infoCount >= 0)
+    {
+        infos.resize(infoCount);
+        for (int i = 0; i < infoCount; ++i)
+        {
+            if (SDL_GetRenderDriverInfo(i, &infos[i]) != 0)
+            {
+                LogGlobal(Error, "SDL_GetRenderDriverInfo failed: %s", SDL_GetError());
+            }
+        }
+    }
+    return infos;
+}
+
 bool Renderer::Init(int index, Uint32 flags)
 {
     m_renderer = SDL_CreateRenderer(m_window->GetHandle(), index, flags);

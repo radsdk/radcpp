@@ -14,14 +14,41 @@ WindowTest::~WindowTest()
 bool WindowTest::Init()
 {
     float windowScale = sdl::Application::GetInstance()->GetDisplayDPI(0) / 96.0f;
-    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     Create("WindowTest",
         SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
         int(800 * windowScale), int(600 * windowScale),
         windowFlags);
 
     m_renderer = new sdl::Renderer(this);
-    m_renderer->Init();
+    std::vector<SDL_RendererInfo> rendererInfos = m_renderer->GetRendererInfos();
+    int rendererIndex = -1;
+    for (size_t i = 0; i < rendererInfos.size(); ++i)
+    {
+        LogGlobal(Info, "Renderer#%llu: %s", i, rendererInfos[i].name);
+    }
+    const char* rendererCandidates[] =
+    {
+        "direct3d11",
+        "direct3d12",
+        "opengl",
+    };
+    for (size_t candidateIndex = 0; candidateIndex < std::size(rendererCandidates); ++candidateIndex)
+    {
+        for (size_t infoIndex = 0; infoIndex < rendererInfos.size(); ++infoIndex)
+        {
+            if (rad::StrCaseEqual(rendererCandidates[candidateIndex], rendererInfos[infoIndex].name))
+            {
+                rendererIndex = int(infoIndex);
+                break;
+            }
+        }
+        if (rendererIndex != -1)
+        {
+            break;
+        }
+    }
+    m_renderer->Init(rendererIndex);
 
     m_guiContext = new sdl::GuiContext(this, m_renderer);
 

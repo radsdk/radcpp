@@ -19,6 +19,8 @@ public:
 
     SDL_Renderer* GetHandle() { return m_renderer; }
 
+    static std::vector<SDL_RendererInfo> GetRendererInfos();
+
     // @param index - the index of the rendering driver to initialize,
     // or -1 to initialize the first one supporting the requested flags.
     // @param flags is bits of SDL_RendererFlags
