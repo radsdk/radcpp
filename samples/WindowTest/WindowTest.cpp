@@ -21,34 +21,7 @@ bool WindowTest::Init()
         windowFlags);
 
     m_renderer = new sdl::Renderer(this);
-    std::vector<SDL_RendererInfo> rendererInfos = m_renderer->GetRendererInfos();
-    int rendererIndex = -1;
-    for (size_t i = 0; i < rendererInfos.size(); ++i)
-    {
-        LogGlobal(Info, "Renderer#%llu: %s", i, rendererInfos[i].name);
-    }
-    const char* rendererCandidates[] =
-    {
-        "direct3d11",
-        "direct3d12",
-        "opengl",
-    };
-    for (size_t candidateIndex = 0; candidateIndex < std::size(rendererCandidates); ++candidateIndex)
-    {
-        for (size_t infoIndex = 0; infoIndex < rendererInfos.size(); ++infoIndex)
-        {
-            if (rad::StrCaseEqual(rendererCandidates[candidateIndex], rendererInfos[infoIndex].name))
-            {
-                rendererIndex = int(infoIndex);
-                break;
-            }
-        }
-        if (rendererIndex != -1)
-        {
-            break;
-        }
-    }
-    m_renderer->Init(rendererIndex);
+    m_renderer->Init();
 
     m_guiContext = new sdl::GuiContext(this, m_renderer);
 

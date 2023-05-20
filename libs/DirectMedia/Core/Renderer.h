@@ -28,9 +28,10 @@ public:
     // SDL_RENDERER_ACCELERATED: the renderer uses hardware acceleration
     // SDL_RENDERER_PRESENTVSYNC: present is synchronized with the refresh rate
     // SDL_RENDERER_TARGETTEXTURE: the renderer supports rendering to texture
-    bool Init(
-        int index = -1,
-        Uint32 flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+    bool Init(int index, Uint32 flags);
+    // Select one from "direct3d11", "direct3d12" and "opengl", with most features supported:
+    // flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE
+    bool Init();
     void Destroy();
 
     int Clear();

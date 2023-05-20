@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "Texture.h"
+#include "rad/Core/Flags.h"
 #include "rad/IO/Logging.h"
 
 namespace sdl
@@ -51,6 +52,40 @@ bool Renderer::Init(int index, Uint32 flags)
         LogGlobal(Error, "SDL_CreateRenderer failed: %s", SDL_GetError());
         return false;
     }
+}
+
+bool Renderer::Init()
+{
+    std::vector<SDL_RendererInfo> rendererInfos = GetRendererInfos();
+    int rendererIndex = -1;
+    Uint32 flagsRequested = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE;
+    for (size_t i = 0; i < rendererInfos.size(); ++i)
+    {
+        LogGlobal(Info, "Renderer#%llu: %s", i, rendererInfos[i].name);
+    }
+    const char* rendererNames[] =
+    {
+        "direct3d11",
+        "direct3d12",
+        "opengl",
+    };
+    for (size_t candidateIndex = 0; candidateIndex < std::size(rendererNames); ++candidateIndex)
+    {
+        for (size_t infoIndex = 0; infoIndex < rendererInfos.size(); ++infoIndex)
+        {
+            if (rad::StrCaseEqual(rendererInfos[infoIndex].name, rendererNames[candidateIndex]) &&
+                rad::Flags32<SDL_RendererFlags>(rendererInfos[infoIndex].flags).HasBits(flagsRequested))
+            {
+                rendererIndex = int(infoIndex);
+                break;
+            }
+        }
+        if (rendererIndex != -1)
+        {
+            break;
+        }
+    }
+    return Init(rendererIndex, flagsRequested);
 }
 
 void Renderer::Destroy()
