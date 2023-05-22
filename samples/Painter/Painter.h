@@ -1,13 +1,12 @@
 #pragma once
 
-#include "DirectMedia/Core.h"
-#include "rad/Math/Random.h"
+#include "Tools.h"
 
-class WindowTest : public sdl::Window
+class Painter : public sdl::Window
 {
 public:
-    WindowTest();
-    ~WindowTest();
+    Painter();
+    ~Painter();
 
     bool Init();
 
@@ -37,8 +36,10 @@ private:
 
     rad::Ref<sdl::Renderer> m_renderer;
     rad::Ref<sdl::GuiContext> m_gui;
+
     ImVec4 m_clearColor = ImVec4(0, 0, 0, 0);
 
-    std::string m_mouseMoveStr;
+    rad::Ref<ShapeList> m_shapes;
+    rad::Ref<CircleBrush> m_brush;
 
-}; // class WindowTest
+}; // class Painter

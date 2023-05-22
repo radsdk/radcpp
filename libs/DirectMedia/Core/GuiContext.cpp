@@ -29,7 +29,7 @@ GuiContext::~GuiContext()
     ImGui::DestroyContext();
 }
 
-bool GuiContext::LoadFont(std::string_view fontFile, float fontSize,
+ImFont* GuiContext::LoadFont(std::string_view fontFile, float fontSize,
     const ImFontConfig* font_cfg, const ImWchar* glyph_ranges)
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -38,12 +38,12 @@ bool GuiContext::LoadFont(std::string_view fontFile, float fontSize,
     if (font)
     {
         LogGlobal(Info, "GuiContext: font loaded: %s; size=%f", fontFile.data(), fontSize);
-        return true;
+        return font;
     }
     else
     {
         LogGlobal(Error, "GuiContext: failed to load font: %s", fontFile.data());
-        return false;
+        return nullptr;
     }
 }
 

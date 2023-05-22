@@ -1,21 +1,21 @@
-#include "WindowTest.h"
+#include "Painter.h"
 #include "rad/IO/Logging.h"
 
-WindowTest::WindowTest()
+Painter::Painter()
 {
-    LogGlobal(Info, "WindowTest::WindowTest()");
+    LogGlobal(Info, "Painter::Painter()");
 }
 
-WindowTest::~WindowTest()
+Painter::~Painter()
 {
-    LogGlobal(Info, "WindowTest::~WindowTest()");
+    LogGlobal(Info, "Painter::~Painter()");
 }
 
-bool WindowTest::Init()
+bool Painter::Init()
 {
     float windowScale = sdl::Application::GetInstance()->GetDisplayDPI(0) / 96.0f;
     SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    Create("WindowTest",
+    Create("Painter",
         SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
         int(800 * windowScale), int(600 * windowScale),
         windowFlags);
@@ -31,10 +31,13 @@ bool WindowTest::Init()
     m_gui->LoadFont("C:\\Windows\\Fonts\\consola.ttf", fontSize);
 #endif
 
+    m_shapes = new ShapeList();
+    m_brush = new CircleBrush(m_shapes.get());
+
     return true;
 }
 
-bool WindowTest::OnEvent(const SDL_Event& event)
+bool Painter::OnEvent(const SDL_Event& event)
 {
     if (m_gui)
     {
@@ -43,96 +46,97 @@ bool WindowTest::OnEvent(const SDL_Event& event)
     return Window::OnEvent(event);
 }
 
-void WindowTest::OnShown()
+void Painter::OnShown()
 {
     LogGlobal(Info, "OnShown");
 }
 
-void WindowTest::OnHidden()
+void Painter::OnHidden()
 {
     LogGlobal(Info, "OnHidden");
 }
 
-void WindowTest::OnExposed()
+void Painter::OnExposed()
 {
     LogGlobal(Info, "OnExposed");
 }
 
-void WindowTest::OnMoved(int x, int y)
+void Painter::OnMoved(int x, int y)
 {
     LogGlobal(Info, "OnMoved: %4d, %4d", x, y);
 }
 
-void WindowTest::OnResized(int width, int height)
+void Painter::OnResized(int width, int height)
 {
     LogGlobal(Info, "OnResized: %4d, %4d", width, height);
 }
 
-void WindowTest::OnMinimized()
+void Painter::OnMinimized()
 {
     LogGlobal(Info, "OnMinimized");
 }
 
-void WindowTest::OnMaximized()
+void Painter::OnMaximized()
 {
     LogGlobal(Info, "OnMaximized");
 }
 
-void WindowTest::OnRestored()
+void Painter::OnRestored()
 {
     LogGlobal(Info, "OnRestored");
 }
 
-void WindowTest::OnEnter()
+void Painter::OnEnter()
 {
     LogGlobal(Info, "OnEnter");
 }
 
-void WindowTest::OnLeave()
+void Painter::OnLeave()
 {
     LogGlobal(Info, "OnLeave");
 }
 
-void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
+void Painter::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
     LogGlobal(Info, "OnKeyDown: %s", SDL_GetKeyName(keyDown.keysym.sym));
 }
 
-void WindowTest::OnKeyUp(const SDL_KeyboardEvent& keyUp)
+void Painter::OnKeyUp(const SDL_KeyboardEvent& keyUp)
 {
     LogGlobal(Info, "OnKeyUp: %s", SDL_GetKeyName(keyUp.keysym.sym));
 }
 
-void WindowTest::OnMouseMove(const SDL_MouseMotionEvent& mouseMotion)
+void Painter::OnMouseMove(const SDL_MouseMotionEvent& mouseMotion)
 {
-    m_mouseMoveStr = rad::StrPrint("OnMouseMove: %4d (%+d), %4d (%+d)",
-        mouseMotion.x, mouseMotion.xrel,
-        mouseMotion.y, mouseMotion.yrel
-    );
 }
 
-void WindowTest::OnMouseButtonDown(const SDL_MouseButtonEvent& mouseButton)
+void Painter::OnMouseButtonDown(const SDL_MouseButtonEvent& mouseButton)
 {
     LogGlobal(Info, "OnMouseButtonDown: %s", GetMouseButtonName(mouseButton.button));
+    m_brush->OnMouseButtonDown(mouseButton);
 }
 
-void WindowTest::OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton)
+void Painter::OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton)
 {
     LogGlobal(Info, "OnMouseButtonUp: %s", GetMouseButtonName(mouseButton.button));
+    m_brush->OnMouseButtonUp(mouseButton);
 }
 
-void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
+void Painter::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 {
     LogGlobal(Info, "OnMouseWheel: %+d", mouseWheel.y);
 }
 
-void WindowTest::OnRender()
+void Painter::OnRender()
 {
     m_gui->StartFrame();
+    ImDrawList* bgDrawList = ImGui::GetBackgroundDrawList();
+    for (const Circle& circle : m_shapes->circles)
+    {
+        bgDrawList->AddCircleFilled(circle.center, circle.radius, circle.color);
+    }
 
-    ImDrawList* fgDrawList = ImGui::GetForegroundDrawList();
-    fgDrawList->AddText(ImVec2(0, 0), ImColor(1.0f, 1.0f, 1.0f, 1.0f),
-        m_mouseMoveStr.c_str());
+    m_brush->OnRender(m_renderer.get(), m_gui.get());
 
     m_gui->Render();
 
@@ -151,7 +155,7 @@ void WindowTest::OnRender()
     m_renderer->Present();
 }
 
-const char* WindowTest::GetMouseButtonName(Uint8 button)
+const char* Painter::GetMouseButtonName(Uint8 button)
 {
     switch (button)
     {
