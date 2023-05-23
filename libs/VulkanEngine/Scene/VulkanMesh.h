@@ -35,6 +35,8 @@ public:
     rad::Flags32<PrimitiveType> m_primitiveTypes;
     bool IsTriangleMesh() { return (m_primitiveTypes == PrimitiveType::Triangle); }
 
+    rad::BoundingBox<float> m_boundingBox;
+
     struct VertexWeight
     {
         uint32_t vertexIndex;
