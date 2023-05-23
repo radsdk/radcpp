@@ -49,6 +49,8 @@ set(VULKAN_ENGINE_SOURCE_FILES
     VulkanCore/VulkanSwapchain.cpp
     VulkanCore/VulkanSwapchain.h
     VulkanCore.h
+    Scene/VulkanMesh.cpp
+    Scene/VulkanMesh.h
     VulkanWindow.cpp
     VulkanWindow.h
 )
