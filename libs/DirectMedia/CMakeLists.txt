@@ -6,6 +6,7 @@ set(DirectMedia_HEADER_FILES
     Core/Texture.h
     Core/Window.h
     Core/GuiContext.h
+    Core/PerfCounter.h
     Core.h
     Font/TrueTypeLibrary.h
     Font/TrueTypeFont.h

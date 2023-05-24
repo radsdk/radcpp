@@ -7,3 +7,4 @@
 #include "Core/Texture.h"
 #include "Core/Window.h"
 #include "Core/GuiContext.h"
+#include "Core/PerfCounter.h"
