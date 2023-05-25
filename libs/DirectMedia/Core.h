@@ -8,3 +8,4 @@
 #include "Core/Window.h"
 #include "Core/GuiContext.h"
 #include "Core/PerfCounter.h"
+#include "Core/Timer.h"

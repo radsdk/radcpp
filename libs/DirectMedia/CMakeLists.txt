@@ -7,6 +7,7 @@ set(DirectMedia_HEADER_FILES
     Core/Window.h
     Core/GuiContext.h
     Core/PerfCounter.h
+    Core/Timer.h
     Core.h
     Font/TrueTypeLibrary.h
     Font/TrueTypeFont.h
@@ -21,6 +22,7 @@ set(DirectMedia_SOURCE_FILES
     Core/Texture.cpp
     Core/Window.cpp
     Core/GuiContext.cpp
+    Core/Timer.cpp
     Font/TrueTypeLibrary.cpp
     Font/TrueTypeFont.cpp
     Audio/Mixer.cpp

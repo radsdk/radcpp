@@ -1,11 +1,12 @@
 #pragma once
 
+#include "rad/Core/RefCounted.h"
 #include "SDL2/SDL.h"
 
 namespace sdl
 {
 
-class PerfCounter
+class PerfCounter : rad::RefCounted<PerfCounter>
 {
 public:
     enum class State
