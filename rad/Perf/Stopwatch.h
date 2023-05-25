@@ -48,30 +48,16 @@ public:
         Start();
     }
 
-    template<typename Duration = std::chrono::seconds>
+    template<typename Duration = Clock::duration>
     auto GetElapsed() const
     {
-        std::chrono::duration_cast<Duration>(m_duration).count();
+        return std::chrono::duration_cast<Duration>(m_duration).count();
     }
 
-    long long GetElapsedInNanoSeconds() const
+    double GetElapsedInSeconds() const
     {
-        return std::chrono::duration_cast<std::chrono::nanoseconds>(m_duration).count();
-    }
-
-    long long GetElapsedInMacroSeconds() const
-    {
-        return std::chrono::duration_cast<std::chrono::microseconds>(m_duration).count();
-    }
-
-    long long GetElapsedInMilliSeconds() const
-    {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(m_duration).count();
-    }
-
-    long long GetElapsedInSeconds() const
-    {
-        return std::chrono::duration_cast<std::chrono::seconds>(m_duration).count();
+        auto ticks = std::chrono::duration_cast<std::chrono::nanoseconds>(m_duration).count();
+        return double(ticks) / 1e9;
     }
 
 private:
