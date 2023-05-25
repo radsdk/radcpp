@@ -28,7 +28,10 @@ bool WindowTest::Init()
     // Load custom fonts
     float fontSize = GetDisplayDPI() / 72.0f * 12.0f;
 #ifdef _WIN32
-    m_gui->LoadFont("C:\\Windows\\Fonts\\consola.ttf", fontSize);
+    // https://github.com/ocornut/imgui/blob/master/docs/FONTS.md
+    auto fonts = m_gui->GetFonts();
+    fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\consola.ttf", fontSize);
+    fonts->Build();
 #endif
 
     return true;
@@ -105,7 +108,7 @@ void WindowTest::OnKeyUp(const SDL_KeyboardEvent& keyUp)
 
 void WindowTest::OnMouseMove(const SDL_MouseMotionEvent& mouseMotion)
 {
-    m_mouseMoveStr = rad::StrPrint("OnMouseMove: %4d (%+d), %4d (%+d)",
+    m_mouseMoveStr = rad::StrPrint("OnMouseMove: x = %6d (%+6d); y = %6d (%+6d);",
         mouseMotion.x, mouseMotion.xrel,
         mouseMotion.y, mouseMotion.yrel
     );

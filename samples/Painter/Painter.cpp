@@ -28,7 +28,10 @@ bool Painter::Init()
     // Load custom fonts
     float fontSize = GetDisplayDPI() / 72.0f * 12.0f;
 #ifdef _WIN32
-    m_gui->LoadFont("C:\\Windows\\Fonts\\consola.ttf", fontSize);
+    // https://github.com/ocornut/imgui/blob/master/docs/FONTS.md
+    auto fonts = m_gui->GetFonts();
+    fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\consola.ttf", fontSize);
+    fonts->Build();
 #endif
 
     m_shapes = new ShapeList();

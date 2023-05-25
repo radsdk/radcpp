@@ -19,8 +19,7 @@ public:
 
     ImGuiIO& GetIO() { return ImGui::GetIO(); }
 
-    ImFont* LoadFont(std::string_view fontFile, float fontSize,
-        const ImFontConfig* font_cfg = nullptr, const ImWchar* glyph_ranges = nullptr);
+    ImFontAtlas* GetFonts() { return ImGui::GetIO().Fonts; }
 
     bool ProcessEvent(const SDL_Event& event);
     void StartFrame();
