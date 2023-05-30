@@ -2,7 +2,7 @@
 #define VULKAN_WINDOW_H
 
 #include "DirectMedia/Core.h"
-#include "VulkanEngine/VulkanCore.h"
+#include "VulkanEngine/Core.h"
 
 class VulkanWindow : public sdl::Window
 {
