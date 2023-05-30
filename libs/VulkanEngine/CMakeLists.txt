@@ -51,8 +51,12 @@ set(VULKAN_ENGINE_SOURCE_FILES
     VulkanCore.h
     Scene/VulkanMesh.cpp
     Scene/VulkanMesh.h
-    VulkanWindow.cpp
-    VulkanWindow.h
+    Gui/VulkanWindow.cpp
+    Gui/VulkanWindow.h
+    Gui/VulkanFrame.cpp
+    Gui/VulkanFrame.h
+    Gui/VulkanGuiContext.cpp
+    Gui/VulkanGuiContext.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${VULKAN_ENGINE_SOURCE_FILES})
