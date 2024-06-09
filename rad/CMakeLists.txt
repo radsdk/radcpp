@@ -21,6 +21,7 @@ set(rad_SOURCES
     Core/Time.h
     Core/Time.cpp
     Core/TypeTraits.h
+    Core/Flags.h
     Core/Sort.h
     Container/Span.h
 )
