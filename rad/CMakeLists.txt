@@ -24,6 +24,8 @@ set(rad_SOURCES
     Core/Flags.h
     Core/Sort.h
     Container/Span.h
+    IO/FileSystem.h
+    IO/FileSystem.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
@@ -43,3 +45,13 @@ target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Imath::Imath Imath::ImathConfig
 )
+
+if (WIN32)
+target_compile_definitions(rad
+    PRIVATE WIN32_LEAN_AND_MEAN=1
+    PRIVATE NOMINMAX=1
+)
+target_compile_options(rad
+    PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+)
+endif()
