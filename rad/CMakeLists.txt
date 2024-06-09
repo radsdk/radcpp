@@ -7,6 +7,8 @@ set(rad_SOURCES
     Core/Float.cpp
     Core/Float16.h
     Core/Float16.cpp
+    Core/BFloat16.h
+    Core/BFloat16.cpp
     Core/SafeCast.h
     Core/SafeCast.cpp
     Core/String.h
