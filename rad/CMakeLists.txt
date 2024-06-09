@@ -5,6 +5,8 @@ set(rad_SOURCES
     Core/Integer.cpp
     Core/Float.h
     Core/Float.cpp
+    Core/Float16.h
+    Core/Float16.cpp
     Core/SafeCast.h
     Core/SafeCast.cpp
     Core/String.h
@@ -26,6 +28,7 @@ add_library(rad STATIC
 )
 
 find_package(Boost)
+find_package(Imath CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -33,4 +36,5 @@ target_include_directories(rad
 
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC Imath::Imath Imath::ImathConfig
 )
