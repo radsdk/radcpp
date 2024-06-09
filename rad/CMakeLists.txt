@@ -11,6 +11,7 @@ set(rad_SOURCES
     Core/String.cpp
     Core/Memory.h
     Core/Memory.cpp
+    Core/TypeTraits.h
     Container/Span.h
 )
 
