@@ -7,6 +7,8 @@ set(rad_SOURCES
     Core/Float.cpp
     Core/SafeCast.h
     Core/SafeCast.cpp
+    Core/String.h
+    Core/String.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
