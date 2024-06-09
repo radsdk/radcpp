@@ -26,6 +26,8 @@ set(rad_SOURCES
     Container/Span.h
     IO/FileSystem.h
     IO/FileSystem.cpp
+    IO/File.h
+    IO/File.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
