@@ -9,6 +9,8 @@ set(rad_SOURCES
     Core/SafeCast.cpp
     Core/String.h
     Core/String.cpp
+    Core/Memory.h
+    Core/Memory.cpp
     Container/Span.h
 )
 
