@@ -28,6 +28,8 @@ set(rad_SOURCES
     IO/FileSystem.cpp
     IO/File.h
     IO/File.cpp
+    IO/Json.h
+    IO/Json.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
@@ -36,7 +38,7 @@ add_library(rad STATIC
     ${rad_SOURCES}
 )
 
-find_package(Boost)
+find_package(Boost REQUIRED json)
 find_package(Imath CONFIG REQUIRED)
 
 target_include_directories(rad
