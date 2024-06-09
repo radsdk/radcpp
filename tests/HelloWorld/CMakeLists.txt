@@ -1,6 +1,7 @@
 set(HelloWorld_SOURCES
     main.cpp
     Core/TestInteger.cpp
+    Core/TestQuantization.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HelloWorld_SOURCES})
