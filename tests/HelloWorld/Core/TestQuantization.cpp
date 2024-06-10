@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "rad/Core/Float.h"
-#include <iostream>
-#include <format>
+#include "rad/IO/Logging.h"
 
 TEST(Core, Quantization)
 {
@@ -54,7 +53,7 @@ TEST(Core, Quantization)
     EXPECT_LE(e16, 0.000008f);
     EXPECT_LE(e32, 0.0000000002f);
 
-    std::cout << std::format("QuantizeUnorm8 max epsilon: {}", e8) << std::endl;
-    std::cout << std::format("QuantizeUnorm16 max epsilon: {}", e16) << std::endl;
-    std::cout << std::format("QuantizeUnorm32 max epsilon: {}", e32) << std::endl;
+    SPDLOG_INFO("QuantizeUnorm8 max epsilon: {}", e8);
+    SPDLOG_INFO("QuantizeUnorm16 max epsilon: {}", e16);
+    SPDLOG_INFO("QuantizeUnorm32 max epsilon: {}", e32);
 }

@@ -30,6 +30,8 @@ set(rad_SOURCES
     IO/File.cpp
     IO/Json.h
     IO/Json.cpp
+    IO/Logging.h
+    IO/Logging.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
@@ -40,6 +42,7 @@ add_library(rad STATIC
 
 find_package(Boost REQUIRED json)
 find_package(Imath CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -48,6 +51,7 @@ target_include_directories(rad
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Imath::Imath Imath::ImathConfig
+    PUBLIC spdlog::spdlog
 )
 
 if (WIN32)
