@@ -37,6 +37,8 @@ set(rad_SOURCES
     IO/Logging.cpp
     System/OS.h
     System/OS.cpp
+    System/CpuInfo.h
+    System/CpuInfo.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
@@ -48,6 +50,7 @@ add_library(rad STATIC
 find_package(Boost REQUIRED json)
 find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(CpuFeatures CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -57,6 +60,7 @@ target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
+    PRIVATE CpuFeatures::cpu_features
 )
 
 if (WIN32)
