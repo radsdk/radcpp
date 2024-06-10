@@ -35,6 +35,8 @@ set(rad_SOURCES
     IO/Json.cpp
     IO/Logging.h
     IO/Logging.cpp
+    System/OS.h
+    System/OS.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
