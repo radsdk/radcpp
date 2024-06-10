@@ -50,4 +50,11 @@ spdlog::sink_ptr GetDefaultLogFileSink()
     return g_logFileSink;
 }
 
+std::shared_ptr<spdlog::logger> CreateLogger(const std::string& name)
+{
+    auto& sinks = g_logger->sinks();
+    return std::make_shared<spdlog::logger>(name,
+        sinks.begin(), sinks.end());
+}
+
 } // namespace rad

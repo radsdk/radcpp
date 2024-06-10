@@ -10,4 +10,6 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate);
 std::vector<spdlog::sink_ptr>& GetDefaultLogSinks();
 spdlog::sink_ptr GetDefaultLogFileSink();
 
+std::shared_ptr<spdlog::logger> CreateLogger(const std::string& name);
+
 } // namespace rad
