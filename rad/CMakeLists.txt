@@ -26,6 +26,7 @@ set(rad_SOURCES
     Core/Math.h
     Core/Math.cpp
     Container/Span.h
+    Container/SmallVector.h
     IO/FileSystem.h
     IO/FileSystem.cpp
     IO/File.h
