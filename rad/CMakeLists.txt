@@ -23,6 +23,8 @@ set(rad_SOURCES
     Core/TypeTraits.h
     Core/Flags.h
     Core/Sort.h
+    Core/Math.h
+    Core/Math.cpp
     Container/Span.h
     IO/FileSystem.h
     IO/FileSystem.cpp
