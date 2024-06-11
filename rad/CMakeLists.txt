@@ -60,7 +60,7 @@ target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
-    PRIVATE CpuFeatures::cpu_features
+    PUBLIC CpuFeatures::cpu_features
 )
 
 if (WIN32)
