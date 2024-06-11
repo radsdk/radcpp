@@ -2,6 +2,7 @@
 
 #include "rad/Core/Platform.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/stopwatch.h"
 
 namespace rad
 {

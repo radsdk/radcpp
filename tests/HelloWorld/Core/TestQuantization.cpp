@@ -4,6 +4,8 @@
 
 TEST(Core, Quantization)
 {
+    spdlog::stopwatch watch;
+
     EXPECT_EQ(rad::QuantizeUnorm8(0.0f), 0);
     EXPECT_EQ(rad::QuantizeUnorm16(0.0f), 0);
     EXPECT_EQ(rad::QuantizeUnorm32(0.0f), 0);
@@ -56,4 +58,6 @@ TEST(Core, Quantization)
     SPDLOG_INFO("QuantizeUnorm8 max epsilon: {}", e8);
     SPDLOG_INFO("QuantizeUnorm16 max epsilon: {}", e16);
     SPDLOG_INFO("QuantizeUnorm32 max epsilon: {}", e32);
+
+    SPDLOG_INFO("Elapsed {:.3}ms", watch.elapsed().count() * 1000);
 }
