@@ -24,7 +24,6 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate)
     {
         g_logFileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename, truncate);
         spdlog::default_logger_raw()->sinks().push_back(g_logFileSink);
-        spdlog::default_logger_raw()->flush_on(spdlog::level::warn);
     }
 
 #if defined(_DEBUG) && defined(RAD_COMPILER_MSVC)
@@ -36,7 +35,8 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate)
 #endif
 
     // https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
-    spdlog::set_pattern("%^[%T.%e] %n(%L)%$: %v");
+    spdlog::set_pattern("%^[%T.%e] %n(%l)%$: %v");
+    spdlog::flush_on(spdlog::level::warn);
     return true;
 }
 
