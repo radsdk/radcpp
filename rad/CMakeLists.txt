@@ -39,6 +39,8 @@ set(rad_SOURCES
     System/OS.cpp
     System/CpuInfo.h
     System/CpuInfo.cpp
+    System/Process.h
+    System/Process.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
@@ -47,7 +49,7 @@ add_library(rad STATIC
     ${rad_SOURCES}
 )
 
-find_package(Boost REQUIRED json)
+find_package(Boost REQUIRED filesystem json)
 find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(CpuFeatures CONFIG REQUIRED)

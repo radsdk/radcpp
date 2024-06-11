@@ -5,6 +5,7 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 #define RAD_OS_WINDOWS 1
+#include <SDKDDKVer.h>
 #endif
 
 #if defined(__linux__)
