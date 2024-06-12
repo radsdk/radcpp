@@ -35,6 +35,8 @@ set(rad_SOURCES
     IO/Json.cpp
     IO/Logging.h
     IO/Logging.cpp
+    IO/ImageIO.h
+    IO/ImageIO.cpp
     System/OS.h
     System/OS.cpp
     System/CpuInfo.h
