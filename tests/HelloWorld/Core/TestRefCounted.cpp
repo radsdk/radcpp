@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 #include "rad/Core/RefCounted.h"
-#include <iostream>
-#include <format>
 
 struct A : public rad::RefCounted<A>
 {

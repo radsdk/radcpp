@@ -8,10 +8,14 @@ namespace rad
 {
 
 // Should be called once at the start of main, not thread safe.
+spdlog::logger* GetDefaultLogger();
 bool SetupDefaultLogger(const std::string& filename, bool truncate);
 std::vector<spdlog::sink_ptr>& GetDefaultLogSinks();
 spdlog::sink_ptr GetDefaultLogFileSink();
 
 std::shared_ptr<spdlog::logger> CreateLogger(const std::string& name);
+
+
+#define RAD_LOG(Name, Level, ...) SPDLOG_LOGGER_CALL(rad::Get##Name##Logger(), spdlog::level::Level, __VA_ARGS__)
 
 } // namespace rad

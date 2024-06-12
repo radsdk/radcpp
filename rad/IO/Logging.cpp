@@ -12,6 +12,11 @@ static spdlog::sink_ptr g_logFileSink;
 static spdlog::sink_ptr g_msvcSink;
 #endif
 
+spdlog::logger* GetDefaultLogger()
+{
+    return g_logger.get();
+}
+
 bool SetupDefaultLogger(const std::string& filename, bool truncate)
 {
     if (!g_logger)
@@ -23,14 +28,14 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate)
     if (!g_logFileSink)
     {
         g_logFileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename, truncate);
-        spdlog::default_logger_raw()->sinks().push_back(g_logFileSink);
+        g_logger->sinks().push_back(g_logFileSink);
     }
 
 #if defined(_DEBUG) && defined(RAD_COMPILER_MSVC)
     if (!g_msvcSink)
     {
         g_msvcSink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-        spdlog::default_logger_raw()->sinks().push_back(g_msvcSink);
+        g_logger->sinks().push_back(g_msvcSink);
     }
 #endif
 
@@ -42,7 +47,7 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate)
 
 std::vector<spdlog::sink_ptr>& GetDefaultLogSinks()
 {
-    return spdlog::default_logger_raw()->sinks();
+    return g_logger->sinks();
 }
 
 spdlog::sink_ptr GetDefaultLogFileSink()

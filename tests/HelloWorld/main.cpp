@@ -8,9 +8,9 @@ int main(int argc, char* argv[])
 {
     rad::SetupDefaultLogger("HelloWorld.log", true);
 
-    SPDLOG_INFO("Hello, {}!", "World");
+    RAD_LOG(Default, info, "Hello, {}!", "World");
 #if defined(CPU_FEATURES_ARCH_X86)
-    SPDLOG_INFO("CPU: {} ({})",
+    RAD_LOG(Default, info, "CPU: {} ({})",
         rad::StrTrim(rad::g_X86Info.brand_string),
         rad::g_X86Info.vendor);
 #endif

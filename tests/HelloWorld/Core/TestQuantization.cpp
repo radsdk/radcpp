@@ -55,9 +55,9 @@ TEST(Core, Quantization)
     EXPECT_LE(e16, 0.000008f);
     EXPECT_LE(e32, 0.0000000002f);
 
-    SPDLOG_INFO("QuantizeUnorm8 max epsilon: {}", e8);
-    SPDLOG_INFO("QuantizeUnorm16 max epsilon: {}", e16);
-    SPDLOG_INFO("QuantizeUnorm32 max epsilon: {}", e32);
+    RAD_LOG(Default, info, "QuantizeUnorm8 max epsilon: {}", e8);
+    RAD_LOG(Default, info, "QuantizeUnorm16 max epsilon: {}", e16);
+    RAD_LOG(Default, info, "QuantizeUnorm32 max epsilon: {}", e32);
 
     SPDLOG_INFO("Elapsed {:.3}ms", watch.elapsed().count() * 1000);
 }
