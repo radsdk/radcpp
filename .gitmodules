@@ -1,3 +1,6 @@
 [submodule "imported/Microsoft.GSL"]
 	path = imported/Microsoft.GSL
 	url = https://github.com/microsoft/GSL.git
+[submodule "imported/stb"]
+	path = imported/stb
+	url = https://github.com/nothings/stb.git
