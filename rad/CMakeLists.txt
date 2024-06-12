@@ -45,6 +45,13 @@ set(rad_SOURCES
     System/Process.cpp
 )
 
+set(rad_GUI_SOURCES
+    Gui/Application.h
+    Gui/Application.cpp
+)
+
+set(rad_SOURCES ${rad_SOURCES} ${rad_GUI_SOURCES})
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
 add_library(rad STATIC
@@ -65,6 +72,7 @@ target_link_libraries(rad
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
     PUBLIC CpuFeatures::cpu_features
+    PUBLIC SDL3-shared
 )
 
 if (WIN32)
