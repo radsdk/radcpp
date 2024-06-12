@@ -1,0 +1,3 @@
+[submodule "imported/Microsoft.GSL"]
+	path = imported/Microsoft.GSL
+	url = https://github.com/microsoft/GSL.git
