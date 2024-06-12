@@ -28,8 +28,7 @@ public:
     // Load image into 8-bits unorm format, gamma and scale for hdr to ldr convertion.
     bool Load(std::string_view filename, int channelCount, float gamma, float scale);
 
-    bool Malloc(size_t size);
-    bool Realloc(size_t size);
+    bool Allocate(int width, int height, int channelCount);
     void Free();
 
     bool WritePNG(std::string_view filename) const;
@@ -41,6 +40,7 @@ public:
     bool WriteJPG(std::string_view filename, int quality) const;
 
     unsigned char* m_data = nullptr;
+    size_t m_sizeInBytes = 0;
     int m_width = 0;
     int m_height = 0;
     int m_channelCount = 0;
@@ -58,8 +58,7 @@ public:
     // gamma and scale for ldr to hdr convertion.
     bool Load(std::string_view filename, int channelCount, float gamma, float scale);
 
-    bool Malloc(size_t size);
-    bool Realloc(size_t size);
+    bool Allocate(int width, int height, int channelCount);
     void Free();
 
     // HDR expects linear float data. Since the format is always 32-bit rgb(e) data, alpha (if provided) is discarded,
@@ -67,6 +66,7 @@ public:
     bool WriteHDR(std::string_view filename) const;
 
     float* m_data = nullptr;
+    size_t m_sizeInBytes = 0;
     int m_width = 0;
     int m_height = 0;
     int m_channelCount = 0;

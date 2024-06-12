@@ -37,22 +37,40 @@ bool ImageU8::Load(std::string_view filename, int channelCount, float gamma, flo
     stbi_hdr_to_ldr_gamma(gamma);
     stbi_hdr_to_ldr_scale(scale);
     m_data = stbi_load(filename.data(), &m_width, &m_height, &m_channelCount, channelCount);
-    return (m_data != nullptr);
+    if (m_data)
+    {
+        m_sizeInBytes = size_t(m_width) * size_t(m_height) *
+            size_t(m_channelCount) * sizeof(unsigned char);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-bool ImageU8::Malloc(size_t size)
+bool ImageU8::Allocate(int width, int height, int channelCount)
 {
-    assert(m_data == nullptr);
-    m_data = (unsigned char*)STBI_MALLOC(size);
-    return (m_data != nullptr);
-}
+    assert(width > 0 && height > 0 && channelCount > 0);
+    unsigned char* data = nullptr;
+    size_t sizeInBytes = size_t(width) * size_t(height) *
+        size_t(channelCount) * sizeof(unsigned char);
+    if (m_data == nullptr)
+    {
+        data = (unsigned char*)STBI_MALLOC(sizeInBytes);
+    }
+    else
+    {
+        data = (unsigned char*)STBI_REALLOC(m_data, sizeInBytes);
+    }
 
-bool ImageU8::Realloc(size_t size)
-{
-    assert(m_data != nullptr);
-    if (unsigned char* data = (unsigned char*)STBI_REALLOC(m_data, size))
+    if (data)
     {
         m_data = data;
+        m_sizeInBytes = sizeInBytes;
+        m_width = width;
+        m_height = height;
+        m_channelCount = channelCount;
         return true;
     }
     else
@@ -67,6 +85,11 @@ void ImageU8::Free()
     {
         stbi_image_free(m_data);
         m_data = nullptr;
+        m_sizeInBytes = 0;
+        m_width = 0;
+        m_height = 0;
+        m_channelCount = 0;
+        m_isHdr = false;
     }
 }
 
@@ -128,22 +151,40 @@ bool ImageFP32::Load(std::string_view filename, int channelCount, float gamma, f
     stbi_ldr_to_hdr_gamma(gamma);
     stbi_ldr_to_hdr_scale(scale);
     m_data = stbi_loadf(filename.data(), &m_width, &m_height, &m_channelCount, channelCount);
-    return (m_data != nullptr);
+    if (m_data)
+    {
+        m_sizeInBytes = size_t(m_width) * size_t(m_height) *
+            size_t(m_channelCount) * sizeof(float);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-bool ImageFP32::Malloc(size_t size)
+bool ImageFP32::Allocate(int width, int height, int channelCount)
 {
-    assert(m_data == nullptr);
-    m_data = (float*)STBI_MALLOC(size);
-    return (m_data != nullptr);
-}
+    assert(width > 0 && height > 0 && channelCount > 0);
+    float* data = nullptr;
+    size_t sizeInBytes = size_t(width) * size_t(height) *
+        size_t(channelCount) * sizeof(float);
+    if (m_data == nullptr)
+    {
+        data = (float*)STBI_MALLOC(sizeInBytes);
+    }
+    else
+    {
+        data = (float*)STBI_REALLOC(m_data, sizeInBytes);
+    }
 
-bool ImageFP32::Realloc(size_t size)
-{
-    assert(m_data != nullptr);
-    if (float* data = (float*)STBI_REALLOC(m_data, size))
+    if (data)
     {
         m_data = data;
+        m_sizeInBytes = sizeInBytes;
+        m_width = width;
+        m_height = height;
+        m_channelCount = channelCount;
         return true;
     }
     else
@@ -158,6 +199,11 @@ void ImageFP32::Free()
     {
         stbi_image_free(m_data);
         m_data = nullptr;
+        m_sizeInBytes = 0;
+        m_width = 0;
+        m_height = 0;
+        m_channelCount = 0;
+        m_isHdr = false;
     }
 }
 

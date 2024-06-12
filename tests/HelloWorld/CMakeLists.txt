@@ -3,6 +3,7 @@ set(HelloWorld_SOURCES
     Core/TestInteger.cpp
     Core/TestQuantization.cpp
     Core/TestRefCounted.cpp
+    IO/TestImageIO.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HelloWorld_SOURCES})
