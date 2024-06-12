@@ -1,0 +1,8 @@
+{
+    "dependencies": [
+        "boost",
+        "imath",
+        "spdlog",
+        "cpu-features"
+    ]
+}
