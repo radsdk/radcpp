@@ -14,6 +14,15 @@ include_directories(
     ${RADCPP_SOURCE_DIR}/imported
 )
 
+set(SDL_TEST_LIBRARY OFF)
+set(SDL_TESTS OFF)
+set(SDL_DISABLE_INSTALL OFF)
+set(SDL_DISABLE_INSTALL_DOCS OFF)
+set(SDL_INSTALL_TESTS OFF)
+set(SDL_DISABLE_UNINSTALL ON)
+add_subdirectory(imported/SDL)
+set_target_properties(SDL3-shared PROPERTIES FOLDER "imported")
+
 add_subdirectory(rad)
 
 add_subdirectory(tests/HelloWorld)

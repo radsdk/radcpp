@@ -4,3 +4,6 @@
 [submodule "imported/stb"]
 	path = imported/stb
 	url = https://github.com/nothings/stb.git
+[submodule "imported/SDL"]
+	path = imported/SDL
+	url = https://github.com/libsdl-org/SDL.git
