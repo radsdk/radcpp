@@ -13,32 +13,22 @@ TEST(Core, ImageIO)
     {
         for (int j = 0; j < w; ++j)
         {
-            int pixel = i * w + j;
             int tileX = j / tileSize;
             int tileY = i / tileSize;
             if ((tileX + tileY) % 2)
             {
                 if (tileX < w / tileSize / 2)
                 {
-                    image.m_data[pixel * c + 0] = unsigned char(255);
-                    image.m_data[pixel * c + 1] = unsigned char(255);
-                    image.m_data[pixel * c + 2] = unsigned char(255);
-                    image.m_data[pixel * c + 3] = unsigned char(255);
+                    image.SetPixel4(i, j, 255, 255, 255, 255);
                 }
                 else
                 {
-                    image.m_data[pixel * c + 0] = unsigned char(179);
-                    image.m_data[pixel * c + 1] = unsigned char(179);
-                    image.m_data[pixel * c + 2] = unsigned char(179);
-                    image.m_data[pixel * c + 3] = unsigned char(255);
+                    image.SetPixel4(i, j, 179, 179, 179, 255);
                 }
             }
             else
             {
-                image.m_data[pixel * c + 0] = unsigned char(0);
-                image.m_data[pixel * c + 1] = unsigned char(0);
-                image.m_data[pixel * c + 2] = unsigned char(0);
-                image.m_data[pixel * c + 3] = unsigned char(255);
+                image.SetPixel4(i, j, 0, 0, 0, 255);
             }
         }
     }
