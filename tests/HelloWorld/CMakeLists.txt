@@ -1,7 +1,7 @@
 set(HelloWorld_SOURCES
     main.cpp
     Core/TestInteger.cpp
-    Core/TestQuantization.cpp
+    Core/TestFloat.cpp
     Core/TestRefCounted.cpp
     IO/TestImageIO.cpp
 )
