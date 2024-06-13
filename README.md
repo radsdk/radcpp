@@ -28,3 +28,19 @@ Great C++ collections.
     cmake --build build/ --target HelloWorld --config Debug
     build/tests/HelloWorld/Debug/HelloWorld
     ```
+
+## Useful Links
+
+### C++ Specification and Guidelines
+
+- [Standard C++ (isocpp.org)](https://isocpp.org/)
+- [Draft C++ Standard: Contents (eel.is)](https://eel.is/c++draft/)
+- [C++ Core Guidelines (isocpp.github.io)](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)
+
+### Blogs
+
+- [Sutter’s Mill – Herb Sutter on software development](https://herbsutter.com/)
+
+### Libraries
+
+- [fffaraz/awesome-cpp: A curated list of awesome C++ (or C) frameworks, libraries, resources](https://github.com/fffaraz/awesome-cpp)

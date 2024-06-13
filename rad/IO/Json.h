@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rad/Core/Platform.h"
+#include <rad/Core/Platform.h>
 #include <boost/json.hpp>
 // array: sequence container of JSON values supporing dynamic size and fast, random access.
 // object: associative container of key-value pairs with unique keys (string-value pairs).

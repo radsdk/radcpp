@@ -1,10 +1,10 @@
 #pragma once
 
-#include "rad/Core/Platform.h"
-#include "rad/Core/Integer.h"
-#include "rad/Core/String.h"
-#include "rad/IO/Logging.h"
-#include "SDL3/SDL.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/Integer.h>
+#include <rad/Core/String.h>
+#include <rad/IO/Logging.h>
+#include <SDL3/SDL.h>
 
 namespace rad
 {

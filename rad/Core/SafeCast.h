@@ -1,5 +1,6 @@
 #pragma once
 
+#include <rad/Core/Platform.h>
 #include <boost/numeric/conversion/cast.hpp>
 
 namespace rad

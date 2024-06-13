@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "rad/IO/ImageIO.h"
+#include <rad/IO/ImageIO.h>
 
 TEST(Core, ImageIO)
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Integer.h"
+#include <rad/Core/Integer.h>
 #include <cfloat>
 
 namespace rad

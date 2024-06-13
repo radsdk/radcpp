@@ -1,7 +1,7 @@
-#include "rad/Core/Platform.h"
-#include "rad/Core/String.h"
-#include "rad/IO/Logging.h"
-#include "rad/System/CpuInfo.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/String.h>
+#include <rad/IO/Logging.h>
+#include <rad/System/CpuInfo.h>
 #include <gtest/gtest.h>
 
 int main(int argc, char* argv[])

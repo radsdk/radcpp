@@ -1,4 +1,4 @@
-#include "CpuInfo.h"
+#include <rad/System/CpuInfo.h>
 
 namespace rad
 {

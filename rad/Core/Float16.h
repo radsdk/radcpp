@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Platform.h"
-#include "Float.h"
-#include "Imath/half.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/Float.h>
+#include <Imath/half.h>
 
 namespace rad
 {

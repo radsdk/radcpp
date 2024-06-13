@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Platform.h"
-#include "Integer.h"
-#include "TypeTraits.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/Integer.h>
+#include <rad/Core/TypeTraits.h>
 #include <compare>
 
 namespace rad

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rad/Core/Platform.h"
+#include <rad/Core//Platform.h>
 #include <filesystem>
 
 namespace rad

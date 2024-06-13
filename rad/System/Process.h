@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rad/Core/Platform.h"
-#include "rad/Core/String.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/String.h>
 #include <boost/process.hpp>
 
 namespace rad

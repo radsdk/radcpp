@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform.h"
+#include <rad/Core/Platform.h>
 #include <algorithm>
 #include <ranges>
 #include <vector>

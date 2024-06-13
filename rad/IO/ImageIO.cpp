@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include "ImageIO.h"
+#include <rad/IO/ImageIO.h>
 
 namespace rad
 {

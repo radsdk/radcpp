@@ -1,14 +1,13 @@
 #pragma once
 
-#include "rad/Core/Platform.h"
-#include "rad/Core/String.h"
-#include "rad/Core/RefCounted.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/String.h>
 #if defined(RAD_OS_WINDOWS)
 #define STBI_WINDOWS_UTF8
 #endif
-#include "imported/stb/stb_image.h"
-#include "imported/stb/stb_image_write.h"
-#include "imported/stb/stb_image_resize2.h"
+#include <imported/stb/stb_image.h>
+#include <imported/stb/stb_image_write.h>
+#include <imported/stb/stb_image_resize2.h>
 
 namespace rad
 {

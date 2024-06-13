@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "rad/Core/Integer.h"
+#include <rad/Core/Integer.h>
 
 TEST(Core, Integer)
 {

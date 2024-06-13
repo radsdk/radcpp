@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Platform.h"
-#include "TypeTraits.h"
+#include <rad/Core/Platform.h>
+#include <rad/Core/TypeTraits.h>
 #include <cassert>
 #include <memory>
 #include <atomic>
