@@ -12,12 +12,7 @@ static spdlog::sink_ptr g_logFileSink;
 static spdlog::sink_ptr g_msvcSink;
 #endif
 
-spdlog::logger* GetDefaultLogger()
-{
-    return g_logger.get();
-}
-
-bool SetupDefaultLogger(const std::string& filename, bool truncate)
+bool InitLogging(const std::string& filename, bool truncate)
 {
     if (!g_logger)
     {
@@ -43,6 +38,11 @@ bool SetupDefaultLogger(const std::string& filename, bool truncate)
     spdlog::set_pattern("%^[%T.%e] %n(%l)%$: %v");
     spdlog::flush_on(spdlog::level::warn);
     return true;
+}
+
+spdlog::logger* GetDefaultLogger()
+{
+    return g_logger.get();
 }
 
 std::vector<spdlog::sink_ptr>& GetDefaultLogSinks()

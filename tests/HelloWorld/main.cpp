@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[])
 {
-    rad::SetupDefaultLogger("HelloWorld.log", true);
+    rad::InitLogging("HelloWorld.log", true);
 
     RAD_LOG(Default, info, "Hello, {}!", "World");
 #if defined(CPU_FEATURES_ARCH_X86)
