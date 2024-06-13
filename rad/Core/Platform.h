@@ -147,6 +147,8 @@
 #define RAD_UNREACHABLE __builtin_unreachable()
 #endif
 
+#include <boost/version.hpp>
+
 namespace rad
 {
 
