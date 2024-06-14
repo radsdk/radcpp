@@ -26,3 +26,5 @@ add_subdirectory(rad)
 
 add_subdirectory(tests/HelloWorld)
 set_target_properties(HelloWorld PROPERTIES FOLDER "tests")
+add_subdirectory(tests/WindowTest)
+set_target_properties(WindowTest PROPERTIES FOLDER "tests")

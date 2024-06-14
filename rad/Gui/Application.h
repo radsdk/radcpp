@@ -3,8 +3,12 @@
 #include <rad/Core/Platform.h>
 #include <rad/Core/Integer.h>
 #include <rad/Core/String.h>
+#include <rad/Core/RefCounted.h>
 #include <rad/IO/Logging.h>
+#include <rad/Gui/EventHandler.h>
 #include <SDL3/SDL.h>
+#include <atomic>
+#include <mutex>
 
 namespace rad
 {
@@ -36,11 +40,13 @@ struct DisplayInfo
 
 }; // struct DisplayInfo
 
-class Application
+class Application : public RefCounted<Application>
 {
 public:
     Application();
     ~Application();
+
+    static Application* GetInstance();
 
     bool Init(int argc, char** argv);
     void Destroy();
@@ -50,9 +56,22 @@ public:
 
     const std::vector<DisplayInfo>& GetDisplayInfos() { return m_displays; }
 
+    void RegisterEventHandler(EventHandler* handler);
+    void UnregisterEventHandler(EventHandler* handler);
+    bool OnEvent(const SDL_Event& event);
+    void OnIdle();
+
+    void SetExit(bool exit) { m_exit = exit; }
+    int GetExit() { return m_exit; }
+
 private:
     void UpdateDisplayInfos();
+    static Application* s_singleton;
     std::vector<DisplayInfo> m_displays;
+    std::mutex m_eventMutex;
+    std::vector<EventHandler*> m_eventHandlers;
+
+    std::atomic_bool m_exit = false;
 
 }; // class Application
 

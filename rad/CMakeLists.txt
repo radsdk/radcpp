@@ -48,6 +48,10 @@ set(rad_SOURCES
 set(rad_GUI_SOURCES
     Gui/Application.h
     Gui/Application.cpp
+    Gui/EventHandler.h
+    Gui/EventHandler.cpp
+    Gui/Window.h
+    Gui/Window.cpp
 )
 
 set(rad_SOURCES ${rad_SOURCES} ${rad_GUI_SOURCES})
