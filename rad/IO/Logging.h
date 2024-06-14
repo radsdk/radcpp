@@ -18,4 +18,4 @@ std::shared_ptr<spdlog::logger> CreateLogger(const std::string& name);
 
 } // namespace rad
 
-#define RAD_LOG(Name, Level, ...) SPDLOG_LOGGER_CALL(rad::Get##Name##Logger(), spdlog::level::Level, __VA_ARGS__)
+#define RAD_LOG(Logger, Level, ...) SPDLOG_LOGGER_CALL(Logger, spdlog::level::Level, __VA_ARGS__)

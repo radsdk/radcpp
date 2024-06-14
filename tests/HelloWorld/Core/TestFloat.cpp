@@ -53,7 +53,8 @@ TEST(Core, Float)
     EXPECT_LE(e16, 0.000008f);
     EXPECT_LE(e32, 0.0000000002f);
 
-    RAD_LOG(Default, info, "QuantizeUnorm8 max epsilon: {}", e8);
-    RAD_LOG(Default, info, "QuantizeUnorm16 max epsilon: {}", e16);
-    RAD_LOG(Default, info, "QuantizeUnorm32 max epsilon: {}", e32);
+    auto logger = rad::GetDefaultLogger();
+    RAD_LOG(logger, info, "QuantizeUnorm8 max epsilon: {}", e8);
+    RAD_LOG(logger, info, "QuantizeUnorm16 max epsilon: {}", e16);
+    RAD_LOG(logger, info, "QuantizeUnorm32 max epsilon: {}", e32);
 }
