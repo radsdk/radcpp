@@ -47,12 +47,93 @@ void Window::Destroy()
 
 bool Window::OnEvent(const SDL_Event& event)
 {
+    for (EventHandler* handler : m_eventHandlers)
+    {
+        if (handler->OnEvent(event))
+        {
+            return true;
+        }
+    }
+
     if ((event.type >= SDL_EVENT_WINDOW_FIRST) &&
         (event.type <= SDL_EVENT_WINDOW_LAST))
     {
-        OnWindowEvent(event.window);
+        if (event.window.windowID == m_id)
+        {
+            OnWindowEvent(event.window);
+            return true;
+        }
     }
-    return true;
+    else if (event.type == SDL_EVENT_KEY_DOWN)
+    {
+        if (event.key.windowID == m_id)
+        {
+            OnKeyDown(event.key);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_KEY_UP)
+    {
+        if (event.key.windowID == m_id)
+        {
+            OnKeyUp(event.key);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_TEXT_EDITING)
+    {
+        if (event.edit.windowID == m_id)
+        {
+            OnTextEditing(event.edit);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_TEXT_INPUT)
+    {
+        if (event.text.windowID == m_id)
+        {
+            OnTextInput(event.text);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_MOUSE_MOTION)
+    {
+        if (event.motion.windowID == m_id)
+        {
+            OnMouseMove(event.motion);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+    {
+        if (event.button.windowID == m_id)
+        {
+            OnMouseButtonDown(event.button);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP)
+    {
+        if (event.button.windowID == m_id)
+        {
+            OnMouseButtonUp(event.button);
+            return true;
+        }
+    }
+    else if (event.type == SDL_EVENT_MOUSE_WHEEL)
+    {
+        if (event.wheel.windowID == m_id)
+        {
+            OnMouseWheel(event.wheel);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Window::OnIdle()
+{
 }
 
 void Window::OnWindowEvent(const SDL_WindowEvent& event)

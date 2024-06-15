@@ -13,6 +13,8 @@ namespace rad
 
 spdlog::logger* GetGuiLogger();
 
+class Window;
+
 class Window : public EventHandler
 {
 public:
@@ -22,8 +24,19 @@ public:
     bool Create(const char* title, int w, int h, SDL_WindowFlags flags);
     void Destroy();
 
+    SDL_Window* GetHandle() { return m_handle; }
+    SDL_WindowID GetID() const { return m_id; }
+
 protected:
-    virtual bool OnEvent(const SDL_Event& event);
+    SDL_Window* m_handle = nullptr;
+    SDL_WindowID m_id = 0;
+    // Customized event handlers.
+    std::vector<EventHandler*> m_eventHandlers;
+
+    virtual bool OnEvent(const SDL_Event& event) override;
+    virtual void OnIdle() override;
+
+    // Window events:
     virtual void OnWindowEvent(const SDL_WindowEvent& event);
     virtual void OnShown() {}
     virtual void OnHidden() {}
@@ -53,9 +66,17 @@ protected:
     virtual void OnPenEnter() {}
     virtual void OnPenLeave() {}
 
-private:
-    SDL_Window* m_handle = nullptr;
-    SDL_WindowID m_id = 0;
+    // Keyboard events:
+    virtual void OnKeyDown(const SDL_KeyboardEvent& keyDown) {}
+    virtual void OnKeyUp(const SDL_KeyboardEvent& keyUp) {}
+    virtual void OnTextEditing(const SDL_TextEditingEvent& textEditing) {}
+    virtual void OnTextInput(const SDL_TextInputEvent& textInput) {}
+
+    // Mouse events:
+    virtual void OnMouseMove(const SDL_MouseMotionEvent& mouseMotion) {}
+    virtual void OnMouseButtonDown(const SDL_MouseButtonEvent& mouseButton) {}
+    virtual void OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton) {}
+    virtual void OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel) {}
 
 }; // class Window
 

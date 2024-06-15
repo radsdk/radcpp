@@ -37,6 +37,18 @@ protected:
     virtual void OnPenEnter() override;
     virtual void OnPenLeave() override;
 
+    // Keyboard events:
+    virtual void OnKeyDown(const SDL_KeyboardEvent& keyDown) override;
+    virtual void OnKeyUp(const SDL_KeyboardEvent& keyUp) override;
+    virtual void OnTextEditing(const SDL_TextEditingEvent& textEditing) override;
+    virtual void OnTextInput(const SDL_TextInputEvent& textInput) override;
+
+    // Mouse events:
+    virtual void OnMouseMove(const SDL_MouseMotionEvent& mouseMotion) override;
+    virtual void OnMouseButtonDown(const SDL_MouseButtonEvent& mouseButton) override;
+    virtual void OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton) override;
+    virtual void OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel) override;
+
 private:
     std::shared_ptr<spdlog::logger> m_logger;
 

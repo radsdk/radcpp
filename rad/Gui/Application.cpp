@@ -82,13 +82,13 @@ void Application::UnregisterEventHandler(EventHandler* handler)
     std::erase(m_eventHandlers, handler);
 }
 
-bool Application::OnEvent(const SDL_Event& event)
+void Application::OnEvent(const SDL_Event& event)
 {
     for (EventHandler* handler : m_eventHandlers)
     {
         if (handler->OnEvent(event))
         {
-            return true;
+            return;
         }
     }
 
@@ -140,8 +140,6 @@ bool Application::OnEvent(const SDL_Event& event)
         UpdateDisplayInfos();
         break;
     }
-
-    return true;
 }
 
 void Application::OnIdle()
@@ -166,6 +164,8 @@ void Application::UpdateDisplayInfos()
     if (ids == nullptr)
     {
         RAD_LOG(logger, err, "SDL_GetDisplays failed: {}", SDL_GetError());
+        m_displays.clear();
+        return;
     }
     m_displays.clear();
     m_displays.resize(displayCount);
@@ -217,6 +217,11 @@ void Application::UpdateDisplayInfos()
         }
         info.desktopMode = SDL_GetDesktopDisplayMode(id);
         info.currentMode = SDL_GetCurrentDisplayMode(id);
+
+        RAD_LOG(logger, info, "Display#{}: {} ({}x{}@{}, {})",
+            i, info.name, info.currentMode->w, info.currentMode->h,
+            info.currentMode->refresh_rate,
+            SDL_GetPixelFormatName(info.currentMode->format));
     }
 }
 

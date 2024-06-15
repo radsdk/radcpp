@@ -58,7 +58,7 @@ public:
 
     void RegisterEventHandler(EventHandler* handler);
     void UnregisterEventHandler(EventHandler* handler);
-    bool OnEvent(const SDL_Event& event);
+    void OnEvent(const SDL_Event& event);
     void OnIdle();
 
     void SetExit(bool exit) { m_exit = exit; }
