@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rad/Gui/Window.h>
+#include <rad/Gui/Renderer.h>
 
 class WindowTest : public rad::Window
 {
@@ -8,7 +9,12 @@ public:
     WindowTest();
     ~WindowTest();
 
+    bool Init();
+
 protected:
+    virtual bool OnEvent(const SDL_Event& event) override;
+    virtual void OnIdle() override;
+
     virtual void OnShown() override;
     virtual void OnHidden() override;
     virtual void OnExposed() override;
@@ -51,5 +57,6 @@ protected:
 
 private:
     std::shared_ptr<spdlog::logger> m_logger;
+    rad::Ref<rad::Renderer> m_renderer;
 
 }; // class WindowTest

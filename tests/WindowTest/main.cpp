@@ -17,8 +17,7 @@ int SDL_AppInit(void** appState, int argc, char** argv)
         return SDL_APP_FAILURE;
     }
     g_window = new WindowTest();
-    g_window->Create("WindowTest", 800, 600,
-        SDL_WindowFlags(SDL_WINDOW_RESIZABLE));
+    g_window->Init();
     return SDL_APP_CONTINUE;
 }
 

@@ -52,6 +52,8 @@ set(rad_GUI_SOURCES
     Gui/EventHandler.cpp
     Gui/Window.h
     Gui/Window.cpp
+    Gui/Renderer.h
+    Gui/Renderer.cpp
 )
 
 set(rad_SOURCES ${rad_SOURCES} ${rad_GUI_SOURCES})

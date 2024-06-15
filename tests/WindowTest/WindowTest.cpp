@@ -11,6 +11,29 @@ WindowTest::~WindowTest()
     RAD_LOG(m_logger, info, __func__);
 }
 
+bool WindowTest::Init()
+{
+    SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
+    Create("WindowTest", 800, 600, flags);
+    m_renderer = new rad::Renderer(this);
+    m_renderer->Init();
+    return true;
+}
+
+bool WindowTest::OnEvent(const SDL_Event& event)
+{
+    return rad::Window::OnEvent(event);
+}
+
+void WindowTest::OnIdle()
+{
+    if (m_renderer)
+    {
+        m_renderer->Clear();
+        m_renderer->Present();
+    }
+}
+
 void WindowTest::OnShown()
 {
     RAD_LOG(m_logger, info, __func__);
