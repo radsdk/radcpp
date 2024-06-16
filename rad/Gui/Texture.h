@@ -12,11 +12,12 @@ class Renderer;
 class Texture : public RefCounted<Texture>
 {
 public:
-    Texture(rad::Ref<Renderer> renderer);
-    ~Texture();
+    static rad::Ref<Texture> Create(rad::Ref<Renderer> renderer,
+        SDL_PixelFormatEnum format, int access, int w, int h);
+    static rad::Ref<Texture> CreateFromSurface(rad::Ref<Renderer> renderer, SDL_Surface* surface);
 
-    bool Create(SDL_PixelFormatEnum format, int access, int w, int h);
-    bool CreateFromSurface(SDL_Surface* surface);
+    Texture(rad::Ref<Renderer> renderer, SDL_Texture* handle);
+    ~Texture();
     void Destroy();
 
     SDL_Texture* GetHandle() { return m_handle; }

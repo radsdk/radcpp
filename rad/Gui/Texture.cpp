@@ -4,52 +4,50 @@
 namespace rad
 {
 
-Texture::Texture(rad::Ref<Renderer> renderer) :
-    m_renderer(renderer)
+rad::Ref<Texture> Texture::Create(rad::Ref<Renderer> renderer, SDL_PixelFormatEnum format, int access, int w, int h)
 {
+    auto logger = rad::GetGuiLogger();
+    SDL_Texture* handle = SDL_CreateTexture(renderer->GetHandle(), format, access, w, h);
+    if (handle)
+    {
+        return new Texture(std::move(renderer), handle);
+    }
+    else
+    {
+        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
+        return nullptr;
+    }
+}
+
+rad::Ref<Texture> Texture::CreateFromSurface(rad::Ref<Renderer> renderer, SDL_Surface* surface)
+{
+    auto logger = rad::GetGuiLogger();
+    SDL_Texture* handle = SDL_CreateTextureFromSurface(renderer->GetHandle(), surface);
+    if (handle)
+    {
+        return new Texture(std::move(renderer), handle);
+    }
+    else
+    {
+        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
+        return nullptr;
+    }
+}
+
+Texture::Texture(rad::Ref<Renderer> renderer, SDL_Texture* handle) :
+    m_renderer(std::move(renderer)),
+    m_handle(handle)
+{
+    auto logger = rad::GetGuiLogger();
+    m_propID = SDL_GetTextureProperties(m_handle);
+    if (m_propID == 0)
+    {
+        RAD_LOG(logger, err, "SDL_GetTextureProperties failed: {}", SDL_GetError());
+    }
 }
 
 Texture::~Texture()
 {
-}
-
-bool Texture::Create(SDL_PixelFormatEnum format, int access, int w, int h)
-{
-    auto logger = rad::GetGuiLogger();
-    m_handle = SDL_CreateTexture(m_renderer->GetHandle(), format, access, w, h);
-    if (m_handle)
-    {
-        m_propID = SDL_GetTextureProperties(m_handle);
-        if (m_propID == 0)
-        {
-            RAD_LOG(logger, err, "SDL_GetTextureProperties failed: {}", SDL_GetError());
-        }
-        return true;
-    }
-    else
-    {
-        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
-        return false;
-    }
-}
-
-bool Texture::CreateFromSurface(SDL_Surface* surface)
-{
-    auto logger = rad::GetGuiLogger();
-    m_handle = SDL_CreateTextureFromSurface(m_renderer->GetHandle(), surface);
-    if (m_handle)
-    {
-        if (m_propID == 0)
-        {
-            RAD_LOG(logger, err, "SDL_GetTextureProperties failed: {}", SDL_GetError());
-        }
-        return true;
-    }
-    else
-    {
-        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
-        return false;
-    }
 }
 
 void Texture::Destroy()
