@@ -6,6 +6,8 @@
 namespace rad
 {
 
+class Texture;
+
 class Renderer : public rad::RefCounted<Renderer>
 {
 public:
@@ -15,8 +17,13 @@ public:
     bool Init();
     void Destroy();
 
+    SDL_Renderer* GetHandle() { return m_handle; }
+
     int GetOutputSize(int* w, int* h);
     int GetCurrentOutputSize(int* w, int* h);
+
+    int SetRenderTarget(Texture* texture);
+    Texture* GetRenderTarget();
 
     int SetLogicalPresentation(int w, int h,
         SDL_RendererLogicalPresentation mode, SDL_ScaleMode scaleMode);
@@ -57,6 +64,28 @@ public:
     int FillRect(const SDL_FRect* rect);
     int FillRects(const SDL_FRect* rect, int count);
 
+    int DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect);
+    int DrawTextureRotated(Texture* texture,
+        const SDL_FRect* srcRect, const SDL_FRect* dstRect,
+        const double angle, const SDL_FPoint* center,
+        const SDL_FlipMode flip);
+    int RenderGeometry(Texture* texture,
+        const SDL_Vertex* vertices, int numVertices,
+        const int* indices, int numIndices);
+    int RenderGeometryRaw(Texture* texture,
+        const float* xy, int xyStride,
+        const SDL_Color* color, int colorStride,
+        const float* uv, int uvStride,
+        int numVertices,
+        const void* indices, int numIndices, int indexType);
+    int RenderGeometryRaw(Texture* texture,
+        const float* xy, int xyStride,
+        const SDL_FColor* color, int colorStride,
+        const float* uv, int uvStride,
+        int numVertices,
+        const void* indices, int numIndices, int indexType
+    );
+
     int Present();
     int Flush();
 
@@ -68,6 +97,9 @@ private:
     SDL_Renderer* m_handle = nullptr;
     const char* m_name = nullptr;
     SDL_PropertiesID m_propID = 0;
+
+    Texture* m_renderTarget = nullptr;
+
 }; // class Renderer
 
 } // namespace rad

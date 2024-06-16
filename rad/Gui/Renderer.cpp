@@ -1,4 +1,5 @@
 #include <rad/Gui/Renderer.h>
+#include <rad/Gui/Texture.h>
 
 namespace rad
 {
@@ -66,6 +67,27 @@ int Renderer::GetOutputSize(int* w, int* h)
 int Renderer::GetCurrentOutputSize(int* w, int* h)
 {
     return SDL_GetCurrentRenderOutputSize(m_handle, w, h);
+}
+
+int Renderer::SetRenderTarget(Texture* texture)
+{
+    return SDL_SetRenderTarget(m_handle, texture ? texture->GetHandle() : nullptr);
+}
+
+Texture* Renderer::GetRenderTarget()
+{
+    if (m_renderTarget)
+    {
+#if defined(_DEBUG)
+        SDL_Texture* handle = SDL_GetRenderTarget(m_handle);
+        assert(m_renderTarget->GetHandle() == handle);
+#endif
+        return m_renderTarget;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 int Renderer::SetLogicalPresentation(int w, int h,
@@ -217,6 +239,50 @@ int Renderer::FillRect(const SDL_FRect* rect)
 int Renderer::FillRects(const SDL_FRect* rect, int count)
 {
     return SDL_RenderFillRects(m_handle, rect, count);
+}
+
+int Renderer::DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect)
+{
+    return SDL_RenderTexture(m_handle, texture->GetHandle(), srcRect, dstRect);
+}
+
+int Renderer::DrawTextureRotated(Texture* texture,
+    const SDL_FRect* srcRect, const SDL_FRect* dstRect,
+    const double angle, const SDL_FPoint* center,
+    const SDL_FlipMode flip)
+{
+    return SDL_RenderTextureRotated(m_handle, texture->GetHandle(),
+        srcRect, dstRect, angle, center, flip);
+}
+
+int Renderer::RenderGeometry(Texture* texture,
+    const SDL_Vertex* vertices, int numVertices,
+    const int* indices, int numIndices)
+{
+    return SDL_RenderGeometry(m_handle, texture->GetHandle(),
+        vertices, numVertices, indices, numIndices);
+}
+
+int Renderer::RenderGeometryRaw(Texture* texture,
+    const float* xy, int xyStride,
+    const SDL_Color* color, int colorStride,
+    const float* uv, int uvStride,
+    int numVertices,
+    const void* indices, int numIndices, int indexType)
+{
+    return SDL_RenderGeometryRaw(m_handle, texture->GetHandle(),
+        xy, xyStride, color, colorStride, uv, uvStride, numVertices, indices, numIndices, indexType);
+}
+
+int Renderer::RenderGeometryRaw(Texture* texture,
+    const float* xy, int xyStride,
+    const SDL_FColor* color, int colorStride,
+    const float* uv, int uvStride,
+    int numVertices,
+    const void* indices, int numIndices, int indexType)
+{
+    return SDL_RenderGeometryRawFloat(m_handle, texture->GetHandle(),
+        xy, xyStride, color, colorStride, uv, uvStride, numVertices, indices, numIndices, indexType);
 }
 
 int Renderer::Present()
