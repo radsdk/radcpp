@@ -66,6 +66,13 @@ set(rad_GUI_SOURCES
 
 set(rad_SOURCES ${rad_SOURCES} ${rad_GUI_SOURCES})
 
+set(rad_MEDIA_SOURCES
+    Media/Camera.h
+    Media/Camera.cpp
+)
+
+set(rad_SOURCES ${rad_SOURCES} ${rad_MEDIA_SOURCES})
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
 add_library(rad STATIC
