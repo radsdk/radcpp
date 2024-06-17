@@ -45,6 +45,8 @@ set(rad_SOURCES
     System/CpuInfo.cpp
     System/Process.h
     System/Process.cpp
+    System/StackTrace.h
+    System/StackTrace.cpp
 )
 
 set(rad_GUI_SOURCES
@@ -85,6 +87,7 @@ target_link_libraries(rad
     PUBLIC spdlog::spdlog
     PUBLIC CpuFeatures::cpu_features
     PUBLIC SDL3-shared
+    PUBLIC Backward::Object
 )
 
 if (WIN32)

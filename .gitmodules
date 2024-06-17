@@ -7,3 +7,6 @@
 [submodule "imported/SDL"]
 	path = imported/SDL
 	url = https://github.com/libsdl-org/SDL.git
+[submodule "imported/backward-cpp"]
+	path = imported/backward-cpp
+	url = https://github.com/bombela/backward-cpp.git

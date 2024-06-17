@@ -3,6 +3,7 @@
 #include <SDL3/SDL_main.h>
 #include <rad/Gui/Application.h>
 #include "WindowTest.h"
+#include <rad/System/StackTrace.h>
 
 rad::Ref<rad::Application> g_app;
 rad::Ref<WindowTest> g_window;
@@ -12,6 +13,7 @@ int SDL_AppInit(void** appState, int argc, char** argv)
 #if defined(_DEBUG)
     rad::EnableMemoryLeakDetection();
 #endif
+    rad::InstallDefaultSignalHandlers();
     rad::InitLogging("WindowTest.log", true);
     g_app = RAD_NEW rad::Application();
     if (!g_app->Init(argc, argv))

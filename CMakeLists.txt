@@ -21,6 +21,9 @@ set(SDL_INSTALL_TESTS OFF)
 set(SDL_DISABLE_UNINSTALL ON)
 add_subdirectory(imported/SDL)
 set_target_properties(SDL3-shared PROPERTIES FOLDER "imported")
+add_subdirectory(imported/backward-cpp)
+set_target_properties(backward_object PROPERTIES FOLDER "imported")
+set_target_properties(backward PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
 
