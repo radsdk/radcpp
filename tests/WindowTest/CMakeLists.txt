@@ -13,3 +13,8 @@ add_executable(WindowTest
 target_link_libraries(WindowTest
     PRIVATE rad
 )
+
+add_custom_command(TARGET WindowTest POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:WindowTest> $<TARGET_FILE_DIR:WindowTest>
+    COMMAND_EXPAND_LISTS
+)
