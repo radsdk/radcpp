@@ -1,3 +1,4 @@
+#include <rad/Core/MemoryDebug.h>
 #include <rad/Gui/Surface.h>
 #include <rad/Gui/Window.h>
 
@@ -10,7 +11,7 @@ rad::Ref<Surface> Surface::Create(int width, int height, SDL_PixelFormatEnum for
     SDL_Surface* handle = SDL_CreateSurface(width, height, format);
     if (handle)
     {
-        return new Surface(handle);
+        return RAD_NEW Surface(handle);
     }
     else
     {
@@ -25,7 +26,7 @@ rad::Ref<Surface> Surface::CreateFormPixels(void* pixels, int width, int height,
     SDL_Surface* handle = SDL_CreateSurfaceFrom(pixels, width, height, pitch, format);
     if (handle)
     {
-        return new Surface(handle);
+        return RAD_NEW Surface(handle);
     }
     else
     {
@@ -40,7 +41,7 @@ rad::Ref<Surface> Surface::CreateFromBMP(SDL_IOStream* src, SDL_bool closeio)
     SDL_Surface* handle = SDL_LoadBMP_IO(src, closeio);
     if (handle)
     {
-        return new Surface(handle);
+        return RAD_NEW Surface(handle);
     }
     else
     {
@@ -55,7 +56,7 @@ rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
     SDL_Surface* handle = SDL_LoadBMP(file);
     if (handle)
     {
-        return new Surface(handle);
+        return RAD_NEW Surface(handle);
     }
     else
     {
@@ -197,26 +198,26 @@ int Surface::Flip(SDL_FlipMode flip)
 rad::Ref<Surface> Surface::Duplicate()
 {
     SDL_Surface* handle = SDL_DuplicateSurface(m_handle);
-    return rad::Ref<Surface>(new Surface(handle));
+    return rad::Ref<Surface>(RAD_NEW Surface(handle));
 }
 
 rad::Ref<Surface> Surface::Convert(const SDL_PixelFormat* format)
 {
     SDL_Surface* handle = SDL_ConvertSurface(m_handle, format);
-    return rad::Ref<Surface>(new Surface(handle));
+    return rad::Ref<Surface>(RAD_NEW Surface(handle));
 }
 
 rad::Ref<Surface> Surface::Convert(SDL_PixelFormatEnum format)
 {
     SDL_Surface* handle = SDL_ConvertSurfaceFormat(m_handle, format);
-    return rad::Ref<Surface>(new Surface(handle));
+    return rad::Ref<Surface>(RAD_NEW Surface(handle));
 }
 
 rad::Ref<Surface> Surface::Convert(SDL_PixelFormatEnum format, SDL_Colorspace colorspace,
     SDL_PropertiesID propID)
 {
     SDL_Surface* handle = SDL_ConvertSurfaceFormatAndColorspace(m_handle, format, colorspace, propID);
-    return rad::Ref<Surface>(new Surface(handle));
+    return rad::Ref<Surface>(RAD_NEW Surface(handle));
 }
 
 int Surface::FillRect(const SDL_Rect* rect, Uint32 color)

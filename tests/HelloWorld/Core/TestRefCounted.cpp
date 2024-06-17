@@ -1,3 +1,4 @@
+#include <rad/Core/MemoryDebug.h>
 #include <gtest/gtest.h>
 #include <rad/Core/RefCounted.h>
 

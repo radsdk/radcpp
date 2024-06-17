@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rad/Core/Platform.h>
+#include <rad/Core/MemoryDebug.h>
 #include <rad/Core/TypeTraits.h>
 #include <cassert>
 #include <memory>
@@ -317,7 +317,7 @@ template<class T, class U> Ref<T> dynamic_pointer_cast(Ref<U>&& p) noexcept
 template <typename T, typename... Args>
 Ref<T> MakeRefCounted(Args&&... args)
 {
-    return new T(std::forward<Args>(args)...);
+    return RAD_NEW T(std::forward<Args>(args)...);
 }
 
 } // namespace rad

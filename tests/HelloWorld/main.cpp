@@ -1,4 +1,4 @@
-#include <rad/Core/Platform.h>
+#include <rad/Core/MemoryDebug.h>
 #include <rad/Core/String.h>
 #include <rad/IO/Logging.h>
 #include <rad/System/CpuInfo.h>
@@ -6,8 +6,10 @@
 
 int main(int argc, char* argv[])
 {
+#if defined(_DEBUG)
+    rad::EnableMemoryLeakDetection();
+#endif
     rad::InitLogging("HelloWorld.log", true);
-
     auto logger = rad::GetDefaultLogger();
 
     RAD_LOG(logger, info, "Hello, {}!", "World");

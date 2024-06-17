@@ -1,3 +1,4 @@
+#include <rad/Core/MemoryDebug.h>
 #include <rad/Gui/Texture.h>
 #include <rad/Gui/Renderer.h>
 
@@ -10,7 +11,7 @@ rad::Ref<Texture> Texture::Create(rad::Ref<Renderer> renderer, SDL_PixelFormatEn
     SDL_Texture* handle = SDL_CreateTexture(renderer->GetHandle(), format, access, w, h);
     if (handle)
     {
-        return new Texture(std::move(renderer), handle);
+        return RAD_NEW Texture(std::move(renderer), handle);
     }
     else
     {
@@ -25,7 +26,7 @@ rad::Ref<Texture> Texture::CreateFromSurface(rad::Ref<Renderer> renderer, SDL_Su
     SDL_Texture* handle = SDL_CreateTextureFromSurface(renderer->GetHandle(), surface);
     if (handle)
     {
-        return new Texture(std::move(renderer), handle);
+        return RAD_NEW Texture(std::move(renderer), handle);
     }
     else
     {

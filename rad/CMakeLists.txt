@@ -17,6 +17,8 @@ set(rad_SOURCES
     Core/String.cpp
     Core/Memory.h
     Core/Memory.cpp
+    Core/MemoryDebug.h
+    Core/MemoryDebug.cpp
     Core/RefCounted.h
     Core/Time.h
     Core/Time.cpp

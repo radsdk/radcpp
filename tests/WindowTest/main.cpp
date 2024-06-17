@@ -1,3 +1,4 @@
+#include <rad/Core/MemoryDebug.h>
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
 #include <rad/Gui/Application.h>
@@ -8,15 +9,16 @@ rad::Ref<WindowTest> g_window;
 
 int SDL_AppInit(void** appState, int argc, char** argv)
 {
+#if defined(_DEBUG)
+    rad::EnableMemoryLeakDetection();
+#endif
     rad::InitLogging("WindowTest.log", true);
-    auto guiLogger = rad::GetGuiLogger();
-    g_app = new rad::Application();
+    g_app = RAD_NEW rad::Application();
     if (!g_app->Init(argc, argv))
     {
-        RAD_LOG(guiLogger, err, "Application::Init failed!");
         return SDL_APP_FAILURE;
     }
-    g_window = new WindowTest();
+    g_window = RAD_NEW WindowTest();
     g_window->Init();
     return SDL_APP_CONTINUE;
 }
