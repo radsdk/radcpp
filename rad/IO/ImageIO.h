@@ -42,26 +42,33 @@ public:
     {
         size_t offset = (size_t(i) * size_t(m_width) + size_t(j)) *
             size_t(m_channelCount);
-        return m_data + offset;
+        return (m_data + offset);
     }
 
-    void SetPixel1(int i, int j, unsigned r)
+    void SetPixelR(int i, int j, unsigned r)
     {
+        assert(m_channelCount == 1);
         GetPixel(i, j)[0] = static_cast<unsigned char>(r);
     }
-    void SetPixel2(int i, int j, unsigned r, unsigned g)
+
+    void SetPixelRG(int i, int j, unsigned r, unsigned g)
     {
+        assert(m_channelCount == 2);
         GetPixel(i, j)[0] = static_cast<unsigned char>(r);
         GetPixel(i, j)[1] = static_cast<unsigned char>(g);
     }
-    void SetPixel3(int i, int j, unsigned r, unsigned g, unsigned b)
+
+    void SetPixelRGB(int i, int j, unsigned r, unsigned g, unsigned b)
     {
+        assert(m_channelCount == 3);
         GetPixel(i, j)[0] = static_cast<unsigned char>(r);
         GetPixel(i, j)[1] = static_cast<unsigned char>(g);
         GetPixel(i, j)[2] = static_cast<unsigned char>(b);
     }
-    void SetPixel4(int i, int j, unsigned r, unsigned g, unsigned b, unsigned a)
+
+    void SetPixelRGBA(int i, int j, unsigned r, unsigned g, unsigned b, unsigned a)
     {
+        assert(m_channelCount == 4);
         GetPixel(i, j)[0] = static_cast<unsigned char>(r);
         GetPixel(i, j)[1] = static_cast<unsigned char>(g);
         GetPixel(i, j)[2] = static_cast<unsigned char>(b);
@@ -73,7 +80,7 @@ public:
     bool WritePNG(std::string_view filename, int left, int top, int right, int bottom) const;
     bool WriteBMP(std::string_view filename) const;
     bool WriteTGA(std::string_view filename) const;
-    // JPEG does ignore alpha channels in input data; quality is between 1 and 100.
+    // JPEG ignores alpha channels in input data; quality is between 1 and 100.
     bool WriteJPG(std::string_view filename, int quality) const;
 
     unsigned char* m_data = nullptr;
@@ -82,6 +89,7 @@ public:
     int m_height = 0;
     int m_channelCount = 0;
     bool m_isHdr = false;
+
 }; // class ImageU8
 
 // FP32 HDR data.
@@ -90,6 +98,7 @@ class ImageFP32
 public:
     ImageFP32();
     ~ImageFP32();
+
     bool GetInfo(std::string_view filename);
     // Load image into (linear) floats to preserve the full dynamic range,
     // gamma and scale for ldr to hdr convertion.
@@ -102,30 +111,37 @@ public:
     {
         size_t offset = (size_t(i) * size_t(m_width) + size_t(j)) *
             size_t(m_channelCount);
-        return m_data + offset;
+        return (m_data + offset);
     }
 
-    void SetPixel1(int i, int j, float r)
+    void SetPixelR(int i, int j, float r)
     {
-        GetPixel(i, j)[0] = static_cast<float>(r);
+        assert(m_channelCount == 1);
+        GetPixel(i, j)[0] = r;
     }
-    void SetPixel2(int i, int j, float r, float g)
+
+    void SetPixelRG(int i, int j, float r, float g)
     {
-        GetPixel(i, j)[0] = static_cast<float>(r);
-        GetPixel(i, j)[1] = static_cast<float>(g);
+        assert(m_channelCount == 2);
+        GetPixel(i, j)[0] = r;
+        GetPixel(i, j)[1] = g;
     }
-    void SetPixel3(int i, int j, float r, float g, float b)
+
+    void SetPixelRGB(int i, int j, float r, float g, float b)
     {
-        GetPixel(i, j)[0] = static_cast<float>(r);
-        GetPixel(i, j)[1] = static_cast<float>(g);
-        GetPixel(i, j)[2] = static_cast<float>(b);
+        assert(m_channelCount == 3);
+        GetPixel(i, j)[0] = r;
+        GetPixel(i, j)[1] = g;
+        GetPixel(i, j)[2] = b;
     }
-    void SetPixel4(int i, int j, float r, float g, float b, float a)
+
+    void SetPixelRGBA(int i, int j, float r, float g, float b, float a)
     {
-        GetPixel(i, j)[0] = static_cast<float>(r);
-        GetPixel(i, j)[1] = static_cast<float>(g);
-        GetPixel(i, j)[2] = static_cast<float>(b);
-        GetPixel(i, j)[3] = static_cast<float>(a);
+        assert(m_channelCount == 4);
+        GetPixel(i, j)[0] = r;
+        GetPixel(i, j)[1] = g;
+        GetPixel(i, j)[2] = b;
+        GetPixel(i, j)[3] = a;
     }
 
     // HDR expects linear float data. Since the format is always 32-bit rgb(e) data, alpha (if provided) is discarded,
@@ -138,6 +154,7 @@ public:
     int m_height = 0;
     int m_channelCount = 0;
     bool m_isHdr = false;
+
 }; // class ImageFP32
 
 } // namespace rad

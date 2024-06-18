@@ -19,16 +19,16 @@ TEST(Core, ImageIO)
             {
                 if (tileX < w / tileSize / 2)
                 {
-                    image.SetPixel4(i, j, 255, 255, 255, 255);
+                    image.SetPixelRGBA(i, j, 255, 255, 255, 255);
                 }
                 else
                 {
-                    image.SetPixel4(i, j, 179, 179, 179, 255);
+                    image.SetPixelRGBA(i, j, 179, 179, 179, 255);
                 }
             }
             else
             {
-                image.SetPixel4(i, j, 0, 0, 0, 255);
+                image.SetPixelRGBA(i, j, 0, 0, 0, 255);
             }
         }
     }
