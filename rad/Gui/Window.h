@@ -11,10 +11,6 @@
 namespace rad
 {
 
-spdlog::logger* GetGuiLogger();
-
-class Window;
-
 class Window : public EventHandler
 {
 public:

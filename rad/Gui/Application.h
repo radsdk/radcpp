@@ -13,7 +13,7 @@
 namespace rad
 {
 
-spdlog::logger* GetGuiLogger();
+
 
 struct DisplayInfo
 {

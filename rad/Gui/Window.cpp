@@ -15,7 +15,6 @@ Window::~Window()
 
 bool Window::Create(const char* title, int w, int h, SDL_WindowFlags flags)
 {
-    auto logger = GetGuiLogger();
     m_handle = SDL_CreateWindow(title, w, h, flags);
     if (m_handle)
     {
@@ -23,14 +22,14 @@ bool Window::Create(const char* title, int w, int h, SDL_WindowFlags flags)
         Application::GetInstance()->RegisterEventHandler(this);
         if (m_id == 0)
         {
-            RAD_LOG(logger, err, "SDL_GetWindowID failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetWindowID failed: {}", SDL_GetError());
             return false;
         }
         return true;
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateWindow failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateWindow failed: {}", SDL_GetError());
         return false;
     }
 }

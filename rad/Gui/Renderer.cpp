@@ -16,7 +16,6 @@ Renderer::~Renderer()
 
 bool Renderer::Init()
 {
-    auto logger = GetGuiLogger();
     const char* driver = nullptr;
 
 #if defined(RAD_OS_WINDOWS)
@@ -35,17 +34,17 @@ bool Renderer::Init()
     if (m_handle)
     {
         m_name = SDL_GetRendererName(m_handle);
-        RAD_LOG(logger, info, "Renderer created: {}", m_name);
+        RAD_LOG(GetGuiLogger(), info, "Renderer created: {}", m_name);
         m_propID = SDL_GetRendererProperties(m_handle);
         if (m_propID == 0)
         {
-            RAD_LOG(logger, err, "SDL_GetRendererProperties failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetRendererProperties failed: {}", SDL_GetError());
         }
         return true;
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateRenderer failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateRenderer failed: {}", SDL_GetError());
         return false;
     }
 }

@@ -7,7 +7,6 @@ namespace rad
 
 rad::Ref<Surface> Surface::Create(int width, int height, SDL_PixelFormatEnum format)
 {
-    auto logger = GetGuiLogger();
     SDL_Surface* handle = SDL_CreateSurface(width, height, format);
     if (handle)
     {
@@ -15,14 +14,13 @@ rad::Ref<Surface> Surface::Create(int width, int height, SDL_PixelFormatEnum for
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateSurface failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateSurface failed: {}", SDL_GetError());
         return nullptr;
     }
 }
 
 rad::Ref<Surface> Surface::CreateFormPixels(void* pixels, int width, int height, int pitch, SDL_PixelFormatEnum format)
 {
-    auto logger = GetGuiLogger();
     SDL_Surface* handle = SDL_CreateSurfaceFrom(pixels, width, height, pitch, format);
     if (handle)
     {
@@ -30,14 +28,13 @@ rad::Ref<Surface> Surface::CreateFormPixels(void* pixels, int width, int height,
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateSurfaceFrom failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateSurfaceFrom failed: {}", SDL_GetError());
         return nullptr;
     }
 }
 
 rad::Ref<Surface> Surface::CreateFromBMP(SDL_IOStream* src, SDL_bool closeio)
 {
-    auto logger = GetGuiLogger();
     SDL_Surface* handle = SDL_LoadBMP_IO(src, closeio);
     if (handle)
     {
@@ -45,14 +42,13 @@ rad::Ref<Surface> Surface::CreateFromBMP(SDL_IOStream* src, SDL_bool closeio)
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_LoadBMP_IO failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_LoadBMP_IO failed: {}", SDL_GetError());
         return nullptr;
     }
 }
 
 rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
 {
-    auto logger = GetGuiLogger();
     SDL_Surface* handle = SDL_LoadBMP(file);
     if (handle)
     {
@@ -60,7 +56,7 @@ rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_LoadBMP_IO failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_LoadBMP_IO failed: {}", SDL_GetError());
         return nullptr;
     }
 }
@@ -68,11 +64,10 @@ rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
 Surface::Surface(SDL_Surface* handle) :
     m_handle(handle)
 {
-    auto logger = GetGuiLogger();
     m_propID = SDL_GetSurfaceProperties(m_handle);
     if (m_propID == 0)
     {
-        RAD_LOG(logger, err, "SDL_GetSurfaceProperties failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetSurfaceProperties failed: {}", SDL_GetError());
     }
 }
 

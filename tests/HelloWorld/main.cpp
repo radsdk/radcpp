@@ -9,15 +9,17 @@ int main(int argc, char* argv[])
 #if defined(_DEBUG)
     rad::EnableMemoryLeakDetection();
 #endif
-    rad::InitLogging("HelloWorld.log", true);
-    auto logger = rad::GetDefaultLogger();
 
+    rad::InitLogging("HelloWorld.log", true);
+
+    auto logger = rad::GetDefaultLogger();
     RAD_LOG(logger, info, "Hello, {}!", "World");
 #if defined(CPU_FEATURES_ARCH_X86)
     RAD_LOG(logger, info, "CPU: {} ({})",
         rad::StrTrim(rad::g_X86Info.brand_string),
         rad::g_X86Info.vendor);
 #endif
+
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

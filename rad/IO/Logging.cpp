@@ -2,6 +2,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/msvc_sink.h>
+#include <spdlog/cfg/env.h>
 
 namespace rad
 {
@@ -35,8 +36,9 @@ bool InitLogging(const std::string& filename, bool truncate)
 #endif
 
     // https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
-    spdlog::set_pattern("%^[%T.%e] %n(%l)%$: %v");
+    spdlog::set_pattern("%^[%T.%e] %n (%l)%$: %v");
     spdlog::flush_on(spdlog::level::warn);
+    spdlog::cfg::load_env_levels();
     return true;
 }
 
@@ -58,8 +60,22 @@ spdlog::sink_ptr GetDefaultLogFileSink()
 std::shared_ptr<spdlog::logger> CreateLogger(const std::string& name)
 {
     auto& sinks = g_logger->sinks();
-    return std::make_shared<spdlog::logger>(name,
+    std::shared_ptr<spdlog::logger> logger = std::make_shared<spdlog::logger>(name,
         sinks.begin(), sinks.end());
+    spdlog::initialize_logger(logger);
+    return std::move(logger);
+}
+
+spdlog::logger* GetGuiLogger()
+{
+    static std::shared_ptr<spdlog::logger> logger = CreateLogger("Gui");
+    return logger.get();
+}
+
+spdlog::logger* GetMediaLogger()
+{
+    static std::shared_ptr<spdlog::logger> logger = CreateLogger("Media");
+    return logger.get();
 }
 
 } // namespace rad

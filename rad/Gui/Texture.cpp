@@ -7,7 +7,6 @@ namespace rad
 
 rad::Ref<Texture> Texture::Create(rad::Ref<Renderer> renderer, SDL_PixelFormatEnum format, int access, int w, int h)
 {
-    auto logger = rad::GetGuiLogger();
     SDL_Texture* handle = SDL_CreateTexture(renderer->GetHandle(), format, access, w, h);
     if (handle)
     {
@@ -15,14 +14,13 @@ rad::Ref<Texture> Texture::Create(rad::Ref<Renderer> renderer, SDL_PixelFormatEn
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateTexture failed: {}", SDL_GetError());
         return nullptr;
     }
 }
 
 rad::Ref<Texture> Texture::CreateFromSurface(rad::Ref<Renderer> renderer, SDL_Surface* surface)
 {
-    auto logger = rad::GetGuiLogger();
     SDL_Texture* handle = SDL_CreateTextureFromSurface(renderer->GetHandle(), surface);
     if (handle)
     {
@@ -30,7 +28,7 @@ rad::Ref<Texture> Texture::CreateFromSurface(rad::Ref<Renderer> renderer, SDL_Su
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_CreateTexture failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_CreateTexture failed: {}", SDL_GetError());
         return nullptr;
     }
 }
@@ -39,11 +37,10 @@ Texture::Texture(rad::Ref<Renderer> renderer, SDL_Texture* handle) :
     m_renderer(std::move(renderer)),
     m_handle(handle)
 {
-    auto logger = rad::GetGuiLogger();
     m_propID = SDL_GetTextureProperties(m_handle);
     if (m_propID == 0)
     {
-        RAD_LOG(logger, err, "SDL_GetTextureProperties failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetTextureProperties failed: {}", SDL_GetError());
     }
 }
 

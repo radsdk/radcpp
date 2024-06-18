@@ -5,12 +5,6 @@
 namespace rad
 {
 
-static spdlog::logger* GetCameraLogger()
-{
-    std::shared_ptr<spdlog::logger> logger;
-    return logger.get();
-}
-
 std::vector<const char*> Camera::EnumerateCameraDrivers()
 {
     std::vector<const char*> drivers;
@@ -57,17 +51,17 @@ bool Camera::Open(const SDL_CameraSpec* spec)
     m_handle = SDL_OpenCameraDevice(m_id, spec);
     if (m_handle)
     {
-        RAD_LOG(GetCameraLogger(), err, "Camera {} opened successfully.", m_name);
+        RAD_LOG(GetMediaLogger(), info, "Camera {} opened successfully.", m_name);
         m_propID = SDL_GetCameraProperties(m_handle);
         if (m_propID == 0)
         {
-            RAD_LOG(GetCameraLogger(), err, "SDL_GetCameraProperties failed: {}", SDL_GetError());
+            RAD_LOG(GetMediaLogger(), err, "SDL_GetCameraProperties failed: {}", SDL_GetError());
         }
         return true;
     }
     else
     {
-        RAD_LOG(GetCameraLogger(), err, "SDL_OpenCameraDevice failed: {}", SDL_GetError());
+        RAD_LOG(GetMediaLogger(), err, "SDL_OpenCameraDevice failed: {}", SDL_GetError());
         return false;
     }
 }

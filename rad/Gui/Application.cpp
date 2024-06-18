@@ -3,12 +3,6 @@
 namespace rad
 {
 
-spdlog::logger* GetGuiLogger()
-{
-    static std::shared_ptr<spdlog::logger> logger = CreateLogger("Gui");
-    return logger.get();
-}
-
 Application* Application::s_singleton = nullptr;
 
 Application::Application()
@@ -29,13 +23,13 @@ Application* Application::GetInstance()
 
 bool Application::Init(int argc, char** argv)
 {
-    auto logger = GetGuiLogger();
     int res = SDL_Init(
         SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO |
         SDL_INIT_HAPTIC | SDL_INIT_GAMEPAD);
     if (res == 0)
     {
         int version = SDL_GetVersion();
+        auto logger = GetGuiLogger();
         RAD_LOG(logger, info, "SDL initialized on {}: {}.{}.{} ({})", SDL_GetPlatform(),
             SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version),
             SDL_GetRevision());
@@ -47,16 +41,15 @@ bool Application::Init(int argc, char** argv)
     }
     else
     {
-        RAD_LOG(logger, err, "SDL_Init failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_Init failed: {}", SDL_GetError());
         return false;
     }
 }
 
 void Application::Destroy()
 {
-    auto logger = GetGuiLogger();
     SDL_Quit();
-    RAD_LOG(logger, info, "SDL quited.");
+    RAD_LOG(GetGuiLogger(), info, "SDL quited.");
 }
 
 SDL_InitFlags Application::GetInitialized()
@@ -93,7 +86,6 @@ void Application::OnEvent(const SDL_Event& event)
     }
 
     auto logger = GetGuiLogger();
-
     switch (event.type)
     {
     case SDL_EVENT_QUIT: // User-requested quit.
@@ -157,13 +149,11 @@ void Application::OnIdle()
 
 void Application::UpdateDisplayInfos()
 {
-    auto logger = GetGuiLogger();
-
     int displayCount = 0;
     SDL_DisplayID* ids = SDL_GetDisplays(&displayCount);
     if (ids == nullptr)
     {
-        RAD_LOG(logger, err, "SDL_GetDisplays failed: {}", SDL_GetError());
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplays failed: {}", SDL_GetError());
         m_displays.clear();
         return;
     }
@@ -178,11 +168,11 @@ void Application::UpdateDisplayInfos()
 
         if (SDL_GetDisplayBounds(id, &info.bounds) != 0)
         {
-            RAD_LOG(logger, err, "SDL_GetDisplayBounds failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayBounds failed: {}", SDL_GetError());
         }
         if (SDL_GetDisplayUsableBounds(id, &info.usableBounds) != 0)
         {
-            RAD_LOG(logger, err, "SDL_GetDisplayUsableBounds failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayUsableBounds failed: {}", SDL_GetError());
         }
 
         info.naturalOrientation = SDL_GetNaturalDisplayOrientation(id);
@@ -191,20 +181,24 @@ void Application::UpdateDisplayInfos()
         info.scale = SDL_GetDisplayContentScale(id);
         if (info.scale == 0.0f)
         {
-            RAD_LOG(logger, err, "SDL_GetDisplayContentScale failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayContentScale failed: {}", SDL_GetError());
         }
 
         info.propID = SDL_GetDisplayProperties(id);
         if (info.propID != 0)
         {
-            info.hdrEnabled = SDL_GetBooleanProperty(info.propID, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, SDL_FALSE);
-            info.sdrWhitePoint = SDL_GetFloatProperty(info.propID, SDL_PROP_DISPLAY_SDR_WHITE_POINT_FLOAT, 1.0f);
-            info.hdrHeadroom = SDL_GetFloatProperty(info.propID, SDL_PROP_DISPLAY_HDR_HEADROOM_FLOAT, 1.0f);
-            info.kmsdrmOrientation = SDL_GetNumberProperty(info.propID, SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER, 0);
+            info.hdrEnabled = SDL_GetBooleanProperty(info.propID,
+                SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, SDL_FALSE);
+            info.sdrWhitePoint = SDL_GetFloatProperty(info.propID,
+                SDL_PROP_DISPLAY_SDR_WHITE_POINT_FLOAT, 1.0f);
+            info.hdrHeadroom = SDL_GetFloatProperty(info.propID,
+                SDL_PROP_DISPLAY_HDR_HEADROOM_FLOAT, 1.0f);
+            info.kmsdrmOrientation = SDL_GetNumberProperty(info.propID,
+                SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER, 0);
         }
         else
         {
-            RAD_LOG(logger, err, "SDL_GetDisplayProperties failed: {}", SDL_GetError());
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayProperties failed: {}", SDL_GetError());
         }
 
         int count = 0;
@@ -215,10 +209,11 @@ void Application::UpdateDisplayInfos()
             std::memcpy(info.modes.data(), modes, count * sizeof(modes[0]));
             SDL_free(modes);
         }
+
         info.desktopMode = SDL_GetDesktopDisplayMode(id);
         info.currentMode = SDL_GetCurrentDisplayMode(id);
 
-        RAD_LOG(logger, info, "Display#{}: {} ({}x{}@{}, {})",
+        RAD_LOG(GetGuiLogger(), info, "Display#{}: {} ({}x{}@{}Hz, {})",
             i, info.name, info.currentMode->w, info.currentMode->h,
             info.currentMode->refresh_rate,
             SDL_GetPixelFormatName(info.currentMode->format));

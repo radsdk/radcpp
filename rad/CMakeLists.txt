@@ -1,3 +1,5 @@
+option(RAD_DISABLE_LOGGING "Disable logging." OFF)
+
 set(rad_SOURCES
     Core/Platform.h
     Core/Platform.cpp
@@ -94,8 +96,14 @@ target_link_libraries(rad
     PUBLIC spdlog::spdlog
     PUBLIC CpuFeatures::cpu_features
     PUBLIC SDL3-shared
-    PUBLIC Backward::Object
+    PUBLIC Backward::Backward
 )
+
+if (RAD_DISABLE_LOGGING)
+target_compile_definitions(rad
+    PUBLIC RAD_DISABLE_LOGGING=1
+)
+endif()
 
 if (WIN32)
 target_compile_definitions(rad
