@@ -5,6 +5,8 @@ project(radcpp VERSION 0.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+include(cmake/Sanitizers.cmake)
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(RADCPP_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
