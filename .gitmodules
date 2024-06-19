@@ -13,3 +13,6 @@
 [submodule "imported/sqlite"]
 	path = imported/sqlite
 	url = https://github.com/radsdk/sqlite.git
+[submodule "imported/Vulkan-Headers"]
+	path = imported/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git
