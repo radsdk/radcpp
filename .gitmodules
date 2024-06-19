@@ -19,3 +19,6 @@
 [submodule "imported/volk"]
 	path = imported/volk
 	url = https://github.com/zeux/volk.git
+[submodule "imported/VulkanMemoryAllocator"]
+	path = imported/VulkanMemoryAllocator
+	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
