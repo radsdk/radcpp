@@ -22,3 +22,6 @@
 [submodule "imported/VulkanMemoryAllocator"]
 	path = imported/VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+[submodule "imported/spvgen"]
+	path = imported/spvgen
+	url = https://github.com/radsdk/spvgen.git
