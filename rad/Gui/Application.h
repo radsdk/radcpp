@@ -64,6 +64,11 @@ public:
     void SetExit(bool exit) { m_exit = exit; }
     int GetExit() { return m_exit; }
 
+    // Store UTF-8 text into the clipboard.
+    bool SetClipboardText(const char* text);
+    bool HasClipboardText();
+    std::string GetClipboardText();
+
 private:
     void UpdateDisplayInfos();
     static Application* s_singleton;

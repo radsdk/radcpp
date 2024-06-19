@@ -147,6 +147,28 @@ void Application::OnIdle()
     }
 }
 
+bool Application::SetClipboardText(const char* text)
+{
+    return (SDL_SetClipboardText(text) == 0);
+}
+
+bool Application::HasClipboardText()
+{
+    return (SDL_HasClipboardText() == SDL_TRUE);
+}
+
+std::string Application::GetClipboardText()
+{
+    std::string buffer;
+    char* text = SDL_GetClipboardText();
+    if (text)
+    {
+        buffer = text;
+        SDL_free(text);
+    }
+    return buffer;
+}
+
 void Application::UpdateDisplayInfos()
 {
     int displayCount = 0;
