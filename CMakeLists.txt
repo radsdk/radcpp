@@ -26,6 +26,8 @@ set_target_properties(SDL3-shared PROPERTIES FOLDER "imported")
 add_subdirectory(imported/backward-cpp)
 set_target_properties(backward_object PROPERTIES FOLDER "imported")
 set_target_properties(backward PROPERTIES FOLDER "imported")
+add_subdirectory(imported/sqlite)
+set_target_properties(sqlite PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
 

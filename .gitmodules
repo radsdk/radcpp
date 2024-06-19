@@ -10,3 +10,6 @@
 [submodule "imported/backward-cpp"]
 	path = imported/backward-cpp
 	url = https://github.com/bombela/backward-cpp.git
+[submodule "imported/sqlite"]
+	path = imported/sqlite
+	url = https://github.com/radsdk/sqlite.git
