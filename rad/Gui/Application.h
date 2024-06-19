@@ -64,10 +64,23 @@ public:
     void SetExit(bool exit) { m_exit = exit; }
     int GetExit() { return m_exit; }
 
-    // Store UTF-8 text into the clipboard.
+    // Put UTF-8 text into the clipboard.
     bool SetClipboardText(const char* text);
-    bool HasClipboardText();
     std::string GetClipboardText();
+    bool HasClipboardText();
+
+    // Put UTF-8 text into the primary selection.
+    bool SetPrimarySelectionText(const char* text);
+    std::string GetPrimarySelectionText();
+    bool HasPrimarySelectionText();
+
+    // Tell the operating system that the application is offering clipboard data
+    // for each of the proivded mime types.
+    bool SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup,
+        void* userData, const char** mimeTypes, size_t mimeTypeCount);
+    bool ClearClipboardData();
+    void* GetClipboardData(const char* mimeType, size_t* size);
+    bool HasClipboardData(const char* mimeType);
 
 private:
     void UpdateDisplayInfos();

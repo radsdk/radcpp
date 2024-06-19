@@ -152,11 +152,6 @@ bool Application::SetClipboardText(const char* text)
     return (SDL_SetClipboardText(text) == 0);
 }
 
-bool Application::HasClipboardText()
-{
-    return (SDL_HasClipboardText() == SDL_TRUE);
-}
-
 std::string Application::GetClipboardText()
 {
     std::string buffer;
@@ -167,6 +162,54 @@ std::string Application::GetClipboardText()
         SDL_free(text);
     }
     return buffer;
+}
+
+bool Application::HasClipboardText()
+{
+    return (SDL_HasClipboardText() == SDL_TRUE);
+}
+
+bool Application::SetPrimarySelectionText(const char* text)
+{
+    return (SDL_SetPrimarySelectionText(text) == 0);
+}
+
+std::string Application::GetPrimarySelectionText()
+{
+    std::string buffer;
+    char* text = SDL_GetPrimarySelectionText();
+    if (text)
+    {
+        buffer = text;
+        SDL_free(text);
+    }
+    return buffer;
+}
+
+bool Application::HasPrimarySelectionText()
+{
+    return (SDL_HasPrimarySelectionText() == SDL_TRUE);
+}
+
+bool Application::SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup,
+    void* userData, const char** mimeTypes, size_t mimeTypeCount)
+{
+    return (SDL_SetClipboardData(callback, cleanup, userData, mimeTypes, mimeTypeCount) == 0);
+}
+
+bool Application::ClearClipboardData()
+{
+    return (SDL_ClearClipboardData() == SDL_TRUE);
+}
+
+void* Application::GetClipboardData(const char* mimeType, size_t* size)
+{
+    return SDL_GetClipboardData(mimeType, size);
+}
+
+bool Application::HasClipboardData(const char* mimeType)
+{
+    return (SDL_HasClipboardData(mimeType) == SDL_TRUE);
 }
 
 void Application::UpdateDisplayInfos()
