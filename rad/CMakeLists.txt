@@ -49,6 +49,10 @@ set(rad_SOURCES
     System/Process.cpp
     System/StackTrace.h
     System/StackTrace.cpp
+    System/Timer.h
+    System/Timer.cpp
+    System/Power.h
+    System/Power.cpp
 )
 
 set(rad_GUI_SOURCES

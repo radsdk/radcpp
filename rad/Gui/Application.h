@@ -58,6 +58,7 @@ public:
 
     void RegisterEventHandler(EventHandler* handler);
     void UnregisterEventHandler(EventHandler* handler);
+    int PushEvent(SDL_Event& event);
     void OnEvent(const SDL_Event& event);
     void OnIdle();
 

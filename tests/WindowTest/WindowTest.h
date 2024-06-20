@@ -1,13 +1,17 @@
 #pragma once
 
+#include <rad/Gui/Application.h>
 #include <rad/Gui/Window.h>
 #include <rad/Gui/Renderer.h>
+#include <rad/System/Timer.h>
 
 class WindowTest : public rad::Window
 {
 public:
     WindowTest();
     ~WindowTest();
+
+    spdlog::logger* GetLogger() { return m_logger.get(); }
 
     bool Init();
 
@@ -55,8 +59,11 @@ protected:
     virtual void OnMouseButtonUp(const SDL_MouseButtonEvent& mouseButton) override;
     virtual void OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel) override;
 
+    // User
+    virtual void OnUserEvent(const SDL_UserEvent& user) override;
+
 private:
     std::shared_ptr<spdlog::logger> m_logger;
     rad::Ref<rad::Renderer> m_renderer;
-
+    rad::Ref<rad::Timer> m_powerWatchdog;
 }; // class WindowTest

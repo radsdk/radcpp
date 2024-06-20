@@ -127,6 +127,15 @@ bool Window::OnEvent(const SDL_Event& event)
             return true;
         }
     }
+    else if (event.type == SDL_EVENT_USER)
+    {
+        if ((event.user.windowID == 0) ||
+            (event.user.windowID == m_id))
+        {
+            OnUserEvent(event.user);
+            return (event.user.windowID == m_id);
+        }
+    }
 
     return false;
 }

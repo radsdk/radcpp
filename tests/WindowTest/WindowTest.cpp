@@ -1,4 +1,6 @@
 #include "WindowTest.h"
+#include <rad/IO/Logging.h>
+#include <rad/System/Power.h>
 
 WindowTest::WindowTest()
 {
@@ -11,12 +13,45 @@ WindowTest::~WindowTest()
     RAD_LOG(m_logger, trace, __func__);
 }
 
+Uint32 PowerWatchdog(void* userData, SDL_TimerID timerID, Uint32 interval)
+{
+    WindowTest* test = reinterpret_cast<WindowTest*>(userData);
+    int seconds = 0;
+    int percent = 0;
+    SDL_PowerState state = rad::GetPowerInfo(&seconds, &percent);
+    if (((state == SDL_POWERSTATE_ON_BATTERY) ||
+        (state == SDL_POWERSTATE_CHARGING) ||
+        (state == SDL_POWERSTATE_CHARGED)) &&
+        (seconds != -1) && (percent != -1))
+    {
+        RAD_LOG(test->GetLogger(), info, "PowerWatchdog({:4}ms): {}, {} seconds remaining (%{}).",
+            interval, rad::GetPowerStateString(state), seconds, percent);
+    }
+    else if (state == SDL_POWERSTATE_NO_BATTERY)
+    {
+        RAD_LOG(test->GetLogger(), info, "PowerWatchdog({:4}ms): {}.",
+            interval, rad::GetPowerStateString(state),
+            seconds, percent);
+    }
+
+    // trigger an user event!
+    SDL_Event event = {};
+    event.type = SDL_EVENT_USER;
+    SDL_UserEvent& userEvent = event.user;
+    userEvent.type = SDL_EVENT_USER;
+    userEvent.code = 1;
+    rad::Application::GetInstance()->PushEvent(event);
+    return interval;
+}
+
 bool WindowTest::Init()
 {
     SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
     Create("WindowTest", 800, 600, flags);
     m_renderer = new rad::Renderer(this);
     m_renderer->Init();
+    m_powerWatchdog = new rad::Timer();
+    m_powerWatchdog->StartMS(1000, PowerWatchdog, this);
     return true;
 }
 
@@ -213,4 +248,9 @@ void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 {
     RAD_LOG(m_logger, trace, "OnMouseWheel: x={:+2}; y={:+2}",
         mouseWheel.x, mouseWheel.y);
+}
+
+void WindowTest::OnUserEvent(const SDL_UserEvent& user)
+{
+    RAD_LOG(m_logger, info, "OnUserEvent({})", user.code);
 }

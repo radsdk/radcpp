@@ -75,6 +75,11 @@ void Application::UnregisterEventHandler(EventHandler* handler)
     std::erase(m_eventHandlers, handler);
 }
 
+int Application::PushEvent(SDL_Event& event)
+{
+    return SDL_PushEvent(&event);
+}
+
 void Application::OnEvent(const SDL_Event& event)
 {
     for (EventHandler* handler : m_eventHandlers)
