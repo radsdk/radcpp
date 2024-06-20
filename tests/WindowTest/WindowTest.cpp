@@ -21,17 +21,33 @@ Uint32 PowerWatchdog(void* userData, SDL_TimerID timerID, Uint32 interval)
     SDL_PowerState state = rad::GetPowerInfo(&seconds, &percent);
     if (((state == SDL_POWERSTATE_ON_BATTERY) ||
         (state == SDL_POWERSTATE_CHARGING) ||
-        (state == SDL_POWERSTATE_CHARGED)) &&
-        (seconds != -1) && (percent != -1))
+        (state == SDL_POWERSTATE_CHARGED)))
     {
-        RAD_LOG(test->GetLogger(), info, "PowerWatchdog({:4}ms): {}, {} seconds remaining (%{}).",
-            interval, rad::GetPowerStateString(state), seconds, percent);
+        if ((seconds != -1) && (percent != -1))
+        {
+            RAD_LOG(test->GetLogger(), info, "PowerWatchdog: {}: {} seconds (%{}) remaining.",
+                rad::GetPowerStateString(state), seconds, percent);
+        }
+        else if (seconds != -1)
+        {
+            RAD_LOG(test->GetLogger(), info, "PowerWatchdog: {}: {} seconds remaining.",
+                rad::GetPowerStateString(state), seconds);
+        }
+        else if (percent != -1)
+        {
+            RAD_LOG(test->GetLogger(), info, "PowerWatchdog: {}: %{} remaining.",
+                rad::GetPowerStateString(state), percent);
+        }
+        else
+        {
+            RAD_LOG(test->GetLogger(), info, "PowerWatchdog: {}: life unknown.",
+                interval, rad::GetPowerStateString(state));
+        }
     }
     else if (state == SDL_POWERSTATE_NO_BATTERY)
     {
-        RAD_LOG(test->GetLogger(), info, "PowerWatchdog({:4}ms): {}.",
-            interval, rad::GetPowerStateString(state),
-            seconds, percent);
+        RAD_LOG(test->GetLogger(), info, "PowerWatchdog: {}.",
+            rad::GetPowerStateString(state));
     }
 
     // trigger an user event!
@@ -41,6 +57,7 @@ Uint32 PowerWatchdog(void* userData, SDL_TimerID timerID, Uint32 interval)
     userEvent.type = SDL_EVENT_USER;
     userEvent.code = 1;
     rad::Application::GetInstance()->PushEvent(event);
+
     return interval;
 }
 
