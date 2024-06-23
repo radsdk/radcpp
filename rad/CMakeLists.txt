@@ -75,6 +75,8 @@ set(rad_SOURCES ${rad_SOURCES} ${rad_GUI_SOURCES})
 set(rad_MEDIA_SOURCES
     Media/Camera.h
     Media/Camera.cpp
+    Media/Audio.h
+    Media/Audio.cpp
 )
 
 set(rad_SOURCES ${rad_SOURCES} ${rad_MEDIA_SOURCES})

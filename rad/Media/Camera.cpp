@@ -5,7 +5,7 @@
 namespace rad
 {
 
-std::vector<const char*> Camera::EnumerateCameraDrivers()
+std::vector<const char*> EnumerateCameraDrivers()
 {
     std::vector<const char*> drivers;
     int count = SDL_GetNumCameraDrivers();
@@ -17,19 +17,23 @@ std::vector<const char*> Camera::EnumerateCameraDrivers()
     return drivers;
 }
 
-const char* Camera::GetCurrentCameraDriver()
+const char* GetCurrentCameraDriver()
 {
     return SDL_GetCurrentCameraDriver();
 }
 
-std::vector<rad::Ref<Camera>> Camera::EnumerateCameras()
+std::vector<rad::Ref<Camera>> EnumerateCameras()
 {
-    int count = 0;
     std::vector<rad::Ref<Camera>> cameras;
+    int count = 0;
     SDL_CameraDeviceID* ids = SDL_GetCameraDevices(&count);
-    for (int i = 0; i < count; ++i)
+    if (count > 0)
     {
-        cameras.push_back(RAD_NEW Camera(ids[i]));
+        cameras.resize(count);
+        for (int i = 0; i < count; ++i)
+        {
+            cameras[i] = RAD_NEW Camera(ids[i]);
+        }
     }
     return cameras;
 }

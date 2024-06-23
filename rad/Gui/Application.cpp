@@ -132,7 +132,6 @@ void Application::OnEvent(const SDL_Event& event)
     case SDL_EVENT_DISPLAY_REMOVED:
     case SDL_EVENT_DISPLAY_MOVED:
     case SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED:
-    case SDL_EVENT_DISPLAY_HDR_STATE_CHANGED:
         RAD_LOG(logger, info, "Display state changed.");
         UpdateDisplayInfos();
         break;
@@ -259,10 +258,6 @@ void Application::UpdateDisplayInfos()
         {
             info.hdrEnabled = SDL_GetBooleanProperty(info.propID,
                 SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, SDL_FALSE);
-            info.sdrWhitePoint = SDL_GetFloatProperty(info.propID,
-                SDL_PROP_DISPLAY_SDR_WHITE_POINT_FLOAT, 1.0f);
-            info.hdrHeadroom = SDL_GetFloatProperty(info.propID,
-                SDL_PROP_DISPLAY_HDR_HEADROOM_FLOAT, 1.0f);
             info.kmsdrmOrientation = SDL_GetNumberProperty(info.propID,
                 SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER, 0);
         }

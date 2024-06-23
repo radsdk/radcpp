@@ -57,9 +57,9 @@ void Texture::Destroy()
     }
 }
 
-int Texture::Query(SDL_PixelFormatEnum* format, int* access, int* w, int* h)
+int Texture::GetSize(float* w, float* h)
 {
-    return SDL_QueryTexture(m_handle, format, access, w, h);
+    return SDL_GetTextureSize(m_handle, w, h);
 }
 
 int Texture::SetColorMod(Uint8 r, Uint8 g, Uint8 b)

@@ -22,7 +22,7 @@ public:
 
     SDL_Texture* GetHandle() { return m_handle; }
 
-    int Query(SDL_PixelFormatEnum* format, int* access, int* w, int* h);
+    int GetSize(float* w, float* h);
     int SetColorMod(Uint8 r, Uint8 g, Uint8 b);
     int SetColorMod(float r, float g, float b);
     int GetColorMod(Uint8* r, Uint8* g, Uint8* b);

@@ -214,12 +214,12 @@ void WindowTest::OnPenLeave()
 
 void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
-    RAD_LOG(m_logger, trace, "OnKeyDown: {}", SDL_GetKeyName(keyDown.keysym.sym));
+    RAD_LOG(m_logger, trace, "OnKeyDown: {}", SDL_GetKeyName(keyDown.key));
 }
 
 void WindowTest::OnKeyUp(const SDL_KeyboardEvent& keyUp)
 {
-    RAD_LOG(m_logger, trace, "OnKeyUp: {}", SDL_GetKeyName(keyUp.keysym.sym));
+    RAD_LOG(m_logger, trace, "OnKeyUp: {}", SDL_GetKeyName(keyUp.key));
 }
 
 void WindowTest::OnTextEditing(const SDL_TextEditingEvent& textEditing)

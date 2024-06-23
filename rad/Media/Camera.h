@@ -8,14 +8,16 @@
 namespace rad
 {
 
+std::vector<const char*> EnumerateCameraDrivers();
+const char* GetCurrentCameraDriver();
+
+class Camera;
+std::vector<rad::Ref<Camera>> EnumerateCameras();
+
 // Simple wrapper for SDL_camera.
 class Camera : public RefCounted<Camera>
 {
 public:
-    static std::vector<const char*> EnumerateCameraDrivers();
-    static const char* GetCurrentCameraDriver();
-    static std::vector<rad::Ref<Camera>> EnumerateCameras();
-
     Camera(SDL_CameraDeviceID id);
     ~Camera();
 
