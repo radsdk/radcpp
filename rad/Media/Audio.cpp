@@ -57,6 +57,65 @@ std::vector<Ref<AudioDevice>> EnumerateAudioRecordingDevices()
     return devices;
 }
 
+bool LoadWAV(SDL_IOStream* src, SDL_bool close, SDL_AudioSpec* spec,
+    Uint8** buffer, Uint32* sizeInBytes)
+{
+    int err = SDL_LoadWAV_IO(src, close, spec, buffer, sizeInBytes);
+    if (err == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_LoadWAV_IO failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
+bool LoadWAVFromFile(std::string_view path, SDL_AudioSpec* spec,
+    Uint8** buffer, Uint32* sizeInBytes)
+{
+    int err = SDL_LoadWAV(path.data(), spec, buffer, sizeInBytes);
+    if (err == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_LoadWAV failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
+bool MixAudioData(Uint8* dst, const Uint8* src, SDL_AudioFormat format, Uint32 sizeInBytes, float volume)
+{
+    int err = SDL_MixAudio(dst, src, format, sizeInBytes, volume);
+    if (err == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_MixAudio failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
+bool ConvertAudioData(const SDL_AudioSpec* srcSpec, const Uint8* srcData, int srcSizeInBytes,
+    const SDL_AudioSpec* dstSpec, Uint8** dstData, int* dstSizeInBytes)
+{
+    int err = SDL_ConvertAudioSamples(srcSpec, srcData, srcSizeInBytes, dstSpec, dstData, dstSizeInBytes);
+    if (err == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_ConvertAudioSamples failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
 AudioDevice::AudioDevice(SDL_AudioDeviceID id) :
     m_id(id)
 {
@@ -152,6 +211,20 @@ void AudioDevice::UnbindAudioStream(SDL_AudioStream* stream)
     SDL_UnbindAudioStream(stream);
 }
 
+bool AudioDevice::SetAudioPostmixCallback(SDL_AudioPostmixCallback callback, void* userData)
+{
+    int err = SDL_SetAudioPostmixCallback(m_id, callback, userData);
+    if (err == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_SetAudioPostmixCallback failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
 Ref<AudioStream> AudioStream::Create(const SDL_AudioSpec* srcSpec, const SDL_AudioSpec* dstSpec)
 {
     SDL_AudioStream* handle = SDL_CreateAudioStream(srcSpec, dstSpec);
@@ -162,6 +235,36 @@ Ref<AudioStream> AudioStream::Create(const SDL_AudioSpec* srcSpec, const SDL_Aud
     else
     {
         RAD_LOG(GetMediaLogger(), err, "SDL_CreateAudioStream failed: {}", SDL_GetError());
+        return nullptr;
+    }
+}
+
+Ref<AudioStream> AudioStream::Create(SDL_AudioDeviceID deviceID, const SDL_AudioSpec* spec,
+    SDL_AudioStreamCallback callback, void* userData)
+{
+    SDL_AudioStream* stream = SDL_OpenAudioDeviceStream(deviceID, spec, callback, userData);
+    if (stream)
+    {
+        return RAD_NEW AudioStream(stream);
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_OpenAudioDeviceStream failed: {}", SDL_GetError());
+        return nullptr;
+    }
+}
+
+Ref<AudioStream> AudioStream::CreateDefaultPlayback(const SDL_AudioSpec* spec)
+{
+    SDL_AudioStream* stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK,
+        spec, nullptr, nullptr);
+    if (stream)
+    {
+        return RAD_NEW AudioStream(stream);
+    }
+    else
+    {
+        RAD_LOG(GetMediaLogger(), err, "SDL_OpenAudioDeviceStream failed: {}", SDL_GetError());
         return nullptr;
     }
 }

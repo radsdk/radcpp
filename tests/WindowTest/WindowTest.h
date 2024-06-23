@@ -4,6 +4,7 @@
 #include <rad/Gui/Window.h>
 #include <rad/Gui/Renderer.h>
 #include <rad/System/Timer.h>
+#include <rad/Media/Audio.h>
 
 class WindowTest : public rad::Window
 {
@@ -66,4 +67,13 @@ private:
     std::shared_ptr<spdlog::logger> m_logger;
     rad::Ref<rad::Renderer> m_renderer;
     rad::Ref<rad::Timer> m_powerWatchdog;
+
+    struct
+    {
+        SDL_AudioSpec spec;
+        Uint8* sound;
+        Uint32 soundSizeInBytes;
+    } m_wave = {};
+    rad::Ref<rad::AudioStream> m_audioStream;
+
 }; // class WindowTest

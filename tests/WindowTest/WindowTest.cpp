@@ -10,6 +10,11 @@ WindowTest::WindowTest()
 
 WindowTest::~WindowTest()
 {
+    if (m_wave.sound)
+    {
+        SDL_free(m_wave.sound);
+        m_wave.sound = nullptr;
+    }
     RAD_LOG(m_logger, trace, __func__);
 }
 
@@ -69,6 +74,20 @@ bool WindowTest::Init()
     m_renderer->Init();
     m_powerWatchdog = new rad::Timer();
     m_powerWatchdog->StartMS(1000, PowerWatchdog, this);
+
+    uint32_t index = 0;
+    for (auto driver : rad::GetAudioDrivers())
+    {
+        RAD_LOG(m_logger, info, "Audio Driver#{}: {}", index++, driver);
+    }
+    const char* audioDriver = rad::GetCurrentAudioDriver();
+    RAD_LOG(m_logger, info, "Current Audio Driver: {}", audioDriver ? audioDriver : "NA");
+
+    if (rad::LoadWAVFromFile("sample.wav", &m_wave.spec, &m_wave.sound, &m_wave.soundSizeInBytes))
+    {
+        m_audioStream = rad::AudioStream::CreateDefaultPlayback(&m_wave.spec);
+        m_audioStream->Resume();
+    }
     return true;
 }
 
@@ -83,6 +102,15 @@ void WindowTest::OnIdle()
     {
         m_renderer->Clear();
         m_renderer->Present();
+    }
+
+    if (m_audioStream)
+    {
+        const int minQueuedBytes = (m_wave.soundSizeInBytes / SDL_AUDIO_FRAMESIZE(m_wave.spec)) / 2;
+        if (m_audioStream->GetDataSizeQueued() < minQueuedBytes)
+        {
+            m_audioStream->PutData(m_wave.sound, m_wave.soundSizeInBytes);
+        }
     }
 }
 
