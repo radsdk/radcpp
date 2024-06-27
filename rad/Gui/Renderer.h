@@ -19,66 +19,74 @@ public:
 
     SDL_Renderer* GetHandle() { return m_handle; }
 
-    int GetOutputSize(int* w, int* h);
-    int GetCurrentOutputSize(int* w, int* h);
+    const char* GetError();
 
-    int SetRenderTarget(Texture* texture);
+    bool GetOutputSize(int* w, int* h);
+    bool GetCurrentOutputSize(int* w, int* h);
+
+    bool SetRenderTarget(Texture* texture);
+    bool SetRenderToWindow() { return SetRenderTarget(nullptr); }
     Texture* GetRenderTarget();
 
-    int SetLogicalPresentation(int w, int h,
+    bool SetLogicalPresentation(int w, int h,
         SDL_RendererLogicalPresentation mode, SDL_ScaleMode scaleMode);
-    int GetLogicalPresentation(int* w, int* h,
+    bool GetLogicalPresentation(int* w, int* h,
         SDL_RendererLogicalPresentation* mode, SDL_ScaleMode* scaleMode);
 
-    int TransformWindowToRender(float windowX, float windowY, float* x, float* y);
-    int TransformRenderToWindow(float x, float y, float* windowX, float* windowY);
-    int TransformEvent(SDL_Event& event);
+    bool TransformWindowToRender(float windowX, float windowY, float* x, float* y);
+    bool TransformRenderToWindow(float x, float y, float* windowX, float* windowY);
+    bool TransformEvent(SDL_Event& event);
 
-    int SetViewport(const SDL_Rect& rect);
-    int GetViewport(SDL_Rect& rect);
+    bool SetViewport(const SDL_Rect* rect);
+    bool GetViewport(SDL_Rect* rect);
+    bool SetViewport(const SDL_Rect& rect) { return SetViewport(&rect); }
+    bool GetViewport(SDL_Rect& rect) { return GetViewport(&rect); }
     bool HasViewportSet();
-    int SetClipRect(const SDL_Rect& rect);
-    int GetClipRect(SDL_Rect& rect);
+    bool SetClipRect(const SDL_Rect* rect);
+    bool DisableClipping() { return SetClipRect(nullptr); }
+    bool GetClipRect(SDL_Rect* rect);
+    bool SetClipRect(const SDL_Rect& rect) { return SetClipRect(&rect); }
+    bool GetClipRect(SDL_Rect& rect) { return GetClipRect(&rect); }
     bool IsClipEnabled();
-    int SetRenderScale(float scaleX, float scaleY);
-    int GetRenderScale(float* scaleX, float* scaleY);
+    bool SetRenderScale(float scaleX, float scaleY);
+    bool GetRenderScale(float* scaleX, float* scaleY);
 
-    int SetRenderDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-    int SetRenderDrawColor(float r, float g, float b, float a);
-    int GetRenderDrawColor(Uint8* r, Uint8* g, Uint8* b, Uint8* a);
-    int GetRenderDrawColor(float* r, float* g, float* b, float* a);
+    bool SetRenderDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    bool SetRenderDrawColor(float r, float g, float b, float a);
+    bool GetRenderDrawColor(Uint8* r, Uint8* g, Uint8* b, Uint8* a);
+    bool GetRenderDrawColor(float* r, float* g, float* b, float* a);
 
-    int SetColorScale(float scale);
-    int GetColorScale(float* scale);
-    int SetBlendMode(SDL_BlendMode blendMode);
-    int GetBlendMode(SDL_BlendMode* blendMode);
+    bool SetColorScale(float scale);
+    bool GetColorScale(float* scale);
+    bool SetBlendMode(SDL_BlendMode blendMode);
+    bool GetBlendMode(SDL_BlendMode* blendMode);
 
-    int Clear();
+    bool Clear();
 
-    int DrawPoint(float x, float y);
-    int DrawPoints(const SDL_FPoint* points, int count);
-    int DrawLine(float x1, float y1, float x2, float y2);
-    int DrawLines(const SDL_FPoint* points, int count);
-    int DrawRect(const SDL_FRect* rect);
-    int DrawRects(const SDL_FRect* rect, int count);
-    int FillRect(const SDL_FRect* rect);
-    int FillRects(const SDL_FRect* rect, int count);
+    bool DrawPoint(float x, float y);
+    bool DrawPoints(const SDL_FPoint* points, int count);
+    bool DrawLine(float x1, float y1, float x2, float y2);
+    bool DrawLines(const SDL_FPoint* points, int count);
+    bool DrawRect(const SDL_FRect* rect);
+    bool DrawRects(const SDL_FRect* rect, int count);
+    bool FillRect(const SDL_FRect* rect);
+    bool FillRects(const SDL_FRect* rect, int count);
 
-    int DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect);
-    int DrawTextureRotated(Texture* texture,
+    bool DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect);
+    bool DrawTextureRotated(Texture* texture,
         const SDL_FRect* srcRect, const SDL_FRect* dstRect,
         const double angle, const SDL_FPoint* center,
         const SDL_FlipMode flip);
-    int RenderGeometry(Texture* texture,
+    bool RenderGeometry(Texture* texture,
         const SDL_Vertex* vertices, int numVertices,
         const int* indices, int numIndices);
-    int RenderGeometryRaw(Texture* texture,
+    bool RenderGeometryRaw(Texture* texture,
         const float* xy, int xyStride,
         const SDL_Color* color, int colorStride,
         const float* uv, int uvStride,
         int numVertices,
         const void* indices, int numIndices, int indexType);
-    int RenderGeometryRaw(Texture* texture,
+    bool RenderGeometryRaw(Texture* texture,
         const float* xy, int xyStride,
         const SDL_FColor* color, int colorStride,
         const float* uv, int uvStride,
@@ -86,11 +94,11 @@ public:
         const void* indices, int numIndices, int indexType
     );
 
-    int Present();
-    int Flush();
+    bool Present();
+    bool Flush();
 
-    int SetVSync(int vsync);
-    int GetVSync(int* vsync);
+    bool SetVSync(int vsync);
+    bool GetVSync(int* vsync);
 
 private:
     Window* m_window;

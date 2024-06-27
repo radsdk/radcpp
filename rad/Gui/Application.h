@@ -13,8 +13,6 @@
 namespace rad
 {
 
-
-
 struct DisplayInfo
 {
     SDL_DisplayID id;
@@ -58,12 +56,13 @@ public:
 
     void RegisterEventHandler(EventHandler* handler);
     void UnregisterEventHandler(EventHandler* handler);
-    int PushEvent(SDL_Event& event);
+    // Return true on success; false if the event is filtered or on failure (event queue being full).
+    bool PushEvent(SDL_Event& event);
     void OnEvent(const SDL_Event& event);
     void OnIdle();
 
     void SetExit(bool exit) { m_exit = exit; }
-    int GetExit() { return m_exit; }
+    bool GetExit() { return m_exit; }
 
     // Put UTF-8 text into the clipboard.
     bool SetClipboardText(const char* text);
@@ -80,6 +79,7 @@ public:
     bool SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup,
         void* userData, const char** mimeTypes, size_t mimeTypeCount);
     bool ClearClipboardData();
+    // Caller must call "SDL_free" on the returned pointer when done with it.
     void* GetClipboardData(const char* mimeType, size_t* size);
     bool HasClipboardData(const char* mimeType);
 

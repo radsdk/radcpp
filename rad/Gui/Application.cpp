@@ -75,9 +75,20 @@ void Application::UnregisterEventHandler(EventHandler* handler)
     std::erase(m_eventHandlers, handler);
 }
 
-int Application::PushEvent(SDL_Event& event)
+bool Application::PushEvent(SDL_Event& event)
 {
-    return SDL_PushEvent(&event);
+    if (int res = SDL_PushEvent(&event) == 1)
+    {
+        return true;
+    }
+    else
+    {
+        if (res < 0)
+        {
+            RAD_LOG(GetGuiLogger(), err, "SDL_PushEvent failed: {}", SDL_GetError());
+        }
+        return false;
+    }
 }
 
 void Application::OnEvent(const SDL_Event& event)
@@ -153,17 +164,29 @@ void Application::OnIdle()
 
 bool Application::SetClipboardText(const char* text)
 {
-    return (SDL_SetClipboardText(text) == 0);
+    if (SDL_SetClipboardText(text) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetClipboardText failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 std::string Application::GetClipboardText()
 {
     std::string buffer;
     char* text = SDL_GetClipboardText();
-    if (text)
+    if (text != nullptr)
     {
         buffer = text;
         SDL_free(text);
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetClipboardText failed: {}", SDL_GetError());
     }
     return buffer;
 }
@@ -175,17 +198,29 @@ bool Application::HasClipboardText()
 
 bool Application::SetPrimarySelectionText(const char* text)
 {
-    return (SDL_SetPrimarySelectionText(text) == 0);
+    if (SDL_SetPrimarySelectionText(text) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetPrimarySelectionText failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 std::string Application::GetPrimarySelectionText()
 {
     std::string buffer;
     char* text = SDL_GetPrimarySelectionText();
-    if (text)
+    if (text != nullptr)
     {
         buffer = text;
         SDL_free(text);
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetPrimarySelectionText failed: {}", SDL_GetError());
     }
     return buffer;
 }
@@ -198,7 +233,15 @@ bool Application::HasPrimarySelectionText()
 bool Application::SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup,
     void* userData, const char** mimeTypes, size_t mimeTypeCount)
 {
-    return (SDL_SetClipboardData(callback, cleanup, userData, mimeTypes, mimeTypeCount) == 0);
+    if (SDL_SetClipboardData(callback, cleanup, userData, mimeTypes, mimeTypeCount) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetClipboardData failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 bool Application::ClearClipboardData()
@@ -208,7 +251,15 @@ bool Application::ClearClipboardData()
 
 void* Application::GetClipboardData(const char* mimeType, size_t* size)
 {
-    return SDL_GetClipboardData(mimeType, size);
+    if (void* data = SDL_GetClipboardData(mimeType, size))
+    {
+        return data;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetClipboardData failed: {}", SDL_GetError());
+        return nullptr;
+    }
 }
 
 bool Application::HasClipboardData(const char* mimeType)
@@ -233,13 +284,22 @@ void Application::UpdateDisplayInfos()
         DisplayInfo info = {};
         SDL_DisplayID id = ids[i];
         info.id = id;
-        info.name = SDL_GetDisplayName(id);
+        if (const char* pName = SDL_GetDisplayName(id))
+        {
+            info.name = pName;
+        }
+        else
+        {
+            RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayName failed: {}", SDL_GetError());
+            info.name = "Unknown";
+        }
 
-        if (SDL_GetDisplayBounds(id, &info.bounds) != 0)
+        if (SDL_GetDisplayBounds(id, &info.bounds) < 0)
         {
             RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayBounds failed: {}", SDL_GetError());
         }
-        if (SDL_GetDisplayUsableBounds(id, &info.usableBounds) != 0)
+
+        if (SDL_GetDisplayUsableBounds(id, &info.usableBounds) < 0)
         {
             RAD_LOG(GetGuiLogger(), err, "SDL_GetDisplayUsableBounds failed: {}", SDL_GetError());
         }

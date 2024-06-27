@@ -58,19 +58,49 @@ void Renderer::Destroy()
     }
 }
 
-int Renderer::GetOutputSize(int* w, int* h)
+const char* Renderer::GetError()
 {
-    return SDL_GetRenderOutputSize(m_handle, w, h);
+    return SDL_GetError();
 }
 
-int Renderer::GetCurrentOutputSize(int* w, int* h)
+bool Renderer::GetOutputSize(int* w, int* h)
 {
-    return SDL_GetCurrentRenderOutputSize(m_handle, w, h);
+    if (SDL_GetRenderOutputSize(m_handle, w, h) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderOutputSize failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetRenderTarget(Texture* texture)
+bool Renderer::GetCurrentOutputSize(int* w, int* h)
 {
-    return SDL_SetRenderTarget(m_handle, texture ? texture->GetHandle() : nullptr);
+    if (SDL_GetCurrentRenderOutputSize(m_handle, w, h) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetCurrentRenderOutputSize failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
+bool Renderer::SetRenderTarget(Texture* texture)
+{
+    if (SDL_SetRenderTarget(m_handle, texture ? texture->GetHandle() : nullptr) == 0)
+    {
+        m_renderTarget = texture;
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderTarget failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 Texture* Renderer::GetRenderTarget()
@@ -89,219 +119,517 @@ Texture* Renderer::GetRenderTarget()
     }
 }
 
-int Renderer::SetLogicalPresentation(int w, int h,
+bool Renderer::SetLogicalPresentation(int w, int h,
     SDL_RendererLogicalPresentation mode, SDL_ScaleMode scaleMode)
 {
-    return SDL_SetRenderLogicalPresentation(m_handle, w, h, mode, scaleMode);
+    if (SDL_SetRenderLogicalPresentation(m_handle, w, h, mode, scaleMode) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderLogicalPresentation failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetLogicalPresentation(int* w, int* h, SDL_RendererLogicalPresentation* mode, SDL_ScaleMode* scaleMode)
+bool Renderer::GetLogicalPresentation(int* w, int* h, SDL_RendererLogicalPresentation* mode, SDL_ScaleMode* scaleMode)
 {
-    return SDL_GetRenderLogicalPresentation(m_handle, w, h, mode, scaleMode);
+    if (SDL_GetRenderLogicalPresentation(m_handle, w, h, mode, scaleMode) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderLogicalPresentation failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::TransformWindowToRender(float windowX, float windowY, float* x, float* y)
+bool Renderer::TransformWindowToRender(float windowX, float windowY, float* x, float* y)
 {
-    return SDL_RenderCoordinatesFromWindow(m_handle, windowX, windowY, x, y);
+    if (SDL_RenderCoordinatesFromWindow(m_handle, windowX, windowY, x, y) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderCoordinatesFromWindow failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::TransformRenderToWindow(float x, float y, float* windowX, float* windowY)
+bool Renderer::TransformRenderToWindow(float x, float y, float* windowX, float* windowY)
 {
-    return SDL_RenderCoordinatesToWindow(m_handle, x, y, windowX, windowY);
+    if (SDL_RenderCoordinatesToWindow(m_handle, x, y, windowX, windowY) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderCoordinatesToWindow failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::TransformEvent(SDL_Event& event)
+bool Renderer::TransformEvent(SDL_Event& event)
 {
-    return SDL_ConvertEventToRenderCoordinates(m_handle, &event);
+    if (SDL_ConvertEventToRenderCoordinates(m_handle, &event) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_ConvertEventToRenderCoordinates failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetViewport(const SDL_Rect& rect)
+bool Renderer::SetViewport(const SDL_Rect* rect)
 {
-    return SDL_SetRenderViewport(m_handle, &rect);
+    if (SDL_SetRenderViewport(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderViewport failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetViewport(SDL_Rect& rect)
+bool Renderer::GetViewport(SDL_Rect* rect)
 {
-    return SDL_GetRenderViewport(m_handle, &rect);
+    if (SDL_GetRenderViewport(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderViewport failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 bool Renderer::HasViewportSet()
 {
-    return SDL_RenderViewportSet(m_handle) == SDL_TRUE;
+    return (SDL_RenderViewportSet(m_handle) == SDL_TRUE);
 }
 
-int Renderer::SetClipRect(const SDL_Rect& rect)
+bool Renderer::SetClipRect(const SDL_Rect* rect)
 {
-    return SDL_SetRenderClipRect(m_handle, &rect);
+    if (SDL_SetRenderClipRect(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderClipRect failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetClipRect(SDL_Rect& rect)
+bool Renderer::GetClipRect(SDL_Rect* rect)
 {
-    return SDL_GetRenderClipRect(m_handle, &rect);
+    if (SDL_GetRenderClipRect(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderClipRect failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 bool Renderer::IsClipEnabled()
 {
-    return SDL_RenderClipEnabled(m_handle) == SDL_TRUE;
+    return (SDL_RenderClipEnabled(m_handle) == SDL_TRUE);
 }
 
-int Renderer::SetRenderScale(float scaleX, float scaleY)
+bool Renderer::SetRenderScale(float scaleX, float scaleY)
 {
-    return SDL_SetRenderScale(m_handle, scaleX, scaleY);
+    if (SDL_SetRenderScale(m_handle, scaleX, scaleY) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderScale failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetRenderScale(float* scaleX, float* scaleY)
+bool Renderer::GetRenderScale(float* scaleX, float* scaleY)
 {
-    return SDL_GetRenderScale(m_handle, scaleX, scaleY);
+    if (SDL_GetRenderScale(m_handle, scaleX, scaleY) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderScale failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetRenderDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+bool Renderer::SetRenderDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-    return SDL_SetRenderDrawColor(m_handle, r, g, b, a);
+    if (SDL_SetRenderDrawColor(m_handle, r, g, b, a) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderDrawColor failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetRenderDrawColor(float r, float g, float b, float a)
+bool Renderer::SetRenderDrawColor(float r, float g, float b, float a)
 {
-    return SDL_SetRenderDrawColorFloat(m_handle, r, g, b, a);
+    if (SDL_SetRenderDrawColorFloat(m_handle, r, g, b, a) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderDrawColorFloat failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetRenderDrawColor(Uint8* r, Uint8* g, Uint8* b, Uint8* a)
+bool Renderer::GetRenderDrawColor(Uint8* r, Uint8* g, Uint8* b, Uint8* a)
 {
-    return SDL_GetRenderDrawColor(m_handle, r, g, b, a);
+    if (SDL_GetRenderDrawColor(m_handle, r, g, b, a) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderDrawColor failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetRenderDrawColor(float* r, float* g, float* b, float* a)
+bool Renderer::GetRenderDrawColor(float* r, float* g, float* b, float* a)
 {
-    return SDL_GetRenderDrawColorFloat(m_handle, r, g, b, a);
+    if (SDL_GetRenderDrawColorFloat(m_handle, r, g, b, a) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderDrawColorFloat failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetColorScale(float scale)
+bool Renderer::SetColorScale(float scale)
 {
-    return SDL_SetRenderColorScale(m_handle, scale);
+    if (SDL_SetRenderColorScale(m_handle, scale) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderColorScale failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetColorScale(float* scale)
+bool Renderer::GetColorScale(float* scale)
 {
-    return SDL_GetRenderColorScale(m_handle, scale);
+    if (SDL_GetRenderColorScale(m_handle, scale) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderColorScale failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetBlendMode(SDL_BlendMode blendMode)
+bool Renderer::SetBlendMode(SDL_BlendMode blendMode)
 {
-    return SDL_SetRenderDrawBlendMode(m_handle, blendMode);
+    if (SDL_SetRenderDrawBlendMode(m_handle, blendMode) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderDrawBlendMode failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetBlendMode(SDL_BlendMode* blendMode)
+bool Renderer::GetBlendMode(SDL_BlendMode* blendMode)
 {
-    return SDL_GetRenderDrawBlendMode(m_handle, blendMode);
+    if (SDL_GetRenderDrawBlendMode(m_handle, blendMode) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderDrawBlendMode failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::Clear()
+bool Renderer::Clear()
 {
-    return SDL_RenderClear(m_handle);
+    if (SDL_RenderClear(m_handle) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderClear failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawPoint(float x, float y)
+bool Renderer::DrawPoint(float x, float y)
 {
-    return SDL_RenderPoint(m_handle, x, y);
+    if (SDL_RenderPoint(m_handle, x, y) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderPoint failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawPoints(const SDL_FPoint* points, int count)
+bool Renderer::DrawPoints(const SDL_FPoint* points, int count)
 {
-    return SDL_RenderPoints(m_handle, points, count);
+    if (SDL_RenderPoints(m_handle, points, count) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderPoints failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawLine(float x1, float y1, float x2, float y2)
+bool Renderer::DrawLine(float x1, float y1, float x2, float y2)
 {
-    return SDL_RenderLine(m_handle, x1, y1, x2, y2);
+    if (SDL_RenderLine(m_handle, x1, y1, x2, y2) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderLine failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawLines(const SDL_FPoint* points, int count)
+bool Renderer::DrawLines(const SDL_FPoint* points, int count)
 {
-    return SDL_RenderLines(m_handle, points, count);
+    if (SDL_RenderLines(m_handle, points, count) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderLines failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawRect(const SDL_FRect* rect)
+bool Renderer::DrawRect(const SDL_FRect* rect)
 {
-    return SDL_RenderRect(m_handle, rect);
+    if (SDL_RenderRect(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderRect failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawRects(const SDL_FRect* rect, int count)
+bool Renderer::DrawRects(const SDL_FRect* rect, int count)
 {
-    return SDL_RenderRects(m_handle, rect, count);
+    if (SDL_RenderRects(m_handle, rect, count) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderRects failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::FillRect(const SDL_FRect* rect)
+bool Renderer::FillRect(const SDL_FRect* rect)
 {
-    return SDL_RenderFillRect(m_handle, rect);
+    if (SDL_RenderFillRect(m_handle, rect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderFillRect failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::FillRects(const SDL_FRect* rect, int count)
+bool Renderer::FillRects(const SDL_FRect* rect, int count)
 {
-    return SDL_RenderFillRects(m_handle, rect, count);
+    if (SDL_RenderFillRects(m_handle, rect, count) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderFillRects failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect)
+bool Renderer::DrawTexture(Texture* texture, const SDL_FRect* srcRect, const SDL_FRect* dstRect)
 {
-    return SDL_RenderTexture(m_handle, texture->GetHandle(), srcRect, dstRect);
+    if (SDL_RenderTexture(m_handle, texture->GetHandle(), srcRect, dstRect) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderTexture failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::DrawTextureRotated(Texture* texture,
+bool Renderer::DrawTextureRotated(Texture* texture,
     const SDL_FRect* srcRect, const SDL_FRect* dstRect,
     const double angle, const SDL_FPoint* center,
     const SDL_FlipMode flip)
 {
-    return SDL_RenderTextureRotated(m_handle, texture->GetHandle(),
-        srcRect, dstRect, angle, center, flip);
+    if (SDL_RenderTextureRotated(m_handle, texture->GetHandle(),
+        srcRect, dstRect, angle, center, flip) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderTextureRotated failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::RenderGeometry(Texture* texture,
+bool Renderer::RenderGeometry(Texture* texture,
     const SDL_Vertex* vertices, int numVertices,
     const int* indices, int numIndices)
 {
-    return SDL_RenderGeometry(m_handle, texture->GetHandle(),
-        vertices, numVertices, indices, numIndices);
+    if (SDL_RenderGeometry(m_handle, texture->GetHandle(),
+        vertices, numVertices, indices, numIndices) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderGeometry failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::RenderGeometryRaw(Texture* texture,
+bool Renderer::RenderGeometryRaw(Texture* texture,
     const float* xy, int xyStride,
     const SDL_Color* color, int colorStride,
     const float* uv, int uvStride,
     int numVertices,
     const void* indices, int numIndices, int indexType)
 {
-    return SDL_RenderGeometryRaw(m_handle, texture->GetHandle(),
+    int res = SDL_RenderGeometryRaw(m_handle, texture->GetHandle(),
         xy, xyStride, color, colorStride, uv, uvStride, numVertices, indices, numIndices, indexType);
+    if (res == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderGeometryRaw failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::RenderGeometryRaw(Texture* texture,
+bool Renderer::RenderGeometryRaw(Texture* texture,
     const float* xy, int xyStride,
     const SDL_FColor* color, int colorStride,
     const float* uv, int uvStride,
     int numVertices,
     const void* indices, int numIndices, int indexType)
 {
-    return SDL_RenderGeometryRawFloat(m_handle, texture->GetHandle(),
+    int res = SDL_RenderGeometryRawFloat(m_handle, texture->GetHandle(),
         xy, xyStride, color, colorStride, uv, uvStride, numVertices, indices, numIndices, indexType);
+    if (res == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderGeometryRawFloat failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::Present()
+bool Renderer::Present()
 {
-    return SDL_RenderPresent(m_handle);
+    if (SDL_RenderPresent(m_handle) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_RenderPresent failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::Flush()
+bool Renderer::Flush()
 {
-    return SDL_FlushRenderer(m_handle);
+    if (SDL_FlushRenderer(m_handle) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_FlushRenderer failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::SetVSync(int vsync)
+bool Renderer::SetVSync(int vsync)
 {
-    return SDL_SetRenderVSync(m_handle, vsync);
+    if (SDL_SetRenderVSync(m_handle, vsync) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_SetRenderVSync failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
-int Renderer::GetVSync(int* vsync)
+bool Renderer::GetVSync(int* vsync)
 {
-    return SDL_GetRenderVSync(m_handle, vsync);
+    if (SDL_GetRenderVSync(m_handle, vsync) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_GetRenderVSync failed: {}", SDL_GetError());
+        return false;
+    }
 }
 
 } // namespace rad
