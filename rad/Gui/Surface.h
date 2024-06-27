@@ -20,50 +20,51 @@ public:
     void Destroy();
 
     SDL_Surface* GetHandle() { return m_handle; }
+    const char* GetError();
 
-    int SaveBMP(SDL_IOStream* dst, SDL_bool closeio);
-    int SaveBMP(const char* file);
+    bool SaveBMP(SDL_IOStream* dst, SDL_bool closeio);
+    bool SaveBMP(const char* file);
 
-    int SetColorSpace(SDL_Colorspace colorspace);
-    int GetColorSpace(SDL_Colorspace* colorspace);
-    int SetPalette(SDL_Palette* palette);
+    bool SetColorSpace(SDL_Colorspace colorspace);
+    bool GetColorSpace(SDL_Colorspace* colorspace);
+    bool SetPalette(SDL_Palette* palette);
 
-    int Lock();
+    bool Lock();
     void Unlock();
 
-    int SetRLE(int flag);
+    bool SetRLE(int flag);
     bool HasRLE();
-    int SetColorKey(int flag, Uint32 key);
+    bool SetColorKey(int flag, Uint32 key);
     bool HasColorKey();
-    int GetColorKey(Uint32* key);
-    int SetColorMod(Uint8 r, Uint8 g, Uint8 b);
-    int GetColorMod(Uint8* r, Uint8* g, Uint8* b);
-    int SetAlphaMode(Uint8 alpha);
-    int GetAlphaMode(Uint8* alpha);
-    int SetBlendMode(SDL_BlendMode blendMode);
-    int GetBlendMode(SDL_BlendMode* blendMode);
-    int SetClipRect(const SDL_Rect* rect);
-    int GetClipRect(SDL_Rect* rect);
+    bool GetColorKey(Uint32* key);
+    bool SetColorMod(Uint8 r, Uint8 g, Uint8 b);
+    bool GetColorMod(Uint8* r, Uint8* g, Uint8* b);
+    bool SetAlphaMode(Uint8 alpha);
+    bool GetAlphaMode(Uint8* alpha);
+    bool SetBlendMode(SDL_BlendMode blendMode);
+    bool GetBlendMode(SDL_BlendMode* blendMode);
+    bool SetClipRect(const SDL_Rect* rect);
+    bool GetClipRect(SDL_Rect* rect);
 
-    int Flip(SDL_FlipMode flip);
+    bool Flip(SDL_FlipMode flip);
     rad::Ref<Surface> Duplicate();
     rad::Ref<Surface> Convert(const SDL_PixelFormat* format);
     rad::Ref<Surface> Convert(SDL_PixelFormatEnum format);
     rad::Ref<Surface> Convert(SDL_PixelFormatEnum format, SDL_Colorspace colorspace, SDL_PropertiesID propID);
 
-    int FillRect(const SDL_Rect* rect, Uint32 color);
-    int FillRects(const SDL_Rect* rects, int count, Uint32 color);
+    bool FillRect(const SDL_Rect* rect, Uint32 color);
+    bool FillRects(const SDL_Rect* rects, int count, Uint32 color);
 
-    static int Blit(Surface* src, const SDL_Rect* srcRect, Surface* dst, SDL_Rect* dstRect);
-    static int BlitUnchecked(Surface* src, const SDL_Rect* srcRect, Surface* dst, const SDL_Rect* dstRect);
-    static int BlitScaledSoft(Surface* src, const SDL_Rect* srcRect,
+    static bool Blit(Surface* src, const SDL_Rect* srcRect, Surface* dst, SDL_Rect* dstRect);
+    static bool BlitUnchecked(Surface* src, const SDL_Rect* srcRect, Surface* dst, const SDL_Rect* dstRect);
+    static bool BlitScaledSoft(Surface* src, const SDL_Rect* srcRect,
         Surface* dst, const SDL_Rect* dstRect, SDL_ScaleMode scaleMode);
-    static int BlitScaled(Surface* src, const SDL_Rect* srcRect,
+    static bool BlitScaled(Surface* src, const SDL_Rect* srcRect,
         Surface* dst, SDL_Rect* dstRect, SDL_ScaleMode scaleMode);
-    static int BlitUncheckedScaled(Surface* src, const SDL_Rect* srcRect,
+    static bool BlitUncheckedScaled(Surface* src, const SDL_Rect* srcRect,
         Surface* dst, SDL_Rect* dstRect, SDL_ScaleMode scaleMode);
 
-    int ReadPixel(int x, int y, Uint8* r, Uint8* g, Uint8* b, Uint8* a);
+    bool ReadPixel(int x, int y, Uint8* r, Uint8* g, Uint8* b, Uint8* a);
 
 private:
     SDL_Surface* m_handle;
