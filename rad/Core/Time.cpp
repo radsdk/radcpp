@@ -22,4 +22,67 @@ tm* LocalTime(const time_t* timer, tm* buffer)
 #endif
 }
 
+std::string GetTimeStringUTC()
+{
+    std::time_t t = std::time(nullptr);
+    if (t == (std::time_t)(-1))
+    {
+        return std::string();
+    }
+    std::string buffer(sizeof("YYYY-MM-DDThh:mm:ssZ"), 0);
+    size_t bytesWritten = std::strftime(buffer.data(), buffer.size(),
+        "%FT%TZ", std::gmtime(&t));
+    if (bytesWritten == buffer.size() - 1)
+    {
+        return buffer;
+    }
+    else
+    {
+        buffer.clear();
+        return buffer;
+    }
+}
+
+std::string GetTimeStringISO8601()
+{
+    std::time_t t = std::time(nullptr);
+    if (t == (std::time_t)(-1))
+    {
+        return std::string();
+    }
+    std::string buffer(sizeof("YYYY-MM-DDThh:mm:ss+0000"), 0);
+    size_t bytesWritten = std::strftime(buffer.data(), buffer.size(),
+        "%FT%T%z", std::localtime(&t));
+    if (bytesWritten == buffer.size() - 1)
+    {
+        return buffer;
+    }
+    else
+    {
+        buffer.clear();
+        return buffer;
+    }
+}
+
+std::string GetTimeStringRFC2822()
+{
+    std::time_t t = std::time(nullptr);
+    if (t == (std::time_t)(-1))
+    {
+        return std::string();
+    }
+    std::string buffer(sizeof("Fri, 28 Jun 2024 18:16:09 +0000"), 0);
+    size_t bytesWritten = std::strftime(buffer.data(), buffer.size(),
+        "%a, %d %b %Y %T %z", std::localtime(&t));
+    if (bytesWritten == buffer.size() - 1)
+    {
+        return buffer;
+    }
+    else
+    {
+        buffer.clear();
+        return buffer;
+    }
+}
+
 } // namespace rad
