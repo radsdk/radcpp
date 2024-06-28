@@ -49,8 +49,10 @@ public:
     bool Init(int argc, char** argv);
     void Destroy();
 
+    const char* GetError();
+
     SDL_InitFlags GetInitialized();
-    bool IsInitialized(SDL_InitFlags flags);
+    bool IsSubsystemInitialized(SDL_InitFlags flags);
 
     const std::vector<DisplayInfo>& GetDisplayInfos() { return m_displays; }
 

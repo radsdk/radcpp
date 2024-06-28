@@ -23,19 +23,28 @@ Application* Application::GetInstance()
 
 bool Application::Init(int argc, char** argv)
 {
-    int res = SDL_Init(
+    int result = SDL_Init(
         SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO |
         SDL_INIT_HAPTIC | SDL_INIT_GAMEPAD);
-    if (res == 0)
+    if (result == 0)
     {
         int version = SDL_GetVersion();
         auto logger = GetGuiLogger();
         RAD_LOG(logger, info, "SDL initialized on {}: {}.{}.{} ({})", SDL_GetPlatform(),
             SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version),
             SDL_GetRevision());
-        RAD_LOG(logger, info, "Working Directory: {}", SDL_GetBasePath());
-        RAD_LOG(logger, info, "Video Driver: {}", SDL_GetCurrentVideoDriver());
-        RAD_LOG(logger, info, "Audio Driver: {}", SDL_GetCurrentAudioDriver());
+        if (const char* pWorkingDir = SDL_GetBasePath())
+        {
+            RAD_LOG(logger, info, "Working Directory: {}", pWorkingDir);
+        }
+        if (const char* pVideoDriver = SDL_GetCurrentVideoDriver())
+        {
+            RAD_LOG(logger, info, "Current Video Driver: {}", pVideoDriver);
+        }
+        if (const char* pAudioDriver = SDL_GetCurrentAudioDriver())
+        {
+            RAD_LOG(logger, info, "Current Audio Driver: {}", pAudioDriver);
+        }
         UpdateDisplayInfos();
         return true;
     }
@@ -52,15 +61,20 @@ void Application::Destroy()
     RAD_LOG(GetGuiLogger(), info, "SDL quited.");
 }
 
+const char* Application::GetError()
+{
+    return SDL_GetError();
+}
+
 SDL_InitFlags Application::GetInitialized()
 {
     return SDL_WasInit(0);
 }
 
-bool Application::IsInitialized(SDL_InitFlags flags)
+bool Application::IsSubsystemInitialized(SDL_InitFlags flags)
 {
-    SDL_InitFlags res = SDL_WasInit(flags);
-    return HasBits(flags, res);
+    SDL_InitFlags mask = SDL_WasInit(flags);
+    return HasBits(flags, mask);
 }
 
 void Application::RegisterEventHandler(EventHandler* handler)
@@ -77,13 +91,14 @@ void Application::UnregisterEventHandler(EventHandler* handler)
 
 bool Application::PushEvent(SDL_Event& event)
 {
-    if (int res = SDL_PushEvent(&event) == 1)
+    int result = SDL_PushEvent(&event);
+    if (result == 1)
     {
         return true;
     }
     else
     {
-        if (res < 0)
+        if (result < 0)
         {
             RAD_LOG(GetGuiLogger(), err, "SDL_PushEvent failed: {}", SDL_GetError());
         }
@@ -164,7 +179,8 @@ void Application::OnIdle()
 
 bool Application::SetClipboardText(const char* text)
 {
-    if (SDL_SetClipboardText(text) == 0)
+    int result = SDL_SetClipboardText(text);
+    if (result == 0)
     {
         return true;
     }
@@ -179,7 +195,7 @@ std::string Application::GetClipboardText()
 {
     std::string buffer;
     char* text = SDL_GetClipboardText();
-    if (text != nullptr)
+    if (text)
     {
         buffer = text;
         SDL_free(text);
@@ -198,7 +214,8 @@ bool Application::HasClipboardText()
 
 bool Application::SetPrimarySelectionText(const char* text)
 {
-    if (SDL_SetPrimarySelectionText(text) == 0)
+    int result = SDL_SetPrimarySelectionText(text);
+    if (result == 0)
     {
         return true;
     }
@@ -213,7 +230,7 @@ std::string Application::GetPrimarySelectionText()
 {
     std::string buffer;
     char* text = SDL_GetPrimarySelectionText();
-    if (text != nullptr)
+    if (text)
     {
         buffer = text;
         SDL_free(text);
@@ -233,7 +250,8 @@ bool Application::HasPrimarySelectionText()
 bool Application::SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup,
     void* userData, const char** mimeTypes, size_t mimeTypeCount)
 {
-    if (SDL_SetClipboardData(callback, cleanup, userData, mimeTypes, mimeTypeCount) == 0)
+    int result = SDL_SetClipboardData(callback, cleanup, userData, mimeTypes, mimeTypeCount);
+    if (result == 0)
     {
         return true;
     }
@@ -328,7 +346,7 @@ void Application::UpdateDisplayInfos()
 
         int count = 0;
         const SDL_DisplayMode** modes = SDL_GetFullscreenDisplayModes(id, &count);
-        if ((modes != nullptr) && (count > 0))
+        if (modes && (count > 0))
         {
             info.modes.resize(count);
             std::memcpy(info.modes.data(), modes, count * sizeof(modes[0]));

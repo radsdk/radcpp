@@ -33,17 +33,18 @@ public:
     bool GetLogicalPresentation(int* w, int* h,
         SDL_RendererLogicalPresentation* mode, SDL_ScaleMode* scaleMode);
 
-    bool TransformWindowToRender(float windowX, float windowY, float* x, float* y);
-    bool TransformRenderToWindow(float x, float y, float* windowX, float* windowY);
-    bool TransformEvent(SDL_Event& event);
+    bool TransformWindowCoordToRender(float windowX, float windowY, float* x, float* y);
+    bool TransformRenderCoordToWindow(float x, float y, float* windowX, float* windowY);
+    bool TransformCoordToRender(SDL_Event& event);
 
     bool SetViewport(const SDL_Rect* rect);
+    bool SetViewportFull();
     bool GetViewport(SDL_Rect* rect);
     bool SetViewport(const SDL_Rect& rect) { return SetViewport(&rect); }
     bool GetViewport(SDL_Rect& rect) { return GetViewport(&rect); }
     bool HasViewportSet();
     bool SetClipRect(const SDL_Rect* rect);
-    bool DisableClipping() { return SetClipRect(nullptr); }
+    bool DisableClipping();
     bool GetClipRect(SDL_Rect* rect);
     bool SetClipRect(const SDL_Rect& rect) { return SetClipRect(&rect); }
     bool GetClipRect(SDL_Rect& rect) { return GetClipRect(&rect); }

@@ -151,16 +151,16 @@ std::wstring StrU8ToWide(std::string_view str)
 
 std::string StrUpper(std::string_view s)
 {
-    std::string res(s);
-    StrUpperInplace(res);
-    return res;
+    std::string buffer(s);
+    StrUpperInplace(buffer);
+    return buffer;
 }
 
 std::string StrLower(std::string_view s)
 {
-    std::string res(s);
-    StrLowerInplace(res);
-    return res;
+    std::string buffer(s);
+    StrLowerInplace(buffer);
+    return buffer;
 }
 
 void StrUpperInplace(std::string& s)

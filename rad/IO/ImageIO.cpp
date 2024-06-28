@@ -11,8 +11,8 @@ namespace rad
 
 bool GetImageInfo(std::string_view filename, int& width, int& height, int& channelCount)
 {
-    int res = stbi_info(filename.data(), &width, &height, &channelCount);
-    return (res == 1);
+    int result = stbi_info(filename.data(), &width, &height, &channelCount);
+    return (result == 1);
 }
 
 ImageU8::ImageU8()
@@ -26,9 +26,9 @@ ImageU8::~ImageU8()
 
 bool ImageU8::GetInfo(std::string_view filename)
 {
-    int res = GetImageInfo(filename, m_width, m_height, m_channelCount);
+    bool result = GetImageInfo(filename, m_width, m_height, m_channelCount);
     m_isHdr = stbi_is_hdr(filename.data());
-    return res;
+    return result;
 }
 
 bool ImageU8::Load(std::string_view filename, int channelCount, float gamma, float scale)
@@ -95,8 +95,8 @@ void ImageU8::Free()
 
 bool ImageU8::WritePNG(std::string_view filename) const
 {
-    int res = stbi_write_png(filename.data(), m_width, m_height, m_channelCount, m_data, m_width * m_channelCount);
-    return res; // returns 0 on failure and non-0 on success.
+    int result = stbi_write_png(filename.data(), m_width, m_height, m_channelCount, m_data, m_width * m_channelCount);
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 bool ImageU8::WritePNG(std::string_view filename, int left, int top, int right, int bottom) const
@@ -106,27 +106,27 @@ bool ImageU8::WritePNG(std::string_view filename, int left, int top, int right, 
     int width = right - left;
     int height = bottom - top;
     int offset = (top * m_width + left) * m_channelCount;
-    int res = stbi_write_png(filename.data(), width, height, m_channelCount,
+    int result = stbi_write_png(filename.data(), width, height, m_channelCount,
         m_data + offset, m_width * m_channelCount);
-    return res; // returns 0 on failure and non-0 on success.
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 bool ImageU8::WriteBMP(std::string_view filename) const
 {
-    int res = stbi_write_bmp(filename.data(), m_width, m_height, m_channelCount, m_data);
-    return res; // returns 0 on failure and non-0 on success.
+    int result = stbi_write_bmp(filename.data(), m_width, m_height, m_channelCount, m_data);
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 bool ImageU8::WriteTGA(std::string_view filename) const
 {
-    int res = stbi_write_tga(filename.data(), m_width, m_height, m_channelCount, m_data);
-    return res; // returns 0 on failure and non-0 on success.
+    int result = stbi_write_tga(filename.data(), m_width, m_height, m_channelCount, m_data);
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 bool ImageU8::WriteJPG(std::string_view filename, int quality) const
 {
-    int res = stbi_write_png(filename.data(), m_width, m_height, m_channelCount, m_data, quality);
-    return res; // returns 0 on failure and non-0 on success.
+    int result = stbi_write_png(filename.data(), m_width, m_height, m_channelCount, m_data, quality);
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 ImageFP32::ImageFP32()
@@ -140,9 +140,9 @@ ImageFP32::~ImageFP32()
 
 bool ImageFP32::GetInfo(std::string_view filename)
 {
-    int res = GetImageInfo(filename, m_width, m_height, m_channelCount);
+    bool result = GetImageInfo(filename, m_width, m_height, m_channelCount);
     m_isHdr = stbi_is_hdr(filename.data());
-    return res;
+    return result;
 }
 
 bool ImageFP32::Load(std::string_view filename, int channelCount, float gamma, float scale)
@@ -209,8 +209,8 @@ void ImageFP32::Free()
 
 bool ImageFP32::WriteHDR(std::string_view filename) const
 {
-    int res = stbi_write_hdr(filename.data(), m_width, m_height, m_channelCount, m_data);
-    return res; // returns 0 on failure and non-0 on success.
+    int result = stbi_write_hdr(filename.data(), m_width, m_height, m_channelCount, m_data);
+    return (result != 0); // returns 0 on failure and non-0 on success.
 }
 
 } // namespace rad

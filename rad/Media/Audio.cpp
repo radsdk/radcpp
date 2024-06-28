@@ -228,7 +228,7 @@ bool AudioDevice::SetAudioPostmixCallback(SDL_AudioPostmixCallback callback, voi
 Ref<AudioStream> AudioStream::Create(const SDL_AudioSpec* srcSpec, const SDL_AudioSpec* dstSpec)
 {
     SDL_AudioStream* handle = SDL_CreateAudioStream(srcSpec, dstSpec);
-    if (handle != nullptr)
+    if (handle)
     {
         return RAD_NEW AudioStream(handle);
     }
@@ -286,7 +286,7 @@ AudioStream::~AudioStream()
 
 void AudioStream::Destroy()
 {
-    if (m_handle != nullptr)
+    if (m_handle)
     {
         SDL_DestroyAudioStream(m_handle);
         m_handle = nullptr;

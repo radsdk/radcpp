@@ -21,33 +21,34 @@ public:
     void Destroy();
 
     SDL_Texture* GetHandle() { return m_handle; }
+    const char* GetError();
 
-    int GetSize(float* w, float* h);
-    int SetColorMod(Uint8 r, Uint8 g, Uint8 b);
-    int SetColorMod(float r, float g, float b);
-    int GetColorMod(Uint8* r, Uint8* g, Uint8* b);
-    int GetColorMod(float* r, float* g, float* b);
-    int SetAlphaMod(Uint8 alpha);
-    int SetAlphaMod(float alpha);
-    int GetAlphaMod(Uint8* alpha);
-    int GetAlphaMod(float* alpha);
-    int SetBlendMode(SDL_BlendMode blendMode);
-    int GetBlendMode(SDL_BlendMode* blendMode);
-    int SetScaleMode(SDL_ScaleMode scaleMode);
-    int GetScaleMode(SDL_ScaleMode* scaleMode);
+    bool GetSize(float* w, float* h);
+    bool SetColorMod(Uint8 r, Uint8 g, Uint8 b);
+    bool SetColorMod(float r, float g, float b);
+    bool GetColorMod(Uint8* r, Uint8* g, Uint8* b);
+    bool GetColorMod(float* r, float* g, float* b);
+    bool SetAlphaMod(Uint8 alpha);
+    bool SetAlphaMod(float alpha);
+    bool GetAlphaMod(Uint8* alpha);
+    bool GetAlphaMod(float* alpha);
+    bool SetBlendMode(SDL_BlendMode blendMode);
+    bool GetBlendMode(SDL_BlendMode* blendMode);
+    bool SetScaleMode(SDL_ScaleMode scaleMode);
+    bool GetScaleMode(SDL_ScaleMode* scaleMode);
 
-    int Update(const SDL_Rect* rect, const void* pixels, int pitch);
-    int UpdateYUV(const SDL_Rect* rect,
+    bool Update(const SDL_Rect* rect, const void* pixels, int pitch);
+    bool UpdateYUV(const SDL_Rect* rect,
         const Uint8* Yplane, int Ypitch,
         const Uint8* Uplane, int Upitch,
         const Uint8* Vplane, int Vpitch);
-    int UpdateNV(const SDL_Rect* rect,
+    bool UpdateNV(const SDL_Rect* rect,
         const Uint8* Yplane, int Ypitch,
         const Uint8* UVplane, int UVpitch);
 
-    int Lock(const SDL_Rect* rect,
+    bool Lock(const SDL_Rect* rect,
         void** pixels, int* pitch);
-    int LockToSurface(const SDL_Rect* rect,
+    bool LockToSurface(const SDL_Rect* rect,
         SDL_Surface** surface);
     void Unlock();
 

@@ -44,7 +44,10 @@ public:
     bool SetBlendMode(SDL_BlendMode blendMode);
     bool GetBlendMode(SDL_BlendMode* blendMode);
     bool SetClipRect(const SDL_Rect* rect);
+    bool DisableClipping();
     bool GetClipRect(SDL_Rect* rect);
+    bool SetClipRect(const SDL_Rect& rect) { return SetClipRect(&rect); }
+    bool GetClipRect(SDL_Rect& rect) { return GetClipRect(&rect); }
 
     bool Flip(SDL_FlipMode flip);
     rad::Ref<Surface> Duplicate();
