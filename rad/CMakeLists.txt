@@ -91,9 +91,12 @@ find_package(Boost REQUIRED filesystem json)
 find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(CpuFeatures CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
+    PUBLIC ${RADCPP_ROOT}/imported/installed/SDL/include
+    PUBLIC ${RADCPP_ROOT}/imported/installed/SDL_mixer/include
 )
 
 target_link_libraries(rad

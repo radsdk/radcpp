@@ -25,3 +25,6 @@
 [submodule "imported/spvgen"]
 	path = imported/spvgen
 	url = https://github.com/radsdk/spvgen.git
+[submodule "imported/SDL_mixer"]
+	path = imported/SDL_mixer
+	url = https://github.com/libsdl-org/SDL_mixer.git
