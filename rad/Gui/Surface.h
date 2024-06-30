@@ -15,7 +15,7 @@ public:
     static rad::Ref<Surface> CreateFromBMP(SDL_IOStream* src, SDL_bool closeio);
     static rad::Ref<Surface> CreateFromBMP(const char* file);
 
-    Surface(SDL_Surface* handle);
+    Surface(SDL_Surface* handle, bool isManaged);
     ~Surface();
     void Destroy();
 
@@ -71,6 +71,7 @@ public:
 
 private:
     SDL_Surface* m_handle;
+    bool m_isManaged;
     SDL_PropertiesID m_propID = 0;
 
 }; // class Surface

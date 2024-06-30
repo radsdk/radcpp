@@ -66,6 +66,10 @@ public:
     void SetExit(bool exit) { m_exit = exit; }
     bool GetExit() { return m_exit; }
 
+    bool IsScreenSaverEnabled();
+    bool EnableScreenSaver();
+    bool DisableScreenSaver();
+
     // Put UTF-8 text into the clipboard.
     bool SetClipboardText(const char* text);
     std::string GetClipboardText();

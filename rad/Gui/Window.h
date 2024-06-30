@@ -4,12 +4,15 @@
 #include <rad/Core/Integer.h>
 #include <rad/Core/String.h>
 #include <rad/Core/RefCounted.h>
+#include <rad/Container/Span.h>
 #include <rad/IO/Logging.h>
 #include <rad/Gui/EventHandler.h>
 #include <SDL3/SDL.h>
 
 namespace rad
 {
+
+class Surface;
 
 class Window : public EventHandler
 {
@@ -22,6 +25,71 @@ public:
 
     SDL_Window* GetHandle() { return m_handle; }
     SDL_WindowID GetID() const { return m_id; }
+
+    float GetPixelDensity();
+    float GetDisplayScale();
+    bool SetFullscreenMode(const SDL_DisplayMode* mode);
+    bool SetFullscreenMode(const SDL_DisplayMode& mode);
+    bool SetBorderlessFullscreenDesktopMode();
+    const SDL_DisplayMode* GetFullscreenMode();
+    // Data returned should be freed with SDL_free.
+    void* GetICCProfile(size_t* size);
+    Uint32 GetPixelFormat();
+
+    SDL_WindowFlags GetFlags();
+    bool SetTitle(std::string_view title);
+    const char* GetTitle();
+    bool SetIcon(SDL_Surface* icon);
+    bool SetIcon(Surface* icon);
+    bool SetPosition(int x, int y);
+    bool GetPosition(int* x, int* y);
+    bool SetSize(int w, int h);
+    bool GetSize(int* w, int* h);
+    bool SetAspectRatio(float minAspect, float maxAspect);
+    bool GetAspectRatio(float* minAspect, float* maxAspect);
+    bool GetSizeInPixels(int* w, int* h);
+    bool SetMinimumSize(int w, int h);
+    bool GetMinimumSize(int* w, int* h);
+    bool SetMaximumSize(int w, int h);
+    bool GetMaximumSize(int* w, int* h);
+    bool SetBordered(bool bordered);
+    bool SetResizable(bool resizable);
+    bool SetAlwaysOnTop(bool onTop);
+
+    bool Show();
+    bool Hide();
+    bool Raise();
+    bool Maximize();
+    bool Minimize();
+    bool Restore();
+    bool SetFullscreen(bool fullscreen);
+    bool Sync();
+
+    bool HasSurface();
+    SDL_Surface* GetSurface();
+    bool SetSurfaceVSync(int vsync);
+    bool GetSurfaceVSync(int* vsync);
+    bool UpdateSurface();
+    bool UpdateSurfaceRects(Span<SDL_Rect> rects);
+    bool DestroySurface();
+
+    bool SetKeyboardGrab(bool grabbed);
+    bool SetMouseGrab(bool grabbed);
+    bool GetKeyboardGrab();
+    bool GetMouseGrab();
+
+    bool SetMouseRect(const SDL_Rect* rect);
+    bool SetMouseRect(const SDL_Rect& rect);
+    const SDL_Rect* GetMouseRect();
+
+    bool SetOpacity(float opacity);
+    bool GetOpacity(float* opacity);
+    bool SetFocusable(bool focusable);
+
+    bool ShowSystemMenu(int x, int y);
+    bool SetShape(SDL_Surface* shape);
+    bool SetShape(Surface* shape);
+    bool Flash(SDL_FlashOperation operation);
 
 protected:
     SDL_Window* m_handle = nullptr;

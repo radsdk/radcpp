@@ -10,7 +10,7 @@ rad::Ref<Surface> Surface::Create(int width, int height, SDL_PixelFormatEnum for
     SDL_Surface* handle = SDL_CreateSurface(width, height, format);
     if (handle)
     {
-        return RAD_NEW Surface(handle);
+        return RAD_NEW Surface(handle, true);
     }
     else
     {
@@ -24,7 +24,7 @@ rad::Ref<Surface> Surface::CreateFormPixels(void* pixels, int width, int height,
     SDL_Surface* handle = SDL_CreateSurfaceFrom(pixels, width, height, pitch, format);
     if (handle)
     {
-        return RAD_NEW Surface(handle);
+        return RAD_NEW Surface(handle, true);
     }
     else
     {
@@ -38,7 +38,7 @@ rad::Ref<Surface> Surface::CreateFromBMP(SDL_IOStream* src, SDL_bool closeio)
     SDL_Surface* handle = SDL_LoadBMP_IO(src, closeio);
     if (handle)
     {
-        return RAD_NEW Surface(handle);
+        return RAD_NEW Surface(handle, true);
     }
     else
     {
@@ -52,7 +52,7 @@ rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
     SDL_Surface* handle = SDL_LoadBMP(file);
     if (handle)
     {
-        return RAD_NEW Surface(handle);
+        return RAD_NEW Surface(handle, true);
     }
     else
     {
@@ -61,8 +61,9 @@ rad::Ref<Surface> Surface::CreateFromBMP(const char* file)
     }
 }
 
-Surface::Surface(SDL_Surface* handle) :
-    m_handle(handle)
+Surface::Surface(SDL_Surface* handle, bool isManaged) :
+    m_handle(handle),
+    m_isManaged(isManaged)
 {
     m_propID = SDL_GetSurfaceProperties(m_handle);
     if (m_propID == 0)
@@ -78,7 +79,7 @@ Surface::~Surface()
 
 void Surface::Destroy()
 {
-    if (m_handle)
+    if (m_handle && m_isManaged)
     {
         SDL_DestroySurface(m_handle);
         m_handle = nullptr;
@@ -367,7 +368,7 @@ rad::Ref<Surface> Surface::Duplicate()
     SDL_Surface* handle = SDL_DuplicateSurface(m_handle);
     if (handle)
     {
-        return rad::Ref<Surface>(RAD_NEW Surface(handle));
+        return rad::Ref<Surface>(RAD_NEW Surface(handle, true));
     }
     else
     {
@@ -381,7 +382,7 @@ rad::Ref<Surface> Surface::Convert(const SDL_PixelFormat* format)
     SDL_Surface* handle = SDL_ConvertSurface(m_handle, format);
     if (handle)
     {
-        return rad::Ref<Surface>(RAD_NEW Surface(handle));
+        return rad::Ref<Surface>(RAD_NEW Surface(handle, true));
     }
     else
     {
@@ -395,7 +396,7 @@ rad::Ref<Surface> Surface::Convert(SDL_PixelFormatEnum format)
     SDL_Surface* handle = SDL_ConvertSurfaceFormat(m_handle, format);
     if (handle)
     {
-        return rad::Ref<Surface>(RAD_NEW Surface(handle));
+        return rad::Ref<Surface>(RAD_NEW Surface(handle, true));
     }
     else
     {
@@ -410,7 +411,7 @@ rad::Ref<Surface> Surface::Convert(SDL_PixelFormatEnum format, SDL_Colorspace co
     SDL_Surface* handle = SDL_ConvertSurfaceFormatAndColorspace(m_handle, format, colorspace, propID);
     if (handle)
     {
-        return rad::Ref<Surface>(RAD_NEW Surface(handle));
+        return rad::Ref<Surface>(RAD_NEW Surface(handle, true));
     }
     else
     {

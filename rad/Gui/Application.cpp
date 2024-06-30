@@ -177,6 +177,39 @@ void Application::OnIdle()
     }
 }
 
+bool Application::IsScreenSaverEnabled()
+{
+    return (SDL_ScreenSaverEnabled() == SDL_TRUE);
+}
+
+bool Application::EnableScreenSaver()
+{
+    int result = SDL_EnableScreenSaver();
+    if (result == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_EnableScreenSaver failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
+bool Application::DisableScreenSaver()
+{
+    int result = SDL_DisableScreenSaver();
+    if (result == 0)
+    {
+        return true;
+    }
+    else
+    {
+        RAD_LOG(GetGuiLogger(), err, "SDL_DisableScreenSaver failed: {}", SDL_GetError());
+        return false;
+    }
+}
+
 bool Application::SetClipboardText(const char* text)
 {
     int result = SDL_SetClipboardText(text);
