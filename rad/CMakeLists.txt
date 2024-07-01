@@ -77,6 +77,8 @@ set(rad_MEDIA_SOURCES
     Media/Camera.cpp
     Media/Audio.h
     Media/Audio.cpp
+    Media/AudioMixer.h
+    Media/AudioMixer.cpp
 )
 
 set(rad_SOURCES ${rad_SOURCES} ${rad_MEDIA_SOURCES})
@@ -92,6 +94,7 @@ find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(CpuFeatures CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL)
+find_package(SDL3_mixer CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL_mixer)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -104,8 +107,9 @@ target_link_libraries(rad
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
     PUBLIC CpuFeatures::cpu_features
-    PUBLIC SDL3::SDL3
     PUBLIC Backward::Backward
+    PUBLIC SDL3::SDL3
+    PUBLIC SDL3_mixer::SDL3_mixer
 )
 
 if (RAD_DISABLE_LOGGING)
