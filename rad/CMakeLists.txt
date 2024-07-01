@@ -104,7 +104,7 @@ target_link_libraries(rad
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
     PUBLIC CpuFeatures::cpu_features
-    PUBLIC SDL3-shared
+    PUBLIC SDL3::SDL3
     PUBLIC Backward::Backward
 )
 
