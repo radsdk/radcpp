@@ -28,3 +28,6 @@
 [submodule "imported/SDL_mixer"]
 	path = imported/SDL_mixer
 	url = https://github.com/libsdl-org/SDL_mixer.git
+[submodule "imported/imgui"]
+	path = imported/imgui
+	url = https://github.com/ocornut/imgui.git
