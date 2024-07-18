@@ -4,6 +4,12 @@ set(rad_SOURCES
     Core/Integer.cpp
     Core/Float.h
     Core/Float.cpp
+    Core/Float16.h
+    Core/Float16.cpp
+    Core/BFloat16.h
+    Core/BFloat16.cpp
+    Core/Float8.h
+    Core/Float8.cpp
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
