@@ -16,3 +16,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 add_library(rad
     ${rad_SOURCES}
 )
+
+find_package(Boost REQUIRED filesystem json)
+target_link_libraries(rad
+    PUBLIC ${Boost_LIBRARIES}
+)
