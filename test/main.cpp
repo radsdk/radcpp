@@ -1,14 +1,15 @@
-#include <rad/Core/Platform.h>
-#include <iostream>
-#include <format>
+#include <gtest/gtest.h>
+#include <rad/IO/Logging.h>
 
 int main(int argc, char* argv[])
 {
+    rad::InitLogging("test.log", true);
     for (int i = 0; i < argc; ++i)
     {
-        std::cout << std::format("argv[{}]: {}", i, argv[i]) << std::endl;
+        SPDLOG_INFO("argv[{}]: {}", i, argv[i]);
     }
-    std::cout << "Hello, World" << std::endl;
+    SPDLOG_INFO("Hello, World!");
 
-    return 0;
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
