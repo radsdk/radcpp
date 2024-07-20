@@ -4,6 +4,7 @@ set(rad_SOURCES
     Core/Integer.cpp
     Core/Float.h
     Core/Float.cpp
+    Core/Numeric.h
     Core/Float16.h
     Core/Float16.cpp
     Core/BFloat16.h
