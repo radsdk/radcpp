@@ -25,6 +25,8 @@ set(rad_SOURCES
     Core/Time.cpp
     Container/Span.h
     Container/SmallVector.h
+    System/StackTrace.h
+    System/StackTrace.cpp
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
@@ -33,6 +35,8 @@ add_library(rad
 )
 
 find_package(Boost REQUIRED filesystem json)
+find_package(Backward CONFIG REQUIRED)
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC Backward::Backward
 )
