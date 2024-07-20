@@ -353,14 +353,29 @@
 #endif
 
 #if defined(RAD_COMPILER_CLANG) || defined(RAD_COMPILER_GCC)
+#define RAD_STDCALL
+#define RAD_CDECL
+#define RAD_ALIGN(__x)
+#define RAD_FORCE_INLINE __attribute__((always_inline)) inline
 #define RAD_ASSUME(expr) __attribute__((assume(expr)))
 #define RAD_UNREACHABLE __builtin_unreachable()
 #define RAD_DEPRECATED(message) __attribute__((deprecated(message)))
 #elif defined(RAD_COMPILER_MSVC)
+// Equates to the [__stdcall](https://github.com/MicrosoftDocs/cpp-docs/blob/master/docs/cpp/stdcall.md) convention on Windows.
+#define RAD_STDCALL __stdcall
+// Equates to the [__cdecl](https://github.com/MicrosoftDocs/cpp-docs/blob/master/docs/cpp/cdecl.md) convention on Windows.
+#define RAD_CDECL __cdecl
+// Equates to [__declspec(align(__x))](https://github.com/MicrosoftDocs/cpp-docs/blob/master/docs/cpp/align-cpp.md) on Windows.
+#define RAD_ALIGN(__x) __declspec(align(__x))
+#define RAD_FORCE_INLINE __forceinline
 #define RAD_ASSUME(expr) __assume(expr)
 #define RAD_UNREACHABLE __assume(false)
 #define RAD_DEPRECATED(message) __declspec(deprecated(message))
 #else
+#define RAD_STDCALL
+#define RAD_CDECL
+#define RAD_ALIGN(__x)
+#define RAD_FORCE_INLINE
 #define RAD_ASSUME(expr)
 #define RAD_UNREACHABLE()
 #define RAD_DEPRECATED(message)
