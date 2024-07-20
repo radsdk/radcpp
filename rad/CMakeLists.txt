@@ -23,6 +23,7 @@ set(rad_SOURCES
     Core/Math.cpp
     Core/Time.h
     Core/Time.cpp
+    Container/Span.h
     Container/SmallVector.h
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
