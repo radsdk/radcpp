@@ -45,10 +45,12 @@ add_library(rad
 )
 
 find_package(Boost REQUIRED filesystem json)
+find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Backward CONFIG REQUIRED)
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
     PUBLIC Backward::Backward
 )
