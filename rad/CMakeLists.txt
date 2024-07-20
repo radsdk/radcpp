@@ -44,3 +44,13 @@ target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Backward::Backward
 )
+
+if (WIN32)
+target_compile_definitions(rad
+    PRIVATE WIN32_LEAN_AND_MEAN=1
+    PRIVATE NOMINMAX=1
+)
+target_compile_options(rad
+    PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+)
+endif()
