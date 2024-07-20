@@ -33,6 +33,8 @@ set(rad_SOURCES
     IO/Json.cpp
     IO/Logging.h
     IO/Logging.cpp
+    IO/ImageIO.h
+    IO/ImageIO.cpp
     System/StackTrace.h
     System/StackTrace.cpp
     System/Program.h
