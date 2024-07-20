@@ -39,6 +39,8 @@ set(rad_SOURCES
     System/StackTrace.cpp
     System/Program.h
     System/Program.cpp
+    System/CpuInfo.h
+    System/CpuInfo.cpp
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
@@ -49,11 +51,13 @@ add_library(rad
 find_package(Boost REQUIRED filesystem json)
 find_package(Imath CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(CpuFeatures CONFIG REQUIRED)
 find_package(Backward CONFIG REQUIRED)
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC Imath::Imath Imath::ImathConfig
     PUBLIC spdlog::spdlog
+    PUBLIC CpuFeatures::cpu_features
     PUBLIC Backward::Backward
 )
 
