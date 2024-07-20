@@ -27,6 +27,8 @@ set(rad_SOURCES
     Container/SmallVector.h
     System/StackTrace.h
     System/StackTrace.cpp
+    System/Program.h
+    System/Program.cpp
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
