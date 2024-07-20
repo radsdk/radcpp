@@ -29,6 +29,8 @@ set(rad_SOURCES
     IO/File.cpp
     IO/FileSystem.h
     IO/FileSystem.cpp
+    IO/Json.h
+    IO/Json.cpp
     System/StackTrace.h
     System/StackTrace.cpp
     System/Program.h
