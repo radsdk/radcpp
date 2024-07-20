@@ -13,6 +13,7 @@ set(rad_SOURCES
     Core/Float8.cpp
     Core/Memory.h
     Core/Memory.cpp
+    Core/RefCounted.h
     Core/String.h
     Core/String.cpp
 )
