@@ -14,7 +14,10 @@ bool InitLogging(spdlog::sink_ptr fileSink)
     g_logger = spdlog::stdout_color_mt("Global");
     spdlog::set_default_logger(g_logger);
 
-    g_logger->sinks().push_back(fileSink);
+    if (fileSink)
+    {
+        g_logger->sinks().push_back(fileSink);
+    }
 
 #if defined(_DEBUG) && defined(RAD_COMPILER_MSVC)
     spdlog::sink_ptr msvcSink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
