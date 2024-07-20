@@ -31,6 +31,8 @@ set(rad_SOURCES
     IO/FileSystem.cpp
     IO/Json.h
     IO/Json.cpp
+    IO/Logging.h
+    IO/Logging.cpp
     System/StackTrace.h
     System/StackTrace.cpp
     System/Program.h
@@ -43,9 +45,11 @@ add_library(rad
 )
 
 find_package(Boost REQUIRED filesystem json)
+find_package(spdlog CONFIG REQUIRED)
 find_package(Backward CONFIG REQUIRED)
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC spdlog::spdlog
     PUBLIC Backward::Backward
 )
 
