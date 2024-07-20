@@ -11,6 +11,8 @@ set(rad_SOURCES
     Core/BFloat16.cpp
     Core/Float8.h
     Core/Float8.cpp
+    Core/Memory.h
+    Core/Memory.cpp
     Core/String.h
     Core/String.cpp
 )
