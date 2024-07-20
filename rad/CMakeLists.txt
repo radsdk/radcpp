@@ -27,6 +27,8 @@ set(rad_SOURCES
     Container/SmallVector.h
     IO/File.h
     IO/File.cpp
+    IO/FileSystem.h
+    IO/FileSystem.cpp
     System/StackTrace.h
     System/StackTrace.cpp
     System/Program.h
