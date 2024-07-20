@@ -25,6 +25,8 @@ set(rad_SOURCES
     Core/Time.cpp
     Container/Span.h
     Container/SmallVector.h
+    IO/File.h
+    IO/File.cpp
     System/StackTrace.h
     System/StackTrace.cpp
     System/Program.h
