@@ -14,6 +14,7 @@ set(rad_SOURCES
     Core/Memory.h
     Core/Memory.cpp
     Core/RefCounted.h
+    Core/TypeTraits.h
     Core/String.h
     Core/String.cpp
 )
