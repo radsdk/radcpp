@@ -4,7 +4,8 @@
 
 int main(int argc, char* argv[])
 {
-    rad::Program program(argc, argv);
+    rad::Program program;
+    program.Init(argc, argv);
     for (int i = 0; i < argc; ++i)
     {
         SPDLOG_INFO("argv[{}]: {}", i, argv[i]);

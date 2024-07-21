@@ -1,5 +1,8 @@
 # Custom
 build/
+imported/SDL/
+imported/build/
+imported/installed/
 
 # Prerequisites
 *.d

@@ -42,6 +42,24 @@ set(rad_SOURCES
     System/CpuInfo.h
     System/CpuInfo.cpp
 )
+
+if (RAD_BUILD_GUI)
+set(rad_SOURCES ${rad_SOURCES}
+    Gui/Application.h
+    Gui/Application.cpp
+    Gui/EventHandler.h
+    Gui/EventHandler.cpp
+    Gui/Window.h
+    Gui/Window.cpp
+    Gui/Renderer.h
+    Gui/Renderer.cpp
+    Gui/Surface.h
+    Gui/Surface.cpp
+    Gui/Texture.h
+    Gui/Texture.cpp
+)
+endif()
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
 add_library(rad
@@ -60,6 +78,13 @@ target_link_libraries(rad
     PUBLIC CpuFeatures::cpu_features
     PUBLIC Backward::Backward
 )
+
+if (RAD_BUILD_GUI)
+find_package(SDL3 CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL)
+target_link_libraries(rad
+    PUBLIC SDL3::SDL3
+)
+endif()
 
 if (WIN32)
 target_compile_definitions(rad
