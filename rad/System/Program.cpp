@@ -8,17 +8,31 @@ namespace rad
 
 static Program* g_program = nullptr;
 
-Program::Program(int argc, char** argv)
+Program* GetProgram()
+{
+    return g_program;
+}
+
+Program::Program()
 {
     assert(g_program == nullptr);
     g_program = this;
-    InstallDefaultSignalHandlers();
-    InitLogging(std::string(argv[0]) + ".log", true);
-    LogSystemInfo();
 }
 
 Program::~Program()
 {
+    g_program = nullptr;
+}
+
+bool Program::Init(int argc, char** argv)
+{
+#if defined(_DEBUG) && defined(RAD_OS_WINDOWS) && defined(RAD_COMPILER_MSVC)
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+    InstallDefaultSignalHandlers();
+    InitLogging(std::string(argv[0]) + ".log", true);
+    LogSystemInfo();
+    return true;
 }
 
 // Implement with backward-cpp: https://github.com/bombela/backward-cpp
@@ -36,6 +50,26 @@ void Program::PrintStackTrace(int depth)
     p.print(st);
 }
 
+void Program::Exit(int code)
+{
+    std::exit(code);
+}
+
+void Program::QuickExit(int code)
+{
+    std::quick_exit(code);
+}
+
+void Program::Terminate()
+{
+    std::terminate();
+}
+
+void Program::Abort()
+{
+    std::abort();
+}
+
 bool Program::InstallDefaultSignalHandlers()
 {
     backward::SignalHandling signalHandling;
@@ -50,11 +84,6 @@ bool Program::LogSystemInfo()
         rad::g_X86Info.vendor);
 #endif
     return true;
-}
-
-Program* GetProgram()
-{
-    return g_program;
 }
 
 } // namespace rad
