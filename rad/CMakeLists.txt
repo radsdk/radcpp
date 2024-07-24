@@ -60,6 +60,17 @@ set(rad_SOURCES ${rad_SOURCES}
 )
 endif()
 
+if (RAD_BUILD_MEDIA)
+set(rad_SOURCES ${rad_SOURCES}
+    Media/Camera.h
+    Media/Camera.cpp
+    Media/Audio.h
+    Media/Audio.cpp
+    Media/AudioMixer.h
+    Media/AudioMixer.cpp
+)
+endif()
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
 add_library(rad
@@ -79,10 +90,17 @@ target_link_libraries(rad
     PUBLIC Backward::Backward
 )
 
-if (RAD_BUILD_GUI)
+if (RAD_BUILD_GUI OR RAD_BUILD_MEDIA)
 find_package(SDL3 CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL)
 target_link_libraries(rad
     PUBLIC SDL3::SDL3
+)
+endif()
+
+if (RAD_BUILD_MEDIA)
+find_package(SDL3_mixer CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL_mixer)
+target_link_libraries(rad
+    PUBLIC SDL3_mixer::SDL3_mixer
 )
 endif()
 

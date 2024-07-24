@@ -1,6 +1,7 @@
 # Custom
 build/
 imported/SDL/
+imported/SDL_mixer/
 imported/build/
 imported/installed/
 

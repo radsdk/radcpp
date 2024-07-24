@@ -9,6 +9,12 @@ spdlog::logger* GetGuiLogger()
     return logger.get();
 }
 
+spdlog::logger* GetMediaLogger()
+{
+    static std::shared_ptr<spdlog::logger> logger = CreateLogger("Media");
+    return logger.get();
+}
+
 static Application* g_app = nullptr;
 
 Application* GetApp()

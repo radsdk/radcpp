@@ -36,6 +36,24 @@ def build_SDL():
     shell(f"cmake --build \"{build_dir}\" --target install --config Release")
     popd()
 
+def build_SDL_mixer():
+    pushd("imported")
+    if not os.path.exists("SDL_mixer"):
+        shell("git clone https://github.com/libsdl-org/SDL_mixer.git")
+        pushd("SDL_mixer")
+        shell("git reset --hard 96ea69fce472dcef7c638199aef8e3c81200573a")
+        popd()
+    pushd("SDL_mixer")
+    shell("git submodule update --init --recursive")
+    popd() # imported/
+    build_dir = script_root + "/imported/build/SDL_mixer"
+    install_dir = script_root + "/imported/installed/SDL_mixer"
+    sdl3_dir = script_root + "/imported/installed/SDL"
+    shell(f"cmake -S SDL_mixer -B \"{build_dir}\" -DSDL3MIXER_MP3_MPG123=ON -DCMAKE_INSTALL_PREFIX=\"{install_dir}\"",
+                   env=dict(os.environ, SDL3_DIR=sdl3_dir))
+    shell(f"cmake --build \"{build_dir}\" --target install --config Release")
+    popd()
+
 def generate_project_files():
     if sys.platform == "win32":
         vcpkg_root = os.environ["VCPKG_ROOT"]
@@ -50,6 +68,8 @@ def main() -> int:
             tasks = sys.argv[1:]
         if "SDL" in tasks:
             build_SDL()
+        if "SDL_mixer" in tasks:
+            build_SDL_mixer()
         generate_project_files()
         popd()
         return 0
