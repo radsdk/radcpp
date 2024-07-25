@@ -1,3 +1,6 @@
 [submodule "imported/stb"]
 	path = imported/stb
 	url = https://github.com/nothings/stb.git
+[submodule "imported/sqlite"]
+	path = imported/sqlite
+	url = https://github.com/radsdk/sqlite.git
