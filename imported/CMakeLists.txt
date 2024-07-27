@@ -37,3 +37,13 @@ target_link_libraries(imgui
 set_target_properties(imgui PROPERTIES FOLDER "imported")
 
 endif()
+
+if (RAD_BUILD_VULKAN)
+add_library(spvgen SHARED IMPORTED GLOBAL)
+if (WIN32)
+    set_target_properties(spvgen PROPERTIES
+        IMPORTED_LOCATION "${RADCPP_ROOT}/imported/spvgen/build/Release/spvgen.dll"
+        IMPORTED_IMPLIB "${RADCPP_ROOT}/imported/spvgen/build/Release/spvgen.lib"
+    )
+endif()
+endif()

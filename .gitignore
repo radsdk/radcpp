@@ -3,6 +3,10 @@ build/
 imported/SDL/
 imported/SDL_mixer/
 imported/imgui/
+imported/Vulkan-Headers/
+imported/volk/
+imported/VulkanMemoryAllocator/
+imported/spvgen/
 imported/build/
 imported/installed/
 

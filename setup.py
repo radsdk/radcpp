@@ -63,6 +63,42 @@ def clone_imgui():
         popd()
     popd()
 
+
+def clone_vulkan_libraries():
+    pushd("imported")
+    if not os.path.exists("Vulkan-Headers"):
+        shell("git clone https://github.com/KhronosGroup/Vulkan-Headers.git")
+        pushd("Vulkan-Headers")
+        shell("git reset --hard fabe9e2672334fdb9a622d42a2e8f94578952082")
+        popd()
+    if not os.path.exists("volk"):
+        shell("git clone https://github.com/zeux/volk.git")
+        pushd("volk")
+        shell("git reset --hard 12e006f60f6f10bc92205612d6875ee539c354ad")
+        popd()
+    if not os.path.exists("VulkanMemoryAllocator"):
+        shell("git clone https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git")
+        pushd("VulkanMemoryAllocator")
+        shell("git reset --hard 871913da6a4b132b567d7b65c509600363c0041e")
+        popd()
+    popd()
+
+def build_spvgen():
+    pushd("imported")
+    if not os.path.exists("spvgen"):
+        shell("git clone https://github.com/GPUOpen-Drivers/spvgen.git")
+        pushd("spvgen")
+        shell("git reset --hard e044c05c3e8694aa57bc438a3c24883c8decba4f")
+        popd()
+    pushd("spvgen/external")
+    shell("python fetch_external_sources.py")
+    popd()
+    pushd("spvgen")
+    shell("cmake -S . -B build")
+    shell("cmake --build build/ --target spvgen --config Release")
+    popd()
+    popd()
+
 def generate_project_files():
     if sys.platform == "win32":
         vcpkg_root = os.environ["VCPKG_ROOT"]
@@ -72,7 +108,7 @@ def generate_project_files():
 def main() -> int:
     try:
         pushd(script_root)
-        tasks = ["SDL", "SDL_mixer", "spvgen"]
+        tasks = ["SDL", "SDL_mixer", "vulkan"]
         if (len(sys.argv) > 1) and (not "all" in sys.argv):
             tasks = sys.argv[1:]
         if "SDL" in tasks:
@@ -81,6 +117,9 @@ def main() -> int:
             build_SDL_mixer()
         if "imgui" in tasks:
             clone_imgui()
+        if "vulkan" in tasks:
+            clone_vulkan_libraries()
+            build_spvgen()
         generate_project_files()
         popd()
         return 0

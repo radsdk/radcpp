@@ -9,6 +9,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 option(RAD_BUILD_GUI "Build Gui component." ON)
 option(RAD_BUILD_MEDIA "Build Media component." ON)
+option(RAD_BUILD_VULKAN "Build Vulkan component." ON)
 
 set(RADCPP_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 

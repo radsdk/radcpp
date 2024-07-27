@@ -73,6 +73,53 @@ set(rad_SOURCES ${rad_SOURCES}
 )
 endif()
 
+if (RAD_BUILD_VULKAN)
+set(rad_SOURCES ${rad_SOURCES}
+    Vulkan/VulkanCommon.h
+    Vulkan/VulkanCommon.cpp
+    Vulkan/VulkanInstance.h
+    Vulkan/VulkanInstance.cpp
+    Vulkan/VulkanPhysicalDevice.h
+    Vulkan/VulkanPhysicalDevice.cpp
+    Vulkan/VulkanDevice.h
+    Vulkan/VulkanDevice.cpp
+    Vulkan/VulkanQueue.h
+    Vulkan/VulkanQueue.cpp
+    Vulkan/VulkanCommand.h
+    Vulkan/VulkanCommand.cpp
+    Vulkan/VulkanFence.h
+    Vulkan/VulkanFence.cpp
+    Vulkan/VulkanSemaphore.h
+    Vulkan/VulkanSemaphore.cpp
+    Vulkan/VulkanEvent.h
+    Vulkan/VulkanEvent.cpp
+    Vulkan/VulkanRenderPass.h
+    Vulkan/VulkanRenderPass.cpp
+    Vulkan/VulkanFramebuffer.h
+    Vulkan/VulkanFramebuffer.cpp
+    Vulkan/VulkanPipeline.h
+    Vulkan/VulkanPipeline.cpp
+    Vulkan/VulkanBuffer.h
+    Vulkan/VulkanBuffer.cpp
+    Vulkan/VulkanImage.h
+    Vulkan/VulkanImage.cpp
+    Vulkan/VulkanSampler.h
+    Vulkan/VulkanSampler.cpp
+    Vulkan/VulkanDescriptor.h
+    Vulkan/VulkanDescriptor.cpp
+    Vulkan/VulkanSurface.h
+    Vulkan/VulkanSurface.cpp
+    Vulkan/VulkanSwapchain.h
+    Vulkan/VulkanSwapchain.cpp
+    Vulkan/SPIRVCompiler.h
+    Vulkan/SPIRVCompiler.cpp
+    Vulkan/VulkanContext.h
+    Vulkan/VulkanContext.cpp
+    Vulkan/VulkanWindow.h
+    Vulkan/VulkanWindow.cpp
+)
+endif()
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
 add_library(rad
@@ -106,6 +153,17 @@ if (RAD_BUILD_MEDIA)
 find_package(SDL3_mixer CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL_mixer)
 target_link_libraries(rad
     PUBLIC SDL3_mixer::SDL3_mixer
+)
+endif()
+
+if (RAD_BUILD_VULKAN)
+target_include_directories(rad
+    PUBLIC ${Boost_INCLUDE_DIRS}
+    PUBLIC ${RADCPP_ROOT}/imported/Vulkan-Headers/include
+    PUBLIC ${RADCPP_ROOT}/imported/volk
+    PUBLIC ${RADCPP_ROOT}/imported/vku
+    PUBLIC ${RADCPP_ROOT}/imported/VulkanMemoryAllocator/include
+    PUBLIC ${RADCPP_ROOT}/imported/spvgen/include
 )
 endif()
 
