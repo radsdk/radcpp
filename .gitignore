@@ -2,6 +2,7 @@
 build/
 imported/SDL/
 imported/SDL_mixer/
+imported/imgui/
 imported/build/
 imported/installed/
 

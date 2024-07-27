@@ -57,6 +57,8 @@ set(rad_SOURCES ${rad_SOURCES}
     Gui/Surface.cpp
     Gui/Texture.h
     Gui/Texture.cpp
+    Gui/GuiContext.h
+    Gui/GuiContext.cpp
 )
 endif()
 
@@ -94,6 +96,9 @@ if (RAD_BUILD_GUI OR RAD_BUILD_MEDIA)
 find_package(SDL3 CONFIG REQUIRED PATHS ${RADCPP_ROOT}/imported/installed/SDL)
 target_link_libraries(rad
     PUBLIC SDL3::SDL3
+)
+target_include_directories(rad
+    PUBLIC ${RADCPP_ROOT}/imported/imgui
 )
 endif()
 

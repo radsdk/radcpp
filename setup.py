@@ -54,6 +54,15 @@ def build_SDL_mixer():
     shell(f"cmake --build \"{build_dir}\" --target install --config Release")
     popd()
 
+def clone_imgui():
+    pushd("imported")
+    if not os.path.exists("imgui"):
+        shell("git clone --depth=1 https://github.com/ocornut/imgui.git")
+        pushd("imgui")
+        shell("git reset --hard d42fa46dc6b68863046c22467297933dbe39bb55")
+        popd()
+    popd()
+
 def generate_project_files():
     if sys.platform == "win32":
         vcpkg_root = os.environ["VCPKG_ROOT"]
@@ -70,6 +79,8 @@ def main() -> int:
             build_SDL()
         if "SDL_mixer" in tasks:
             build_SDL_mixer()
+        if "imgui" in tasks:
+            clone_imgui()
         generate_project_files()
         popd()
         return 0
