@@ -44,7 +44,7 @@ set(rad_SOURCES
 )
 
 if (RAD_BUILD_GUI)
-set(rad_SOURCES ${rad_SOURCES}
+list(APPEND rad_SOURCES
     Gui/Application.h
     Gui/Application.cpp
     Gui/EventHandler.h
@@ -63,7 +63,7 @@ set(rad_SOURCES ${rad_SOURCES}
 endif()
 
 if (RAD_BUILD_MEDIA)
-set(rad_SOURCES ${rad_SOURCES}
+list(APPEND rad_SOURCES
     Media/Camera.h
     Media/Camera.cpp
     Media/Audio.h
@@ -74,7 +74,7 @@ set(rad_SOURCES ${rad_SOURCES}
 endif()
 
 if (RAD_BUILD_VULKAN)
-set(rad_SOURCES ${rad_SOURCES}
+list(APPEND rad_SOURCES
     Vulkan/VulkanCommon.h
     Vulkan/VulkanCommon.cpp
     Vulkan/VulkanInstance.h
